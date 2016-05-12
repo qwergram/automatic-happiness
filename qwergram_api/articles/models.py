@@ -11,6 +11,9 @@ class PotentialIdeaModel(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     priority = models.IntegerField()
 
+    def __str__(self):
+        return self.title
+
 
 class CodeArticleModel(models.Model):
     """
@@ -24,6 +27,9 @@ class CodeArticleModel(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     original_idea = models.ForeignKey(PotentialIdeaModel)
 
+    def __str__(self):
+        return self.title
+
 
 class RepostModel(models.Model):
     """
@@ -33,3 +39,6 @@ class RepostModel(models.Model):
     short_description = models.CharField(max_length=500)
     date_posted = models.DateTimeField(auto_now_add=True)
     link = models.URLField()
+
+    def __str__(self):
+        return self.title
