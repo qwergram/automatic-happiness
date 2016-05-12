@@ -1,9 +1,9 @@
-jest.unmock('../tutorial1');
+jest.unmock('../js/tutorial1');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import CommentBox from '../tutorial1';
+import CommentBox from '../js/tutorial1';
 
 describe('CommentBox', () => {
 
