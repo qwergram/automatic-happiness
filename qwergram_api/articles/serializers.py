@@ -25,7 +25,14 @@ class CodeArticleSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PotentialIdeaSerializer(serializers.HyperlinkedModelSerializer):
-    """Serializer for the Code Article model."""
+    """Serializer for the Potential Idea model."""
     class Meta:
         model = models.PotentialIdeaModel
+        exclude = []
+
+
+class RepostSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the Repost model."""
+    class Meta:
+        model = models.RepostModel
         exclude = []
