@@ -11,9 +11,20 @@
 </head>
 <body>
   <div id="content"></div>
-  <script type="text/babel" src="js/example.js"></script>
   <script type="text/babel">
-    // Some babelscript here?
+    var CommentBox = React.createClass({
+      render: function() {
+        return (
+          <div className="commentBox">
+            Hello World! I am a comment box!
+          </div>
+        );
+      }
+    });
+    ReactDOM.render(
+      <CommentBox />,
+      document.getElementById('content')
+    )
   </script>
 </body>
 </html>
