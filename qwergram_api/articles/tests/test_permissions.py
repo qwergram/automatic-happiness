@@ -57,9 +57,6 @@ class UserFactory(TestCase):
             }
         )
 
-
-class UserLoginTestCase(UserFactory):
-
     def test_login_okay(self):
         self.assertEquals(self.login_okay.status_code, 302)
 
