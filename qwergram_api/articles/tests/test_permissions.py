@@ -125,3 +125,37 @@ class ArticlesAPIAccessTest(UserFactory):
     def test_articles_access_unauth(self):
         response = self.client.get(self.article_endpoint)
         self.assertEquals(response.status_code, 200)
+
+
+class IdeasAPIAccessTest(UserFactory):
+
+    idea_endpoint = '/api/v1/ideas/'
+
+    def test_ideas_access_admin(self):
+        response = self.admin_client.get(self.idea_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_ideas_access_idea(self):
+        response = self.user_client.get(self.idea_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_ideas_access_unauth(self):
+        response = self.client.get(self.idea_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+
+class SharesAPIAccessTest(UserFactory):
+
+    share_endpoint = '/api/v1/shares/'
+
+    def test_shares_access_admin(self):
+        response = self.admin_client.get(self.share_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_shares_access_share(self):
+        response = self.user_client.get(self.share_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_shares_access_unauth(self):
+        response = self.client.get(self.share_endpoint)
+        self.assertEquals(response.status_code, 200)
