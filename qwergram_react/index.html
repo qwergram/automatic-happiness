@@ -12,7 +12,7 @@
 <body>
   <div id="content"></div>
   <script type="text/babel">
-  // tutorial9.js
+  // tutorial14.js
   var CommentList = React.createClass({
     render: function() {
       var commentNodes = this.props.data.map(function(comment) {
@@ -66,7 +66,7 @@
         ]
       };
     },
-    componentDidMount: function() {
+    loadCommentsFromServer: function() {
       $.ajax({
         url: this.props.url,
         dataType: "json",
@@ -78,6 +78,10 @@
           console.log(this.props.url, status, err.toString());
         }.bind(this),
       });
+    },
+    componentDidMount: function() {
+      this.loadCommentsFromServer();
+      setInterval(this.loadCommentsFromServer, this.props.pollInterval);
     },
     render: function() {
       return (
@@ -91,7 +95,7 @@
   });
 
   ReactDOM.render(
-    <CommentBox url="/api/comments"/>,
+    <CommentBox url="/api/comments" pollInterval={2000} />,
     document.getElementById('content')
   )
 
