@@ -1,0 +1,42 @@
+[
+    {
+        "author": "Calvin Carraway",
+        "id": 4,
+        "text": "Calvin had something to say and <h2>attempts</h2> <script>console.log('hello world!');</script> injection."
+    },
+    {
+        "author": "Daniel Finch",
+        "id": 25,
+        "text": "Daniel didn't like *Calvin's* opinion"
+    },
+    {
+        "author": "Jackson Theos",
+        "id": 16,
+        "text": "Jackson _rebutted_ Daniel's argument"
+    },
+    {
+        "author": "Luna Collins",
+        "id": 56,
+        "text": "`Luna is actually a bot`"
+    },
+    {
+        "author": "Norton Pengra",
+        "id": 12,
+        "text": "Norton wrote something!"
+    },
+    {
+        "author": "Anonymous",
+        "id": 1463070473317,
+        "text": "New comment"
+    },
+    {
+        "author": "Anonymous",
+        "id": 1463070592169,
+        "text": "Hello World!"
+    },
+    {
+        "author": "Lag Test",
+        "id": 1463070917091,
+        "text": "Woah, 5 second delay? you serious?"
+    }
+]
