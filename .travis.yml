@@ -1,16 +1,16 @@
 language:
   - python
-  # - node_js
+  - node_js
 python: "3.5"
-# node_js:
-#   - 4
-#   - 5
-#   - 6
-# before_install: npm i -g npm@latest
+node_js:
+  - 4
+  - 5
+  - 6
+before_install: npm i -g npm@latest
 install:
   - "pip install -e .[test]"
 script:
   - tox
-  # - npm test
+  - npm test
 notifications:
   email: false
