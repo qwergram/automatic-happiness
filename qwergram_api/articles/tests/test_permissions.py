@@ -108,3 +108,20 @@ class GroupAPIAccessTest(UserFactory):
         response = self.client.get(self.group_endpoint)
         self.assertEquals(response.status_code, 403)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
+
+class ArticlesAPIAccessTest(UserFactory):
+
+    article_endpoint = '/api/v1/articles/'
+
+    def test_articles_access_admin(self):
+        response = self.admin_client.get(self.article_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_articles_access_article(self):
+        response = self.user_client.get(self.article_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_articles_access_unauth(self):
+        response = self.client.get(self.article_endpoint)
+        self.assertEquals(response.status_code, 200)
