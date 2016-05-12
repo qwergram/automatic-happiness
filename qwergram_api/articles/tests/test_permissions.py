@@ -1,12 +1,12 @@
 from django.test import TestCase, Client
-from articles import views
-
+from django.contrib.auth.models import User
 
 class UserFactory(TestCase):
 
-    def setUp(self):
+    login_endpoint = '/api/v1/api-auth/login/'
 
-        from django.contrib.auth.models import User
+    def create_titan(self):
+
         titan = User(
             username='titan',
             email='titan@destiny.com',
@@ -14,8 +14,10 @@ class UserFactory(TestCase):
             last_name='lastname'
         )
         titan.set_password('password1')
+        titan.save()
+        return titan
 
-
+    def create_admin(self):
         admin = User(
             username='admin',
             email='admin@thissite.com',
@@ -25,16 +27,19 @@ class UserFactory(TestCase):
             is_superuser=True,
         )
         admin.set_password('password')
-
-        titan.save()
         admin.save()
+        return admin
+
+    def setUp(self):
+        self.create_titan()
+        self.create_admin()
 
         self.admin_client = Client()
         self.user_client = Client()
         self.client = Client()
 
         self.login_okay = self.user_client.post(
-            '/api/v1/api-auth/login/',
+            self.login_endpoint,
             {
                 'username': 'titan',
                 'password': 'password1',
@@ -42,7 +47,7 @@ class UserFactory(TestCase):
             }
         )
         self.bad_login = self.user_client.post(
-            '/api/v1/api-auth/login/',
+            self.login_endpoint,
             {
                 'username': 'whoami',
                 'password': 'a password',
@@ -50,7 +55,7 @@ class UserFactory(TestCase):
             }
         )
         self.admin_login = self.admin_client.post(
-            '/api/v1/api-auth/login/',
+            self.login_endpoint,
             {
                 'username': 'admin',
                 'password': 'password',
@@ -67,6 +72,20 @@ class UserFactory(TestCase):
         self.assertEquals(self.login_okay.status_code, 302)
 
 
-# class UserAPIAccess(UserFactory):
+class UserAPIAccessTest(UserFactory):
 
-    # def test_users_access_admin(self):
+    users_endpoint = '/api/v1/users/'
+
+    def test_users_access_admin(self):
+        response = self.admin_client.get(self.user_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_users_access_user(self):
+        response = self.user_client.get(self.user_endpoint)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_users_access_unauth(self):
+        response = self.client.get(self.user_endpoint)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
