@@ -1,5 +1,5 @@
 [
-  {"id": 4, "author": "Calvin Carraway", "text": "Calvin had something to say and # attempts <script>console.log('hello world!');</script> injection."},
+  {"id": 4, "author": "Calvin Carraway", "text": "Calvin had something to say and <h2>attempts</h2> <script>console.log('hello world!');</script> injection."},
   {"id": 25, "author": "Daniel Finch", "text": "Daniel didn't like *Calvin's* opinion"},
   {"id": 16, "author": "Jackson Theos", "text": "Jackson _rebutted_ Daniel's argument"},
   {"id": 56, "author": "Luna Collins", "text": "`Luna is actually a bot`"}
