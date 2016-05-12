@@ -40,7 +40,7 @@
           <h2 className="commentAuthor">
             {this.props.author}
           </h2>
-          {this.props.children}
+          <p>{marked(this.props.children.toString())}</p>
         </div>
       );
     }

@@ -1,4 +1,4 @@
-// tutorial3/4/5.js
+// tutorial3/4/5/6.js
 var CommentList = React.createClass({
   render: function() {
     return (
@@ -27,7 +27,8 @@ var Comment = React.createClass({
         <h2 className="commentAuthor">
           {this.props.author}
         </h2>
-        <p>{this.props.children}</p>
+        <p>{marked(this.props.children.toString())}</p>
+      </div>
     );
   }
 });
