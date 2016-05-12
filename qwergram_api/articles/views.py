@@ -23,17 +23,17 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class CodeArticleViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views CodeArticle models."""
-    queryset = models.CodeArticleModel.objects.all()
+    queryset = models.CodeArticleModel.objects.all().order_by('-last_modified')
     serializer_class = serializers.CodeArticleSerializer
 
 
 class PotentialIdeaViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views PotentialIdea models."""
     queryset = models.PotentialIdeaModel.objects.all()
-    serializer_class = serializers.PotentialIdeaSerializer
+    serializer_class = serializers.PotentialIdeaSerializer.order_by('-date_created')
 
 
 class RepostViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views Repost models."""
-    queryset = models.RepostModel.objects.all()
+    queryset = models.RepostModel.objects.all().order_by('-date_posted')
     serializer_class = serializers.RepostSerializer
