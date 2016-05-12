@@ -6,6 +6,7 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'articles', views.CodeArticleViewSet)
+router.register(r'ideas', views.PotentialIdeaViewSet)
 
 urlpatterns = [
     url(r'api-auth/', include('rest_framework.urls')),
