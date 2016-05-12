@@ -25,3 +25,9 @@ class CodeArticleViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views CodeArticle models."""
     queryset = models.CodeArticleModel.objects.all()
     serializer_class = serializers.CodeArticleSerializer
+
+
+class PotentialIdeaViewSet(viewsets.ModelViewSet):
+    """API endpoint that edits/views PotentialIdea models."""
+    queryset = models.PotentialIdeaModel.objects.all()
+    serializer_class = serializers.PotentialIdeaSerializer
