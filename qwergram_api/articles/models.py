@@ -2,6 +2,16 @@ from django.db import models
 
 # Create your models here.
 
+class PotentialIdeaModel(models.Model):
+    """
+    A potential idea that I don't have to build.
+    """
+    title = models.CharField(max_length=255, unique=True)
+    pitch = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    priority = models.IntegerField()
+
+
 class CodeArticleModel(models.Model):
     """
     An article about some code challenge/tutorial or experiment that I want
@@ -12,16 +22,7 @@ class CodeArticleModel(models.Model):
     draft = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-
-
-class PotentialIdeaModel(models.Model):
-    """
-    A potential idea that I don't have to build.
-    """
-    title = models.CharField(max_length=255, unique=True)
-    pitch = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
-    priority = models.IntegerField()
+    original_idea = models.ForeignKey(PotentialIdeaModel)
 
 
 class RepostModel(models.Model):
