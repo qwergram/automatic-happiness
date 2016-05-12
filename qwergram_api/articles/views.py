@@ -31,3 +31,9 @@ class PotentialIdeaViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views PotentialIdea models."""
     queryset = models.PotentialIdeaModel.objects.all()
     serializer_class = serializers.PotentialIdeaSerializer
+
+
+class RepostViewSet(viewsets.ModelViewSet):
+    """API endpoint that edits/views Repost models."""
+    queryset = models.RepostModel.objects.all()
+    serializer_class = serializers.RepostSerializer
