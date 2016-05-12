@@ -25,7 +25,7 @@ class CodeArticleModel(models.Model):
     draft = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-    original_idea = models.ForeignKey(PotentialIdeaModel)
+    original_idea = models.ForeignKey(PotentialIdeaModel, null=True)
 
     def __str__(self):
         return self.title
