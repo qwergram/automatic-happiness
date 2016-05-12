@@ -29,8 +29,8 @@ class CodeArticleViewSet(viewsets.ModelViewSet):
 
 class PotentialIdeaViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views PotentialIdea models."""
-    queryset = models.PotentialIdeaModel.objects.all()
-    serializer_class = serializers.PotentialIdeaSerializer.order_by('-date_created')
+    queryset = models.PotentialIdeaModel.objects.all().order_by('-date_created')
+    serializer_class = serializers.PotentialIdeaSerializer
 
 
 class RepostViewSet(viewsets.ModelViewSet):
