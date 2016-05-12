@@ -1,6 +1,5 @@
 // tutorial1.js
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 var CommentBox = React.createClass({
   render: function() {
@@ -11,7 +10,10 @@ var CommentBox = React.createClass({
     );
   }
 });
-ReactDOM.render(
-  <CommentBox />,
-  document.getElementById('content')
-)
+
+function render() {
+  ReactDOM.render(
+    <CommentBox />,
+    document.getElementById('content')
+  );
+}
