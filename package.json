@@ -1,5 +1,6 @@
 {
   "devDependencies": {
-    "protractor": "^3.3.0"
+    "protractor": "^3.3.0",
+    "selenium": "^2.20.0"
   }
 }
