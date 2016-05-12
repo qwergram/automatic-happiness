@@ -1,4 +1,4 @@
-jest.unmock('../js/tutorial1');
+jest.unmock('../js/tutorial21');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -14,18 +14,25 @@ describe('CommentBox', () => {
     var commentBox = TestUtils.renderIntoDocument(React.createElement("CommentBox"));
     var commentBoxNode = ReactDOM.findDOMNode(commentBox);
     var hit_this = commentBoxNode.children;
-    console.log(hit_this, 'adsfkladshglshdlkgsdlgjdaslgjsdaklg');
     expect(hit_this).not.toEqual(undefined);
     expect(hit_this).not.toEqual(null);
   });
 
-  // it('has text', () => {
-  //   var commentBox = TestUtils.renderIntoDocument(React.createElement("CommentBox"));
-  //   var commentBoxNode = ReactDOM.findDOMNode(commentBox);
-  //   var hit_this = commentBox.render;
-  //   console.log(hit_this, 'adsfkladshglshdlkgsdlgjdaslgjsdaklg');
-  //   expect(hit_this).not.toEqual(undefined);
-  //   expect(hit_this).not.toEqual(null);
-  // });
+  it('is mounted', () => {
+    var commentBox = TestUtils.renderIntoDocument(React.createElement("CommentBox"));
+    var commentBoxNode = ReactDOM.findDOMNode(commentBox);
+    var hit_this = commentBox.isMounted;
+    expect(hit_this).not.toEqual(undefined);
+    expect(hit_this).not.toEqual(null);
+  });
+
+  it('has a state', () => {
+    var commentBox = TestUtils.renderIntoDocument(React.createElement("CommentBox"));
+    var commentBoxNode = ReactDOM.findDOMNode(commentBox);
+    var hit_this = commentBox;
+    console.log(hit_this, 'adsfkladshglshdlkgsdlgjdaslgjsdaklg');
+    expect(hit_this).not.toEqual(undefined);
+    expect(hit_this).not.toEqual(null);
+  });
 
 });
