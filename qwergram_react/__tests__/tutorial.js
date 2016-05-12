@@ -20,7 +20,6 @@ describe('CommentBox', () => {
 
   it('is mounted', () => {
     var commentBox = TestUtils.renderIntoDocument(React.createElement("CommentBox"));
-    var commentBoxNode = ReactDOM.findDOMNode(commentBox);
     var hit_this = commentBox.isMounted;
     expect(hit_this).not.toEqual(undefined);
     expect(hit_this).not.toEqual(null);
@@ -28,9 +27,7 @@ describe('CommentBox', () => {
 
   it('has a state', () => {
     var commentBox = TestUtils.renderIntoDocument(React.createElement("CommentBox"));
-    var commentBoxNode = ReactDOM.findDOMNode(commentBox);
     var hit_this = commentBox;
-    console.log(hit_this, 'adsfkladshglshdlkgsdlgjdaslgjsdaklg');
     expect(hit_this).not.toEqual(undefined);
     expect(hit_this).not.toEqual(null);
   });
