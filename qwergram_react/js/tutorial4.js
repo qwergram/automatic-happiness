@@ -27,7 +27,7 @@ var Comment = React.createClass({
         <h2 className="commentAuthor">
           {this.props.author}
         </h2>
-        <p>{marked(this.props.children.toString())}</p>
+        {marked(this.props.children.toString())}
       </div>
     );
   }
