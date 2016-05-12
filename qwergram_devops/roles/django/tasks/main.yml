@@ -1,0 +1,93 @@
+---
+
+- name: Install System Packages
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
+  sudo: yes
+  with_items:
+    - build-essential
+    - python-dev
+    - python-pip
+    - postgresql-client
+    - libpq-dev
+    - libjpeg8-dev
+    - python-psycopg2
+    - git
+
+- name: Clone Django Repository
+  # command: cd /home/ubuntu/
+  git: repo=https://github.com/qwergram/automatic-happiness.git dest={{ repo_home }} force=yes
+
+- name: Install Python Dependencies
+  sudo: yes
+  pip:
+    state: present
+    requirements: "{{ repo_home }}/requirements.txt"
+
+- name: Get DB Hostvars
+  set_fact:
+    db_host: "{{ hostvars[groups['rds'][0]] }}"
+
+- name: Get DB Password
+  include_vars: secrets.yml
+
+- name: Set DB URL
+  set_fact:
+    EMAIL_HOST: "{{ EMAIL_HOST }}"
+    EMAIL_PORT: "{{ EMAIL_PORT }}"
+    EMAIL_ADDR: "{{ EMAIL_ADDR }}"
+    EMAIL_PASS: "{{ EMAIL_PASS }}"
+    DEBUG_MODE: "{{ DEBUG_MODE }}"
+    SECRET_KEY: "{{ SECRET_KEY }}"
+    DB_IDENTITY: "{{ DB_IDENTITY }}"
+    DB_USERNAME: "{{ DB_USERNAME }}"
+    DB_PASSWORD: "{{ DB_PASSWORD }}"
+    DB_PORT: "{{ DB_PORT }}"
+    DB_HOST: "{{ DB_HOST }}"
+  environment:
+    EMAIL_HOST: "{{ EMAIL_HOST }}"
+    EMAIL_PORT: "{{ EMAIL_PORT }}"
+    EMAIL_ADDR: "{{ EMAIL_ADDR }}"
+    EMAIL_PASS: "{{ EMAIL_PASS }}"
+    DEBUG_MODE: "{{ DEBUG_MODE }}"
+    SECRET_KEY: "{{ SECRET_KEY }}"
+    DB_IDENTITY: "{{ DB_IDENTITY }}"
+    DB_USERNAME: "{{ DB_USERNAME }}"
+    DB_PASSWORD: "{{ DB_PASSWORD }}"
+    DB_PORT: "{{ DB_PORT }}"
+    DB_HOST: "{{ DB_HOST }}"
+
+- name: Run Migrations
+  environment:
+    EMAIL_HOST: "{{ EMAIL_HOST }}"
+    EMAIL_PORT: "{{ EMAIL_PORT }}"
+    EMAIL_ADDR: "{{ EMAIL_ADDR }}"
+    EMAIL_PASS: "{{ EMAIL_PASS }}"
+    DEBUG_MODE: "{{ DEBUG_MODE }}"
+    SECRET_KEY: "{{ SECRET_KEY }}"
+    DB_IDENTITY: "{{ DB_IDENTITY }}"
+    DB_USERNAME: "{{ DB_USERNAME }}"
+    DB_PASSWORD: "{{ DB_PASSWORD }}"
+    DB_PORT: "{{ DB_PORT }}"
+    DB_HOST: "{{ DB_HOST }}"
+  django_manage:
+    app_path: "{{ django_home }}"
+    settings: qwergram_api.settings
+    command: "migrate"
+
+- name: Collect Static Files
+  environment:
+    EMAIL_HOST: "{{ EMAIL_HOST }}"
+    EMAIL_PORT: "{{ EMAIL_PORT }}"
+    EMAIL_ADDR: "{{ EMAIL_ADDR }}"
+    EMAIL_PASS: "{{ EMAIL_PASS }}"
+    DEBUG_MODE: "{{ DEBUG_MODE }}"
+    SECRET_KEY: "{{ SECRET_KEY }}"
+    DB_IDENTITY: "{{ DB_IDENTITY }}"
+    DB_USERNAME: "{{ DB_USERNAME }}"
+    DB_PASSWORD: "{{ DB_PASSWORD }}"
+    DB_PORT: "{{ DB_PORT }}"
+    DB_HOST: "{{ DB_HOST }}"
+  django_manage:
+    app_path: "{{ django_home }}"
+    settings: "qwergram_api.settings"
+    command: "collectstatic"
