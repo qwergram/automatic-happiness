@@ -58,25 +58,27 @@
   });
 
   var CommentBox = React.createClass({
+    getInitialState: function() {
+      return {
+        data: [
+          {id: 1, author: "Norton Pengra", text: "`print(\"Hello World!\")`"},
+          {id: 2, author: "Oliver Collins", text: "Python is *the coolest language*"}
+        ]
+      };
+    },
     render: function() {
       return (
         <div className="commentBox">
           <h1>Comment Box</h1>
-          <CommentList data={this.props.data}/>
+          <CommentList data={this.state.data}/>
           <CommentForm />
         </div>
       );
     }
   });
 
-  // tutorial8.js
-  var data = [
-    {id: 1, author: "Norton Pengra", text: "`print(\"Hello World!\")`"},
-    {id: 2, author: "Oliver Collins", text: "Python is *the coolest language*"}
-  ];
-
   ReactDOM.render(
-    <CommentBox data={data}/>,
+    <CommentBox url="/api/comments"/>,
     document.getElementById('content')
   )
 
