@@ -1,5 +1,5 @@
 exports.config = {
-  specs: ['*.js'],
+  specs: ['tutorial.js'],
   capabilities: {
     browserName: 'chrome'
   },
