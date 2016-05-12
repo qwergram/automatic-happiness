@@ -12,7 +12,7 @@
 <body>
   <div id="content"></div>
   <script type="text/babel">
-  // tutorial14.js
+  // tutorial17.js
   var CommentList = React.createClass({
     render: function() {
       var commentNodes = this.props.data.map(function(comment) {
@@ -33,7 +33,7 @@
   var CommentForm = React.createClass({
     render: function() {
       return (
-        <form className="commentForm">
+        <form className="commentForm" onSubmit={this.handleSubmit}>
           <input
             type="text"
             placeholder="Your name"
@@ -65,6 +65,17 @@
       this.setState({
         text: e.target.value
       })
+    },
+    handleSubmit: function(e) {
+      e.preventDefault();
+      var author = this.state.author.trim();
+      var text = this.state.text.trim();
+      if (!text || !author ) {
+        // if there is no text/author
+        return;
+      };
+      // Actually send the request here
+      this.setState({author: "", text: ""});
     },
   });
 
