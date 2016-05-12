@@ -26,5 +26,17 @@ class CreateUsers(TestCase):
             }
         )
 
+        self.bad_login = self.user_client.post(
+            '/api/v1/api-auth/login/',
+            {
+                'username': 'whoami',
+                'password': 'a password',
+
+            }
+        )
+
     def test_login_okay(self):
         self.assertEquals(self.login_okay.status_code, 200)
+
+    def test_bad_login_fails(self):
+        self.assertContains(self.bad_login, 'Please enter a correct username and password. Note that both fields may be case-sensitive.')
