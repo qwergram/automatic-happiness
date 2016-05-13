@@ -1,0 +1,7 @@
+---
+
+- hosts: localhost
+  tasks:
+  - name: Look Up Existing EC2 Instances
+    local_action:
+      module: ec2_facts
