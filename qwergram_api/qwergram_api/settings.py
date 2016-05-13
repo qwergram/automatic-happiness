@@ -76,8 +76,15 @@ WSGI_APPLICATION = 'qwergram_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASES = {}
+
+if DEBUG:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+else:
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USERNAME'),
@@ -85,7 +92,6 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST'),
         'PORT': int(os.environ.get('DB_PORT')),
     }
-}
 
 
 # Password validation
