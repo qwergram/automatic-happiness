@@ -18,7 +18,7 @@ var ArticlesBox = React.createClass({
   },
   componentDidMount: function() {
     this.loadArticlesFromServer();
-    setInterval(this.loadArticlesFromServer, this.props.pollInterval);
+    // setInterval(this.loadArticlesFromServer, this.props.pollInterval);
   },
   render: function() {
     return (
@@ -28,6 +28,6 @@ var ArticlesBox = React.createClass({
 });
 
 ReactDOM.render(
-  <ArticlesBox url="http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/" pollInterval={2000} />,
+  <ArticlesBox url="http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/ideas/?format=json" pollInterval={2000} />,
   document.getElementById('content')
 )
