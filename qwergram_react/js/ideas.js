@@ -16,7 +16,11 @@ var IdeasBox = React.createClass({
       dataType: "json",
       cache: false,
       success: function(data) {
-        this.setState({data: data['results']});
+        if (this.props.latest) {
+          this.setState({data: [data['results'][0]]});
+        } else {
+          this.setState({data: data['results']});
+        }
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
@@ -25,7 +29,9 @@ var IdeasBox = React.createClass({
   },
   componentDidMount: function() {
     this.loadIdeasFromServer();
-    setInterval(this.loadIdeasFromServer, this.props.pollInterval);
+    if (this.props.pollInterval) {
+      setInterval(this.loadIdeasFromServer, this.props.pollInterval);
+    };
   },
   render: function() {
     return (
@@ -48,8 +54,12 @@ var IdeasBox = React.createClass({
 var render_ideas = function() {
   var url = api_endpoints['ideas']
   ReactDOM.render(
-    <IdeasBox url={url} pollInterval={60000} />,
+    <IdeasBox url={url} pollInterval={60000}/>,
     document.getElementById('content')
+  )
+  ReactDOM.render(
+    <IdeasBox url={url} latest={true}/>,
+    document.getElementById('latest-links')
   )
 };
 
