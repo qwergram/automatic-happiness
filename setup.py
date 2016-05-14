@@ -3,7 +3,8 @@ from setuptools import setup, find_packages
 
 REQUIRES = [
     'django',
-    'djangorestframework'
+    'djangorestframework',
+    'django-cors-headers',
 ]
 TEST = [
     'tox',
