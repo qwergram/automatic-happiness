@@ -46,7 +46,7 @@ var IdeasBox = React.createClass({
 var render_ideas = function() {
   var url = api_endpoints['ideas']
   ReactDOM.render(
-    <IdeasBox url={url} pollInterval={2000} />,
+    <IdeasBox url={url} pollInterval={60000} />,
     document.getElementById('content')
   )
 };
