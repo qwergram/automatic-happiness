@@ -1,4 +1,9 @@
 // main.js
+
+var api_endpoints = {
+  "ideas": "http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/ideas/?format=json"
+}
+
 var IdeasBox = React.createClass({
   getInitialState: function() {
     return {data: [{'title': 'Loading...', 'pitch': '', 'url': ''}]};
@@ -44,4 +49,6 @@ var render_ideas = function() {
     <IdeasBox url={url} pollInterval={2000} />,
     document.getElementById('content')
   )
-}
+};
+
+render_ideas();
