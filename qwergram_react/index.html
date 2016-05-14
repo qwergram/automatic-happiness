@@ -38,7 +38,7 @@
           <li class="search">
             <a class="fa-search" href="#search">Search</a>
             <form id="search" action="#" method="get">
-              <input type="text" name="query" placeholder="search" />
+              <input type="text" name="query" placeholder="Search" />
             </form>
           </li>
           <li class="menu">
@@ -48,6 +48,25 @@
       </nav>
     </header>
 
+    <section id="menu">
+
+      <section>
+        <form id="search" action="#" method="get">
+          <label for="query">Search</label>
+          <input type="text" name="query" placeholder="Search" />
+        </form>
+      </section>
+      <section>
+        <ul class="links">
+          <li>
+            <a href="#">
+              <h3>Latest Article</h3>
+              <p>A latest article I wrote</p>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </section>
 
 
     <div id="content"></div>
@@ -57,4 +76,8 @@
 
 </body>
 <script type="text/babel" src="/js/ideas.js"></script>
+<script src="/js/skel.min.js"></script>
+<script src="/js/util.js"></script>
+<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
+<script src="/js/main.js"></script>
 </html>
