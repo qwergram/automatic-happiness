@@ -1,9 +1,9 @@
 // main.js
-var ArticlesBox = React.createClass({
+var IdeasBox = React.createClass({
   getInitialState: function() {
     return {data: [{'title': 'Loading...', 'pitch': '', 'url': ''}]};
   },
-  loadArticlesFromServer: function() {
+  loadIdeasFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: "json",
@@ -17,26 +17,18 @@ var ArticlesBox = React.createClass({
     });
   },
   componentDidMount: function() {
-    this.loadArticlesFromServer();
-    setInterval(this.loadArticlesFromServer, this.props.pollInterval);
+    this.loadIdeasFromServer();
+    setInterval(this.loadIdeasFromServer, this.props.pollInterval);
   },
   render: function() {
-    console.log(this.state.data)
-    var ArticleNodes = this.state.data.map(function(article) {
-      return (
-        <div>
-          <h2>{article}</h2>
-        </div>
-      );
-    });
     return (
-      <div className="articles">
+      <div className="ideas">
         {
-          this.state.data.map(function(article) {
+          this.state.data.map(function(idea) {
             return (
-              <div className='article-node'>
-                <h2>{article['title']}</h2>
-                <p>{article['pitch']}</p>
+              <div className='idea-node'>
+                <h2>{idea['title']}</h2>
+                <p>{idea['pitch']}</p>
               </div>
             )
           })
@@ -47,6 +39,6 @@ var ArticlesBox = React.createClass({
 });
 
 ReactDOM.render(
-  <ArticlesBox url="http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/ideas/?format=json" pollInterval={2000} />,
+  <IdeasBox url="http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/ideas/?format=json" pollInterval={2000} />,
   document.getElementById('content')
 )
