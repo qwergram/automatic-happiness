@@ -6,7 +6,7 @@ var api_endpoints = {
 
 var IdeasBox = React.createClass({
   getInitialState: function() {
-    return {data: [{'title': 'Loading...', 'pitch': '', 'url': ''}]};
+    return {data: [{'title': 'Hold on... grabbing the good stuff.', 'pitch': '', 'url': ''}]};
   },
   loadIdeasFromServer: function() {
     $.ajax({
