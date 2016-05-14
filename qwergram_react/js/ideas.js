@@ -8,7 +8,12 @@ var api_endpoints = {
 
 var IdeasBox = React.createClass({
   getInitialState: function() {
-    return {data: [{'title': 'Hold on... grabbing the good stuff.', 'pitch': '', 'url': ''}]};
+    return {data: [{
+      'title': 'Hold on... grabbing the good stuff.',
+      'pitch': '',
+      'url': '',
+      'date_created': '',
+    }]};
   },
   loadIdeasFromServer: function() {
     $.ajax({
@@ -34,20 +39,60 @@ var IdeasBox = React.createClass({
     };
   },
   render: function() {
-    return (
-      <div className="ideas">
-        {
-          this.state.data.map(function(idea) {
-            return (
-              <div className='idea-node'>
-                <h2>{idea['title']}</h2>
-                <p>{idea['pitch']}</p>
-              </div>
-            )
-          })
-        }
-      </div>
-    );
+    if (this.props.latest){
+      return (
+        <div className="ideas">
+          {
+            this.state.data.map(function(idea) {
+              return (
+                <div className='idea-node'>
+                  <h2>{idea['title']}</h2>
+                  <p>{idea['pitch']}</p>
+                </div>
+              )
+            })
+          }
+        </div>
+      );
+    } else {
+      return (
+        <div className="ideas">
+          {
+            this.state.data.map(function(idea) {
+              return (
+                <article className="post">
+                  <header>
+                    <div className="title">
+                      <h2><a href="#">{idea['title']}</a></h2>
+                    </div>
+                    <div className="meta">
+                      <time className="published" datetime={idea['date_created']}>
+                        {idea['date_created'].split('T')[0]}
+                      </time>
+                      <a href="#" className="author">
+                        <span className="name">
+                          qwergram
+                        </span>
+                        <img src="images/avatar.jpg" alt="" />
+                      </a>
+                    </div>
+                  </header>
+                  <p>{idea['pitch']}</p>
+                  <footer>
+                    <ul className="actions">
+                      <li><a href="#" className="button big">Continue Reading</a></li>
+                    </ul>
+                    <ul className="stats">
+                      <li><a href="#">General</a></li>
+                    </ul>
+                  </footer>
+                </article>
+              )
+            })
+          }
+        </div>
+      );
+    }
   }
 });
 
