@@ -12,7 +12,7 @@ var IdeasBox = React.createClass({
         this.setState({data: data['results']});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.log("Oops!", xhr, status, err);
+        console.log("oops!", xhr, status, err);
       }.bind(this),
     });
   },
@@ -39,6 +39,6 @@ var IdeasBox = React.createClass({
 });
 
 ReactDOM.render(
-  <IdeasBox url="http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/ideas/?format=json" pollInterval={2000} />,
+  <IdeasBox url=api_endpoints['ideas'] pollInterval={2000} />,
   document.getElementById('content')
 )
