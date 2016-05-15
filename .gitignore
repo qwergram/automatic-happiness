@@ -104,4 +104,3 @@ jspm_packages
 
 # Things the world shouldn't see
 .secrets.sh
-ssh.sh
