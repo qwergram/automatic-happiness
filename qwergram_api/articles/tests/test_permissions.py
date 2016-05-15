@@ -75,6 +75,11 @@ class UserFactory(TestCase):
 class UserAPIAccessTest(UserFactory):
 
     user_endpoint = '/api/v1/users/'
+    post_example = {
+        "username": "another_user",
+        "email": "auser@aservice.com",
+        "groups": [],
+    }
 
     def test_users_access_admin(self):
         response = self.admin_client.get(self.user_endpoint)
@@ -90,10 +95,27 @@ class UserAPIAccessTest(UserFactory):
         self.assertEquals(response.status_code, 403)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
+    def test_users_create_admin(self):
+        response = self.admin_client.post(self.user_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 201)
+
+    def test_users_create_user(self):
+        response = self.user_client.post(self.user_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_users_create_unauth(self):
+        response = self.client.post(self.user_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
 
 class GroupAPIAccessTest(UserFactory):
 
     group_endpoint = '/api/v1/groups/'
+    post_example = {
+        "name": "super_group",
+    }
 
     def test_groups_access_admin(self):
         response = self.admin_client.get(self.group_endpoint)
@@ -109,10 +131,29 @@ class GroupAPIAccessTest(UserFactory):
         self.assertEquals(response.status_code, 403)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
+    def test_groups_create_admin(self):
+        response = self.admin_client.post(self.group_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 201)
+
+    def test_groups_create_user(self):
+        response = self.user_client.post(self.group_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_groups_create_unauth(self):
+        response = self.client.post(self.group_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
 
 class ArticlesAPIAccessTest(UserFactory):
 
     article_endpoint = '/api/v1/articles/'
+    post_example = {
+        "title": "something worth writing about",
+        "content": "Lots of text " * 120,
+        "draft": False,
+    }
 
     def test_articles_access_admin(self):
         response = self.admin_client.get(self.article_endpoint)
@@ -126,10 +167,29 @@ class ArticlesAPIAccessTest(UserFactory):
         response = self.client.get(self.article_endpoint)
         self.assertEquals(response.status_code, 200)
 
+    def test_articles_create_admin(self):
+        response = self.admin_client.post(self.article_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 201)
+
+    def test_articles_create_user(self):
+        response = self.user_client.post(self.article_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_articles_create_unauth(self):
+        response = self.client.post(self.article_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
 
 class IdeasAPIAccessTest(UserFactory):
 
     idea_endpoint = '/api/v1/ideas/'
+    post_example = {
+        "title": "An awesome idea",
+        "pitch": "What if ...",
+        "priority": 1,
+    }
 
     def test_ideas_access_admin(self):
         response = self.admin_client.get(self.idea_endpoint)
@@ -143,10 +203,29 @@ class IdeasAPIAccessTest(UserFactory):
         response = self.client.get(self.idea_endpoint)
         self.assertEquals(response.status_code, 200)
 
+    def test_ideas_create_admin(self):
+        response = self.admin_client.post(self.idea_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 201)
+
+    def test_ideas_create_user(self):
+        response = self.user_client.post(self.idea_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_ideas_create_unauth(self):
+        response = self.client.post(self.idea_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
 
 class SharesAPIAccessTest(UserFactory):
 
     share_endpoint = '/api/v1/shares/'
+    post_example = {
+        "title": "A cool link",
+        "short_description": "Something worth a click",
+        "link": "http://qwergram.github.io"
+    }
 
     def test_shares_access_admin(self):
         response = self.admin_client.get(self.share_endpoint)
@@ -159,3 +238,17 @@ class SharesAPIAccessTest(UserFactory):
     def test_shares_access_unauth(self):
         response = self.client.get(self.share_endpoint)
         self.assertEquals(response.status_code, 200)
+
+    def test_shares_create_admin(self):
+        response = self.admin_client.post(self.share_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 201)
+
+    def test_shares_create_user(self):
+        response = self.user_client.post(self.share_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_shares_create_unauth(self):
+        response = self.client.post(self.share_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
