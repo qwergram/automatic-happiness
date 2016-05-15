@@ -75,6 +75,11 @@ class UserFactory(TestCase):
 class UserAPIAccessTest(UserFactory):
 
     user_endpoint = '/api/v1/users/'
+    post_example = {
+        "username": "another_user",
+        "email": "auser@aservice.com",
+        "groups": [],
+    }
 
     def test_users_access_admin(self):
         response = self.admin_client.get(self.user_endpoint)
@@ -87,6 +92,20 @@ class UserAPIAccessTest(UserFactory):
 
     def test_users_access_unauth(self):
         response = self.client.get(self.user_endpoint)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
+    def test_users_create_admin(self):
+        response = self.admin_client.post(self.user_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 201)
+
+    def test_users_create_user(self):
+        response = self.user_client.post(self.user_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_users_create_unauth(self):
+        response = self.client.post(self.user_endpoint, self.post_example)
         self.assertEquals(response.status_code, 403)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
