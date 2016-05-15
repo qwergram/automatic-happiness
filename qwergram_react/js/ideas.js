@@ -69,7 +69,7 @@ var IdeasBox = React.createClass({
                       <time className="published" datetime={idea['date_created']}>
                         {idea['date_created'].split('T')[0]}
                       </time>
-                      <a href="#" className="author">
+                      <a href="#me" className="author">
                         <span className="name">
                           qwergram
                         </span>
@@ -108,4 +108,64 @@ var render_ideas = function() {
   )
 };
 
+
+var SharesBox = React.createClass({
+  getInitialState: function() {
+    return {data: [{
+      'title': 'loading...',
+      'link': 'http://qwergram.github.com/',
+      'short_description': 'Give me a sec...'
+    }]};
+  },
+  loadSharesFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: "json",
+      cache: false,
+      success: function(data) {
+        this.setState({data: data['results']});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.log("oops!", xhr, status, err);
+      }.bind(this),
+    });
+  },
+  componentDidMount: function() {
+    this.loadSharesFromServer();
+    if (this.props.pollInterval) {
+      setInterval(this.loadSharesFromServer, this.props.pollInterval);
+    };
+  },
+  render: function() {
+    return (
+      <div>
+        {
+          this.state.data.map(function(share) {
+            return (
+              <article className="mini-post">
+                <header>
+                  <a href={share['link']}>
+                    <h3>{share['title']}</h3>
+                    <p>{share['short_description']}</p>
+                  </a>
+                </header>
+
+              </article>
+            )
+          })
+        }
+      </div>
+    );
+  }
+});
+
+var render_shares = function() {
+  var url = api_endpoints['shares'];
+  ReactDOM.render(
+    <SharesBox url={url}/>,
+    document.getElementById('mini-posts')
+  );
+};
+
 render_ideas();
+render_shares();
