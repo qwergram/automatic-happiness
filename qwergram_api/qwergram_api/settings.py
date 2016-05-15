@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'django_nose',
     'articles',
 ]
 
@@ -167,3 +168,13 @@ CORS_ALLOW_METHODS = (
     'DELETE',
     'OPTIONS'
 )
+
+
+# Django Coverage Tests
+# http://django-testing-docs.readthedocs.io/en/latest/coverage.html
+
+TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=articles'
+]
