@@ -149,6 +149,11 @@ class GroupAPIAccessTest(UserFactory):
 class ArticlesAPIAccessTest(UserFactory):
 
     article_endpoint = '/api/v1/articles/'
+    post_example = {
+        "title": "something worth writing about",
+        "content": "Lots of text " * 120,
+        "draft": False,
+    }
 
     def test_articles_access_admin(self):
         response = self.admin_client.get(self.article_endpoint)
@@ -161,6 +166,20 @@ class ArticlesAPIAccessTest(UserFactory):
     def test_articles_access_unauth(self):
         response = self.client.get(self.article_endpoint)
         self.assertEquals(response.status_code, 200)
+
+    def test_articles_create_admin(self):
+        response = self.admin_client.post(self.article_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 201)
+
+    def test_articles_create_user(self):
+        response = self.user_client.post(self.article_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_articles_create_unauth(self):
+        response = self.client.post(self.article_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
 
 class IdeasAPIAccessTest(UserFactory):
@@ -178,6 +197,7 @@ class IdeasAPIAccessTest(UserFactory):
     def test_ideas_access_unauth(self):
         response = self.client.get(self.idea_endpoint)
         self.assertEquals(response.status_code, 200)
+
 
 
 class SharesAPIAccessTest(UserFactory):
