@@ -1,8 +1,19 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
 <head>
+	<title>Norton Pengra (qwergram)</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
+	<link rel="stylesheet" href="/css/main.css" />
+	<!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
+	<!--[if lte IE 8]><link rel="stylesheet" href="/css/ie8.css" /><![endif]-->
   <meta charset="utf-8" />
-  <title>Hello World</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
@@ -10,7 +21,83 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
 </head>
 <body>
-  <div id="content"></div>
-  <script type="babel" src="/js/main.js"></script>
+
+  <div id="wrapper">
+    <header id="header">
+      <h1><a href="http://qwergram.github.com">Norton Pengra</a></h1>
+      <nav class="links">
+        <ul>
+          <li><a href="#me">About Me</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#ideas">Ideas</a></li>
+          <li><a href="#shares">Shares</a></li>
+        </ul>
+      </nav>
+      <nav class="main">
+        <ul>
+          <li class="search">
+            <a class="fa-search" href="#search">Search</a>
+            <form id="search" action="#" method="get">
+              <input type="text" name="query" placeholder="Search" />
+            </form>
+          </li>
+          <li class="menu">
+            <a class="fa-bars" href="#menu">Menu</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="menu">
+
+      <section>
+        <form id="search" action="#" method="get">
+          <label for="query">Search</label>
+          <input type="text" name="query" placeholder="Search" />
+        </form>
+      </section>
+      <section>
+        <ul class="links" id="latest-links">
+        </ul>
+      </section>
+
+      <section>
+        <ul class="actions vertical">
+          <li><a href="#" class="button big fit">Log In</a></li>
+        </ul>
+      </section>
+
+    </section>
+
+    <div id="main">
+      <div id="content"></div>
+    </div>
+
+
+    <section id="sidebar">
+
+      <section id="intro">
+        <a href="#" class="logo"><img src="images/avatar.jpg" alt="" /></a>
+        <header>
+          <h2>qwergram.io</h2>
+          <p>A Blog of Quirky Thoughts of <a href="#me">Norton Pengra</a></p>
+        </header>
+      </section>
+
+      <section>
+        <div class="mini-posts" id="mini-posts"></div>
+      </section>
+
+        </div>
+      </section>
+    </section>
+
+  </div>
+
 </body>
+<script type="text/babel" src="/js/ideas.js"></script>
+<script src="/js/skel.min.js"></script>
+<script src="/js/util.js"></script>
+<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
+<script src="/js/main.js"></script>
 </html>
