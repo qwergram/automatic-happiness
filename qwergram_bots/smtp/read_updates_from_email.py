@@ -32,7 +32,25 @@ class EmailClient(object):
 
     def get_email_list(self):
         status, emails = self.mail.search(None, 'ALL')
-        print(emails)
+        self.read_emails(emails)
+
+    def read_emails(self, emails):
+        for email_num in emails[0].split():
+            (rv, data) = self.mail.fetch(email_num, '(RFC822)')
+            message = email.message_from_string(data[0][1].decode())
+            subject = message['Subject']
+            if self.is_valid_email(subject):
+                print(subject)
+
+    def is_valid_email(self, subject):
+        try:
+            submission_type, data_type = subject.split('.')
+            return (
+                submission_type in ['idea', 'share', 'article'] and
+                data_type in ['json']
+            )
+        except (ValueError):
+            return False
 
     def close(self):
         self.mail.logout()
