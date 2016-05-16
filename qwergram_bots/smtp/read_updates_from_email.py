@@ -5,6 +5,7 @@ import sys
 import imaplib
 import email
 import datetime
+import json
 
 
 EMAIL_ADDR = os.environ['EMAIL_ADDR']
@@ -41,10 +42,24 @@ class EmailClient(object):
             message = email.message_from_string(data[0][1].decode())
             subject = message['Subject']
             if self.is_valid_email(subject):
-                self.verify_email()
+                self.verify_email(message)
 
-    def verify_email(self):
+    def get_json_from_payload(self, message):
+        payload = str(message.get_payload()[0])
+        return json.loads(payload.split('\n\n')[1].replace('\n', ' '))
+
+    def verify_idea(self, data_type, payload):
         pass
+
+    def verify_email(self, message):
+        submission_type, data_type = message['Subject'].split('.')
+        from_addr = message['from']
+        time_sent = message['Date']
+        payload = self.get_json_from_payload(message)
+        print(from_addr)
+        print(time_sent)
+        print(json.dumps(payload, indent=2))
+        getattr(self, "verify_" + submission_type)(data_type, payload)
 
     def is_valid_email(self, subject):
         try:
