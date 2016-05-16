@@ -10,6 +10,7 @@ import datetime
 EMAIL_ADDR = os.environ['EMAIL_ADDR']
 EMAIL_PASS = os.environ['EMAIL_PASS']
 EMAIL_IMAP = os.environ['EMAIL_IMAP']
+EMAIL_ADMIN = os.environ['EMAIL_ADMIN']
 
 
 class EmailClient(object):
@@ -40,7 +41,10 @@ class EmailClient(object):
             message = email.message_from_string(data[0][1].decode())
             subject = message['Subject']
             if self.is_valid_email(subject):
-                print(subject)
+                self.verify_email()
+
+    def verify_email(self):
+        pass
 
     def is_valid_email(self, subject):
         try:
