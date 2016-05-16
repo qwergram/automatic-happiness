@@ -27,10 +27,19 @@ class EmailClient(object):
     def authenticate(self):
         self.mail.login(EMAIL_ADDR, EMAIL_PASS)
 
+    def checkout_inbox(self):
+        self.mail.select('Inbox')
+
+    def get_email_list(self):
+        status, emails = self.mail.search(None, 'ALL')
+        print(emails)
+
     def close(self):
         self.mail.logout()
 
 if __name__ == "__main__":
     print("Grabbing emails")
     E = EmailClient()
+    E.checkout_inbox()
+    E.get_email_list()
     E.close()
