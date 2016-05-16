@@ -71,7 +71,9 @@ class EmailClient(object):
 
     def validify_share(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
-        return json_data
+        if set(json_data.keys()) == {'title', 'short_description', 'url'}:
+            return json_data
+        return False
 
     def verify_email(self, message):
         submission_type, data_type = message['Subject'].split('.')
