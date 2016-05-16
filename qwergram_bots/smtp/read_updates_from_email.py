@@ -57,8 +57,7 @@ class EmailClient(object):
             sjson = message_text.split(';')
             sjson = filter(lambda x: x.strip() != '', sjson)
             sjson = [val.replace('\n', ' ').strip().split('..', 1) for val in sjson]
-            sjson = {key.strip(): val.strip() for key, val in sjson}
-            json_data = sjson
+            json_data = {key.strip(): val.strip() for key, val in sjson}
         if data_type == 'json':
             json_data = self.get_json_from_payload(message)
         return json_data
