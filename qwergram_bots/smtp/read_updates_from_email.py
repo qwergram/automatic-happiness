@@ -63,23 +63,28 @@ class EmailClient(object):
             json_data = self.get_json_from_payload(message)
         return json_data
 
-    def verify_idea(self, data_type, message):
+    def validify_idea(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
-        print(json_data)
-        return json_data
+        if set(json_data.keys()) == {'title', 'pitch', 'priority'}:
+            return json_data
+        return False
 
-    def verify_share(self, data_type, message):
+    def validify_share(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
-        print(json_data)
         return json_data
 
     def verify_email(self, message):
         submission_type, data_type = message['Subject'].split('.')
         from_addr = message['from']
         time_sent = message['Date']
-        print(from_addr)
-        print(time_sent)
-        getattr(self, "verify_" + submission_type)(data_type, message)
+        is_admin = EMAIL_ADMIN in from_addr
+        if is_admin:
+            json_data = getattr(self, "validify_" + submission_type)(data_type, message)
+            if json_data:
+                json_data['time'] = time_sent
+                print(json.dumps(json_data, indent=2))
+                return json_data
+        return False
 
     def is_valid_email(self, subject):
         try:
