@@ -48,25 +48,45 @@ class EmailClient(object):
         payload = str(message.get_payload()[0])
         return json.loads(payload.split('\n\n')[1].replace('\n', ' '))
 
-    def verify_idea(self, data_type, payload):
-        pass
+    def convert_to_json(self, data_type, message):
+        if data_type == 'sjson':
+            # TODO: Should be wrapped in a try-except block, but for debbuging
+            # purposes I'll leave it be.
+            message_text = str(message.get_payload()[0])
+            message_text = message_text.split('\n\n')[1]
+            sjson = message_text.split(';')
+            sjson = filter(lambda x: x.strip() != '', sjson)
+            sjson = [val.replace('\n', ' ').strip().split('..', 1) for val in sjson]
+            sjson = {key.strip(): val.strip() for key, val in sjson}
+            json_data = sjson
+        if data_type == 'json':
+            json_data = self.get_json_from_payload(message)
+        return json_data
+
+    def verify_idea(self, data_type, message):
+        json_data = self.convert_to_json(data_type, message)
+        print(json_data)
+        return json_data
+
+    def verify_share(self, data_type, message):
+        json_data = self.convert_to_json(data_type, message)
+        print(json_data)
+        return json_data
 
     def verify_email(self, message):
         submission_type, data_type = message['Subject'].split('.')
         from_addr = message['from']
         time_sent = message['Date']
-        payload = self.get_json_from_payload(message)
         print(from_addr)
         print(time_sent)
-        print(json.dumps(payload, indent=2))
-        getattr(self, "verify_" + submission_type)(data_type, payload)
+        getattr(self, "verify_" + submission_type)(data_type, message)
 
     def is_valid_email(self, subject):
         try:
             submission_type, data_type = subject.split('.')
             return (
                 submission_type in ['idea', 'share', 'article'] and
-                data_type in ['json']
+                data_type in ['json', 'sjson']
             )
         except (ValueError):
             return False
