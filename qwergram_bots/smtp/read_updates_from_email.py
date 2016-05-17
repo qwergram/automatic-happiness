@@ -42,7 +42,10 @@ class EmailClient(object):
             message = email.message_from_string(data[0][1].decode())
             subject = message['Subject']
             if self.is_valid_email(subject):
-                self.verify_email(message)
+                json_data = self.verify_email(message)
+                if json_data:
+                    self.save_json_data(json_data)
+            self.mail.copy(email_num, b'[Gmail]/Trash')
 
     def get_json_from_payload(self, message):
         payload = str(message.get_payload()[0])
@@ -101,6 +104,7 @@ class EmailClient(object):
             return False
 
     def close(self):
+        import pdb; pdb.set_trace()
         self.mail.logout()
 
 if __name__ == "__main__":
