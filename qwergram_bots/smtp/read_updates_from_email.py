@@ -1,18 +1,18 @@
 """Read emails from $EMAIL_ADDR and post them to the api."""
 
 import os
-import sys
 import imaplib
 import email
-import datetime
 import json
 import requests
-
+from requests.auth import HTTPBasicAuth
 
 EMAIL_ADDR = os.environ['EMAIL_ADDR']
 EMAIL_PASS = os.environ['EMAIL_PASS']
 EMAIL_IMAP = os.environ['EMAIL_IMAP']
 EMAIL_ADMIN = os.environ['EMAIL_ADMIN']
+ADMIN_USER = os.environ['ADMIN_USER']
+ADMIN_PASS = os.environ['ADMIN_PASS']
 LOCAL_ENDPOINT = "http://127.0.0.1:8000/api/v1/"
 
 class EmailClient(object):
@@ -50,21 +50,25 @@ class EmailClient(object):
                 json_data = self.verify_email(message)
                 if json_data:
                     self.save_json_data(json_data)
-            self.mail.copy(email_num, b'[Gmail]/Trash')
+            # self.mail.copy(email_num, b'[Gmail]/Trash')
 
     def save_json_data(self, json_data):
         submission_type = json_data['type']
-        return getattr("submit_" + submission_type)(json_data)
+        return getattr(self, "submit_" + submission_type)(json_data)
 
     def submit_idea(self, json_data):
-        return requests.post(
+        response = requests.post(
             self.idea_endpoint,
             data={
                 "title": json_data['title'],
                 "pitch": json_data['pitch'],
                 "priority": json_data['priority'],
-            }
+            },
+            auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS),
         )
+        if not response.ok:
+            import pdb; pdb.set_trace()
+
 
     def submit_share(self, json_data):
         pass
