@@ -150,6 +150,10 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAdminUser',
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'PAGE_SIZE': 10,
 }
 
