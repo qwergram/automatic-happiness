@@ -98,17 +98,29 @@ class EmailClient(object):
             del json_data['url']
         return json_data
 
-    def validify_idea(self, data_type, message):
+    def _validify_idea(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
         if {key.lower() for key in json_data.keys()} == {'title', 'pitch', 'priority'}:
             return json_data
         return False
 
-    def validify_share(self, data_type, message):
+    def _validify_share(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
         if {key.lower() for key in json_data.keys()} == {'title', 'short_description', 'link'}:
             return json_data
         return False
+
+    def validify_article(self, data_type, message):
+        message_text = str(message.get_payload()[0]).split('\n\n')[1]
+        title, content = message_text.split("\n", 1)
+        if title.split('..')[0].lower() == 'title':
+            title = title.split('..')[1]
+            title = " ".join(word.capitalize() for word in title.split())
+        else:
+            title = 'untitled'
+        print(title)
+        print('=' * 80)
+        print(content)
 
     def verify_email(self, message):
         submission_type, data_type = message['Subject'].split('.')
@@ -132,7 +144,7 @@ class EmailClient(object):
             submission_type, data_type = subject.split('.')
             return (
                 submission_type.lower() in ['idea', 'share', 'article'] and
-                data_type.lower() in ['json', 'sjson']
+                data_type.lower() in ['json', 'sjson', 'txt']
             )
         except (ValueError):
             return False
