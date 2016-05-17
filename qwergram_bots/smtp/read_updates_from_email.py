@@ -66,7 +66,13 @@ class EmailClient(object):
             import pdb; pdb.set_trace()
 
     def submit_share(self, json_data):
-        pass
+        response = requests.post(
+            self.share_endpoint,
+            data=json_data,
+            auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS),
+        )
+        if not response.ok:
+            import pdb; pdb.set_trace()
 
     def get_json_from_payload(self, message):
         payload = str(message.get_payload()[0])
