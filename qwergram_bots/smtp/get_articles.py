@@ -21,19 +21,26 @@ class Hydrogen(object):
         self.emails = []
         self.in_inbox = False
         self.opened_inbox = False
+        self.authenticated = False
+        self.connected = False
 
-        self.create_email()
-        self.authenticate()
-
-    def create_email(self):
+    def connect(self):
+        self.connected = True
         self.mail = imaplib.IMAP4_SSL('imap.gmail.com')
 
     def authenticate(self):
-        self.mail.login(self.email_addr, self.email_pass)
+        if self.connected:
+            self.authenticated = True
+            self.mail.login(self.email_addr, self.email_pass)
+        else:
+            raise EnvironmentError("Connect to the server first (Hydrogen.connect)")
 
     def checkout_inbox(self):
-        self.in_inbox = True
-        self.mail.select('Inbox')
+        if self.authenticated:
+            self.in_inbox = True
+            self.mail.select('Inbox')
+        else:
+            raise EnvironmentError('Authenticate first (Hydrogen.authenticate)')
 
     def get_emails(self):
         if self.in_inbox:
