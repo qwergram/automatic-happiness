@@ -59,16 +59,11 @@ class EmailClient(object):
     def submit_idea(self, json_data):
         response = requests.post(
             self.idea_endpoint,
-            data={
-                "title": json_data['title'],
-                "pitch": json_data['pitch'],
-                "priority": json_data['priority'],
-            },
+            data=json_data,
             auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS),
         )
         if not response.ok:
             import pdb; pdb.set_trace()
-
 
     def submit_share(self, json_data):
         pass
@@ -134,7 +129,6 @@ class EmailClient(object):
             return False
 
     def close(self):
-        import pdb; pdb.set_trace()
         self.mail.logout()
 
 if __name__ == "__main__":
