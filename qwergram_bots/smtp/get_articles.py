@@ -1,29 +1,21 @@
 """Read emails from $EMAIL_ADDR and post them to the api."""
 
-import os
 import imaplib
 
-EMAIL_ADDR = os.environ['EMAIL_ADDR']
-EMAIL_PASS = os.environ['EMAIL_PASS']
-EMAIL_IMAP = os.environ['EMAIL_IMAP']
-EMAIL_ADMIN = os.environ['EMAIL_ADMIN']
-ADMIN_USER = os.environ['ADMIN_USER']
-ADMIN_PASS = os.environ['ADMIN_PASS']
-LOCAL_ENDPOINT = "http://127.0.0.1:8000/api/v1/"
 
 class Hydrogen(object):
 
-    email_addr = EMAIL_ADDR
-    email_pass = EMAIL_PASS
-    email_imap = EMAIL_IMAP
-
-    def __init__(self):
+    def __init__(self, email_addr, email_pass, email_imap):
 
         self.emails = []
         self.in_inbox = False
         self.opened_inbox = False
         self.authenticated = False
         self.connected = False
+
+        self.email_addr = email_addr
+        self.email_pass = email_pass
+        self.email_imap = email_imap
 
     def connect(self):
         self.connected = True
@@ -58,7 +50,21 @@ class Hydrogen(object):
 
 
 if __name__ == "__main__":
-    Bot = Hydrogen()
+    import os
+
+    EMAIL_ADDR = os.environ['EMAIL_ADDR']
+    EMAIL_PASS = os.environ['EMAIL_PASS']
+    EMAIL_IMAP = os.environ['EMAIL_IMAP']
+    EMAIL_ADMIN = os.environ['EMAIL_ADMIN']
+    ADMIN_USER = os.environ['ADMIN_USER']
+    ADMIN_PASS = os.environ['ADMIN_PASS']
+    LOCAL_ENDPOINT = "http://127.0.0.1:8000/api/v1/"
+
+    Bot = Hydrogen(
+        email_addr=EMAIL_ADDR,
+        email_pass=EMAIL_PASS,
+        email_imap=EMAIL_IMAP,
+    )
     Bot.checkout_inbox()
     # Bot.get_emails()
     Bot.read_emails()
