@@ -47,3 +47,13 @@ def test_checkout_inbox_executes(HydrogenBot):
     HydrogenBot.checkout_inbox()
     assert HydrogenBot.in_inbox
     assert HydrogenBot.mail.select_count == 1
+
+
+def test_get_emails_without_connect(HydrogenBot):
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.get_emails()
+
+
+def test_get_emails_without_authenticate(HydrogenBot):
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.get_emails()
