@@ -7,14 +7,17 @@ class MockMail(object):
 
     def __init__(self):
         self.login_count = 0
+        self.select_count = 0
 
     def login(self, email_addr, email_pass):
         self.login_count += 1
         return True
 
+    def select(self, inbox):
+        self.select_count += 1
+        return True
 
 class OfflineHydrogen(Hydrogen):
-
 
     def connect(self):
         self.connected = True
