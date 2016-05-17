@@ -60,17 +60,20 @@ class EmailClient(object):
             json_data = {key.strip(): val.strip() for key, val in sjson}
         if data_type == 'json':
             json_data = self.get_json_from_payload(message)
+        for key, value in json_data.items():
+            del json_data[key]
+            json_data[key.lower()] = value
         return json_data
 
     def validify_idea(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
-        if set(json_data.keys()) == {'title', 'pitch', 'priority'}:
+        if {key.lower() for key in json_data.keys()} == {'title', 'pitch', 'priority'}:
             return json_data
         return False
 
     def validify_share(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
-        if set(json_data.keys()) == {'title', 'short_description', 'url'}:
+        if {key.lower() for key in json_data.keys()} == {'title', 'short_description', 'url'}:
             return json_data
         return False
 
@@ -80,7 +83,7 @@ class EmailClient(object):
         time_sent = message['Date']
         is_admin = EMAIL_ADMIN in from_addr
         if is_admin:
-            json_data = getattr(self, "validify_" + submission_type)(data_type, message)
+            json_data = getattr(self, "validify_" + submission_type.lower())(data_type, message)
             if json_data:
                 json_data['time'] = time_sent
                 print(json.dumps(json_data, indent=2))
@@ -91,8 +94,8 @@ class EmailClient(object):
         try:
             submission_type, data_type = subject.split('.')
             return (
-                submission_type in ['idea', 'share', 'article'] and
-                data_type in ['json', 'sjson']
+                submission_type.lower() in ['idea', 'share', 'article'] and
+                data_type.lower() in ['json', 'sjson']
             )
         except (ValueError):
             return False
