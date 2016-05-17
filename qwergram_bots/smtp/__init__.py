@@ -1,6 +1,6 @@
 # Bot information for Qwergram Package Manager (QPM)
 __APIVERSION__ = "v1"
-__BOTNAME__ = "map_bot"
+__BOTNAME__ = ["map_bot", "Hydrogen"]
 __BOTVERSION__ = "v1.1"
 __DEPENDENCIES__ = []
 __DOCS__ = """
