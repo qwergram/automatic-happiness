@@ -1,8 +1,5 @@
 import os
 
-
-
-
 # Bot information for Qwergram Package Manager (QPM)
 __APIVERSION__ = "v1"
 __BOTNAME__ = "map_bot"

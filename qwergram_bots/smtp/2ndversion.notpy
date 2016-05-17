@@ -1,0 +1,173 @@
+"""Read emails from $EMAIL_ADDR and post them to the api."""
+
+import os
+import imaplib
+import email
+import json
+import requests
+from requests.auth import HTTPBasicAuth
+from __init__ import __APIVERSION__
+
+
+# Globals that need to be defined
+EMAIL_ADDR = os.environ['EMAIL_ADDR']
+EMAIL_PASS = os.environ['EMAIL_PASS']
+EMAIL_IMAP = os.environ['EMAIL_IMAP']
+EMAIL_ADMIN = os.environ['EMAIL_ADMIN']
+ADMIN_USER = os.environ['ADMIN_USER']
+ADMIN_PASS = os.environ['ADMIN_PASS']
+LOCAL_ENDPOINT = "http://127.0.0.1:8000/api/{api_ver}/".format(api_ver=__APIVERSION__)
+
+
+class EmailClient(object):
+
+    class Meta:
+        # API endpoints
+        idea_endpoint = LOCAL_ENDPOINT + "ideas/"
+        share_endpoint = LOCAL_ENDPOINT + "shares/"
+        article_endpoint = LOCAL_ENDPOINT + "articles/"
+
+        # Valid subjects
+        valid_categories = ['idea', 'share', 'article']
+        valid_formats = ['sjson', 'json', 'txt']
+
+        # Valid Params
+        valid_params = {
+            "idea": {'title', 'pitch', 'priority'},
+            "share": {'title', 'short_description', 'link'},
+            "article": {'title', 'content', 'draft'},
+        }
+
+
+    def __init__(self):
+        self.connect()
+        self.authenticate()
+
+    def collect_emails(self):
+        self.emails = self.read_inbox()
+        self.save_content()
+
+    def close_session(self):
+        self.delete_emails()
+        self.mail.logout()
+
+    def connect(self):
+        self.mail = imaplib.IMAP4_SSL('imap.gmail.com')
+
+    def authenticate(self):
+        self.mail.login(EMAIL_ADDR, EMAIL_PASS)
+
+    def read_inbox(self):
+        valid_emails = []
+        self.mail.select('Inbox')
+        status, emails = self.mail.search(None, 'ALL')
+        for email_num in emails[0].split(b' '):
+            message = self.read_email(email_num)
+            if self.is_verified(message):
+                json_data = self.parse_message(message)
+                if self.is_valid(json_data):
+                    valid_emails.append(json_data)
+        return valid_emails
+
+    def read_email(self, email_num):
+        (rv, data) = self.mail.fetch(email_num, '(RFC822)')
+        message = email.message_from_string(data[0][1].decode())
+        return message
+
+    def is_verified(self, message):
+
+        def is_valid_subject(subject):
+            try:
+                category, data_format = subject.split('.')
+            except ValueError:
+                return False
+            return (
+                category.strip().lower() in EmailClient.Meta.valid_categories and
+                data_format.strip().lower() in EmailClient.Meta.valid_formats
+
+            )
+
+        def is_valid_sender(sender):
+            return EMAIL_ADMIN in sender
+
+        subject = message['Subject']
+        sender = message['from']
+        return is_valid_subject(subject) and is_valid_sender(sender)
+
+    def parse_message(self, message):
+
+        def parse_article(message):
+            message_text = str(message.get_payload()[0]).split('\n\n')[1]
+            title, content = message_text.split("\n", 1)
+            if title.split('..')[0].lower() == 'title':
+                title = title.split('..')[1]
+                title = " ".join(word.capitalize() for word in title.split())
+            else:
+                title = 'untitled'
+            return {
+                "title": title,
+                "content": content.replace('\n', ' ').strip(),
+                "draft": True,
+            }
+
+        def parse_json(message):
+            # TODO: Should be wrapped in a try-except block, but for debbuging
+            # purposes I'll leave it be.
+            payload = str(message.get_payload()[0])
+            raw_json_data = json.loads(payload.split('\n\n')[1].replace('\n', ' '))
+            json_data = {key.lower(): value for key, value in raw_json_data.items()}
+            return json_data
+
+        def parse_sjson(message):
+            # TODO: Should be wrapped in a try-except block, but for debbuging
+            # purposes I'll leave it be.
+            message_text = str(message.get_payload()[0])
+            message_text = message_text.split('\n\n')[1]
+            filter_obj = filter(lambda x: x.strip() != '', message_text.split(';'))
+            slist = [val.replace('\n', ' ').strip().split('..', 1) for val in filter_obj]
+            return {key.strip().lower(): val.strip() for key, val in slist}
+
+        subject = message['Subject'].lower()
+        category, data_format = subject.split('.')
+
+        if category == 'article' and data_format == 'txt':
+            json_data = parse_article(message)
+
+        elif category in EmailClient.Meta.valid_params.keys():
+            if data_format == 'sjson':
+                if subject == 'idea.sjson':
+                    print(message.get_payload()[0])
+                    input()
+                json_data = parse_sjson(message)
+            elif data_format == 'json':
+                json_data = parse_json(message)
+            else:
+                json_data = {}
+        else:
+            json_data = {}
+        json_data['category'] = category.lower()
+        return json_data
+
+    def is_valid(self, json_data):
+        category = json_data['category']
+        params = EmailClient.Meta.valid_params[category]
+        return sum([param in json_data for param in params]) == len(params)
+
+    def save_content(self):
+        for e in self.emails:
+            print(e)
+
+    def delete_content(self):
+        pass
+
+        # subject = message['Subject']
+        # if self.is_valid_email(subject):
+        #     json_data = self.verify_email(message)
+        #     if json_data:
+        #         self.save_json_data(json_data)
+        # self.mail.copy(email_num, b'[Gmail]/Trash')
+
+
+if __name__ == "__main__":
+    client = EmailClient()
+    client.collect_emails()
