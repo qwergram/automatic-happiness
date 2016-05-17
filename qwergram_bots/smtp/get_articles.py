@@ -15,6 +15,7 @@ class Hydrogen(object):
 
     email_addr = EMAIL_ADDR
     email_pass = EMAIL_PASS
+    email_imap = EMAIL_IMAP
 
     def __init__(self):
 
@@ -26,7 +27,7 @@ class Hydrogen(object):
 
     def connect(self):
         self.connected = True
-        self.mail = imaplib.IMAP4_SSL('imap.gmail.com')
+        self.mail = imaplib.IMAP4_SSL(self.email_imap)
 
     def authenticate(self):
         if self.connected:
