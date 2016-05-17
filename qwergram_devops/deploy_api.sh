@@ -20,6 +20,8 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   export SERVER_KEY="$SERVER_KEY"
   export CLIENT_REPO="$CLIENT_REPO"
   export SERVER_REPO="$SERVER_REPO"
+  export ADMIN_USER="$ADMIN_USER"
+  export ADMIN_PASS="$ADMIN_PASS"
   echo "Killing old server..."
   pkill gunicorn
   echo "Deleting old code..."
