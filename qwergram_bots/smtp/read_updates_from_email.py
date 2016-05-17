@@ -93,6 +93,9 @@ class EmailClient(object):
         for key, value in json_data.items():
             del json_data[key]
             json_data[key.lower()] = value
+        if 'url' in json_data.keys():
+            json_data['link'] = json_data['url']
+            del json_data['url']
         return json_data
 
     def validify_idea(self, data_type, message):
