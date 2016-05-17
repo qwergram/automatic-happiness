@@ -9,8 +9,9 @@ REQUIRES = [
 TEST = [
     'tox',
     'coverage',
-    'django-nose'
-    'pytest'
+    'django-nose',
+    'pytest',
+    'pytest-cov',
 ]
 DEV = [
     'ipython',
