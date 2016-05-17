@@ -74,6 +74,15 @@ class EmailClient(object):
         if not response.ok:
             import pdb; pdb.set_trace()
 
+    def submit_article(self, json_data):
+        response = requests.post(
+            self.article_endpoint,
+            data=json_data,
+            auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS),
+        )
+        if not response.ok:
+            import pdb; pdb.set_trace()
+
     def get_json_from_payload(self, message):
         payload = str(message.get_payload()[0])
         return json.loads(payload.split('\n\n')[1].replace('\n', ' '))
@@ -98,13 +107,13 @@ class EmailClient(object):
             del json_data['url']
         return json_data
 
-    def _validify_idea(self, data_type, message):
+    def validify_idea(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
         if {key.lower() for key in json_data.keys()} == {'title', 'pitch', 'priority'}:
             return json_data
         return False
 
-    def _validify_share(self, data_type, message):
+    def validify_share(self, data_type, message):
         json_data = self.convert_to_json(data_type, message)
         if {key.lower() for key in json_data.keys()} == {'title', 'short_description', 'link'}:
             return json_data
@@ -118,9 +127,11 @@ class EmailClient(object):
             title = " ".join(word.capitalize() for word in title.split())
         else:
             title = 'untitled'
-        print(title)
-        print('=' * 80)
-        print(content)
+        return {
+            "title": title,
+            "content": content,
+            "draft": True,
+        }
 
     def verify_email(self, message):
         submission_type, data_type = message['Subject'].split('.')
