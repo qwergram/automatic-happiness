@@ -10,6 +10,7 @@ TEST = [
     'tox',
     'coverage',
     'django-nose'
+    'pytest'
 ]
 DEV = [
     'ipython',

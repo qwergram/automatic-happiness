@@ -1,4 +1,6 @@
 """Test Hydrogen bot functionality"""
+import pytest
+
 
 def test_hydrogen_initialization(HydrogenBot):
     assert HydrogenBot.emails == []
@@ -6,3 +8,23 @@ def test_hydrogen_initialization(HydrogenBot):
     assert HydrogenBot.opened_inbox is False
     assert HydrogenBot.authenticated is False
     assert HydrogenBot.connected is False
+
+
+def test_connect_executes(HydrogenBot):
+    HydrogenBot.connect()
+    assert HydrogenBot.connected
+    assert HydrogenBot.mail
+    assert HydrogenBot.email_imap
+
+
+def test_authenticate_without_connect(HydrogenBot):
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.authenticate()
+
+
+def test_authenticate_executes(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    assert HydrogenBot.connected
+    assert HydrogenBot.authenticated
+    assert HydrogenBot.mail.login_count == 1
