@@ -3,6 +3,7 @@
 import imaplib
 import email
 
+
 class Hydrogen(object):
 
     def __init__(self, email_addr, email_pass, email_imap):

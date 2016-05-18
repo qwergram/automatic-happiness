@@ -161,8 +161,18 @@ def test_parse_emails_executes(HydrogenBot):
     HydrogenBot.parse_emails()
     second_snapshot = HydrogenBot.emails[::]
     assert first_snapshot != second_snapshot
-    assert second_snapshot[0]['subject'] == 'share.sjson'
-    assert second_snapshot[0]['time'] == 'Mon, 16 May 2016 23:14:30 +0000'
+    assert second_snapshot[0]['subject']
+    assert second_snapshot[0]['time']
+
+
+def test_filter_emails_without_parse_emails(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    HydrogenBot.checkout_inbox()
+    HydrogenBot.get_emails()
+    HydrogenBot.read_emails()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.filter_emails()
 
 
 def test_filter_emails_executes(HydrogenBot):

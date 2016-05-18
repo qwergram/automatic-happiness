@@ -29,76 +29,73 @@ class MockMail(object):
         self.fetch_count += 1
         assert b == '(RFC822)'
         return ('OK', [[None, b"""Delivered-To: pengrabot@gmail.com
-Received: by 10.237.44.135 with SMTP id g7csp785660qtd;
-        Mon, 16 May 2016 16:14:40 -0700 (PDT)
-X-Received: by 10.50.37.147 with SMTP id y19mr12398194igj.42.1463440480335;
-        Mon, 16 May 2016 16:14:40 -0700 (PDT)
+Received: by 10.237.44.135 with SMTP id g7csp1250230qtd;
+        Wed, 18 May 2016 10:55:05 -0700 (PDT)
+X-Received: by 10.50.180.200 with SMTP id dq8mr6560410igc.88.1463594105008;
+        Wed, 18 May 2016 10:55:05 -0700 (PDT)
 Return-Path: <npengra317@gmail.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com. [209.85.223.182])
-        by mx.google.com with ESMTPS id q10si21957itc.2.2016.05.16.16.14.40
+Received: from mail-ig0-x229.google.com (mail-ig0-x229.google.com. [2607:f8b0:4001:c05::229])
+        by mx.google.com with ESMTPS id 20si8590203ioe.191.2016.05.18.10.55.04
         for <pengrabot@gmail.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 May 2016 16:14:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of npengra317@gmail.com designates 209.85.223.182 as permitted sender) client-ip=209.85.223.182;
+        Wed, 18 May 2016 10:55:04 -0700 (PDT)
+Received-SPF: pass (google.com: domain of npengra317@gmail.com designates 2607:f8b0:4001:c05::229 as permitted sender) client-ip=2607:f8b0:4001:c05::229;
 Authentication-Results: mx.google.com;
        dkim=pass header.i=@gmail.com;
-       spf=pass (google.com: domain of npengra317@gmail.com designates 209.85.223.182 as permitted sender) smtp.mailfrom=npengra317@gmail.com;
+       spf=pass (google.com: domain of npengra317@gmail.com designates 2607:f8b0:4001:c05::229 as permitted sender) smtp.mailfrom=npengra317@gmail.com;
        dmarc=pass (p=NONE dis=NONE) header.from=gmail.com
-Received: by mail-io0-f182.google.com with SMTP id i75so1074ioa.3
-        for <pengrabot@gmail.com>; Mon, 16 May 2016 16:14:40 -0700 (PDT)
+Received: by mail-ig0-x229.google.com with SMTP id bi2so99203692igb.0
+        for <pengrabot@gmail.com>; Wed, 18 May 2016 10:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
         h=mime-version:from:date:message-id:subject:to;
-        bh=01OBxpty28kmJr3zBNVQJYkHvdpPtA5xl4trVtkmExY=;
-        b=Kh7LVeJzX1eXHE2AGOtxX18+FVCGYe9B/WJszT8ciZRWe0Tgpfk3oWcxQtKd0WWZw4
-         +s/Gx/G/7+L6ttmWDXlFrpLz6R5sum8NzuZLbE8keBTCEqyRLkQHgjSRPlZR10D4T/Td
-         a1zpQ80QRLFJG4jbleLf7WFXLXzbIc1dyFhacgydzYsmkbWgFmBkss5u+XmhE+GigL/9
-         svvKUxPZKf3ACQJi/GlNjqO72mjEYn0Pqu/tYiwo7inZU9+dkXe4I4/n7E8jbAYSJoAi
-         RdvoqIytRVKQEkJ/PUyhKdGXbE2KlDGS0HE8Hw30NclEncdvGx05cTdqTiV594UJkMJv
-         ByHA==
+        bh=e/YVea2oeyv/G6kLzQkTTO89qDSOo+JKKF3wjLPgnKo=;
+        b=Wd8AbANf7rZh005aG0sckJ7VF3CtcqRvaqtYVmfNytuAboo6a/hxn91G5cS5eUjpWc
+         JdCNlEoQpUE9DDfjVjzsZ88CmhWEJXCe9sS+vPfOADy0Xcen3PZZeOTlL1ElMPQyoJAW
+         Aiih2RLLo1ZcxjMVdIaiH0eFjwuGhlNDV02XDTFKm7bydh+33kFHyv5HyIho+Oilt2SL
+         zJasatA0JxNl47QcXauGWTpPFx7DOZRWRx2BZo9eCbb5xgOi30y1pHV9qgZpZO7YZYFu
+         Nq8iIvSstx4MphjpxQWZcD9Fo2gW3rCDebgh/TuCKD/wzrP/MKgxpK6Co89rf+/fob3T
+         ovOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20130820;
         h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=01OBxpty28kmJr3zBNVQJYkHvdpPtA5xl4trVtkmExY=;
-        b=TWxBOHynl8nSGlmOurRWDOqPZRzthhpIRWCJnWARzAVW6PrwUKyNr+dzBPAllntuzW
-         3Bavd+0oawRXg3zuIxweIhGKeF4AIt32+aSuj5NRzwGpIXF1fq4aenguf3RV0l2OYxvs
-         wkDXHXhdzg79eWeVKYI+QdcYeu+qBLAAtZH2fx5fgNO+U3ni/hHnYT9+wsShLwKTHoto
-         7szOAJi2h/XCMlqrd68EVoiupGwweGL6V+IoyAhwOpdzRBnWXWWi6sOOpo9kg0X3Ovkv
-         nZwjzdTRk8TnVJwpFK21wam6qGRqA2JwJIi288iPf1iskWGwnd3VO5zVLYE0E8JrJpoH
-         wYbg==
-X-Gm-Message-State: AOPr4FVHBigf0qjtT1nY9j4eq0BVpknehv+ViLzw26Uae4xnQ3mj3jMuNgS8zdd+mv+UUmkFnaG03Y/kRMjRHw==
-X-Received: by 10.107.175.67 with SMTP id y64mr11359849ioe.113.1463440480203;
- Mon, 16 May 2016 16:14:40 -0700 (PDT)
+        bh=e/YVea2oeyv/G6kLzQkTTO89qDSOo+JKKF3wjLPgnKo=;
+        b=ezyknuvj6Bl7p+ennsCnv36teQCsJvHZZsCgHROufg1nKL9L6BhDdIyFvLYQj/yOqg
+         1fFMz7HSDmNSsQUA8UijvMmpMV92mLOl53dB3KrDBhSK1cRDQNld/ZmcyD8x5YhN+ez2
+         jEfrsK0rO1dmq9ktVMFRu00Y46JK+u3Y2g439puP6Ta6HvP/ae7LZ3bpiUxmhdhG/oYV
+         gqiwnqMKqe5f8cn+BzJ0NgJCJWia64k2qHp53X4pTreoXbqHZQICgGyfscafMZIRK6+O
+         GCipnkdETypWD9rnq9Zah+7YOZCfCn7W5QD+TdilitrhEq1VkOQ5BIXURh/5sC3VXgty
+         Nb/w==
+X-Gm-Message-State: AOPr4FXXlIx9+hG1bBBgnO4z+iW32qRFS3r0yKKpBAPPn62pFmGAzWL79xWPb2exVHdgeBd+iyI3/zwb3ieJsg==
+X-Received: by 10.50.37.147 with SMTP id y19mr5368124igj.42.1463594103295;
+ Wed, 18 May 2016 10:55:03 -0700 (PDT)
 MIME-Version: 1.0
 From: Norton Pengra <npengra317@gmail.com>
-Date: Mon, 16 May 2016 23:14:30 +0000
-Message-ID: <CAE+EAkyV9f6Y8AwA26jbdccqFVbisFtVLOUY7NVUyDoyZ9DnEg@mail.gmail.com>
-Subject: share.sjson
+Date: Wed, 18 May 2016 17:54:54 +0000
+Message-ID: <CAE+EAkw-VGPVdNPdctdmhEh8aRmcb5k4AwYn+TEbTiX3V_NL_Q@mail.gmail.com>
+Subject: An introduction to this blog.draft.txt
 To: "pengrabot@gmail.com" <pengrabot@gmail.com>
-Content-Type: multipart/alternative; boundary=001a114464fef8fb100532fdc913
+Content-Type: multipart/alternative; boundary=f46d0444006e9f7d3b0533218ef8
 
---001a114464fef8fb100532fdc913
+--f46d0444006e9f7d3b0533218ef8
 Content-Type: text/plain; charset=UTF-8
 
-url..https://www.youtube.com/watch?v=1DJZHFwWjqU;
-title..Zella Day is such an amazing artist;
-short_description..Title says it all.;
+I've been a coder for a lot of my life; I've been a writer for none of my
+life. That'll change. I hope. At least that's the point of this new blog
+I'm writing, to help me (and hopefully others) figure out how to not only
+write code readable to machines, but to humans as well.
 
---001a114464fef8fb100532fdc913
+--f46d0444006e9f7d3b0533218ef8
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><span style=3D"font-size:13px;color:rgb(33,33,33);font-fam=
-ily:&#39;helvetica neue&#39;,helvetica,arial,sans-serif">url..</span><a hre=
-f=3D"https://www.youtube.com/watch?v=3D1DJZHFwWjqU" style=3D"font-size:13px=
-;font-family:&#39;helvetica neue&#39;,helvetica,arial,sans-serif">https://w=
-ww.youtube.com/watch?v=3D1DJZHFwWjqU</a>;<div style=3D"font-size:13px;color=
-:rgb(33,33,33);font-family:&#39;helvetica neue&#39;,helvetica,arial,sans-se=
-rif">title..Zella Day is such an amazing artist;</div><div style=3D"font-si=
-ze:13px;color:rgb(33,33,33);font-family:&#39;helvetica neue&#39;,helvetica,=
-arial,sans-serif">short_description..Title says it all.;</div></div>
+<div dir=3D"ltr">I&#39;ve been a coder for a lot of my life; I&#39;ve been =
+a writer for none of my life. That&#39;ll change. I hope. At least that&#39=
+;s the point of this new blog I&#39;m writing, to help me (and hopefully ot=
+hers) figure out how to not only write code readable to machines, but to hu=
+mans as well.</div>
 
---001a114464fef8fb100532fdc913--"""]])
+--f46d0444006e9f7d3b0533218ef8--"""]])
 
 
 class OfflineHydrogen(Hydrogen):
