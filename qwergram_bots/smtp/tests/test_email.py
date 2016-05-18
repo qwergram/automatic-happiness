@@ -108,9 +108,9 @@ def test_read_emails_executes(HydrogenBot):
     HydrogenBot.authenticate()
     HydrogenBot.checkout_inbox()
     HydrogenBot.get_emails()
-    first_snap = [str(email) for email in HydrogenBot.emails]
+    first_snap = HydrogenBot.emails[::]
     HydrogenBot.read_emails()
-    second_snap = [str(email) for email in HydrogenBot.emails]
+    second_snap = HydrogenBot.emails[::]
     assert first_snap != second_snap
     assert HydrogenBot.raw_emails
     assert HydrogenBot.mail.fetch_count == 2
@@ -157,4 +157,9 @@ def test_parse_emails_executes(HydrogenBot):
     HydrogenBot.checkout_inbox()
     HydrogenBot.get_emails()
     HydrogenBot.read_emails()
+    first_snapshot = HydrogenBot.emails[::]
     HydrogenBot.parse_emails()
+    second_snapshot = HydrogenBot.emails[::]
+    assert first_snapshot != second_snapshot
+    assert second_snapshot[0]['subject'] == 'share.sjson'
+    assert second_snapshot[0]['time'] == 'Mon, 16 May 2016 23:14:30 +0000'

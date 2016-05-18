@@ -54,7 +54,18 @@ class Hydrogen(object):
         else:
             raise EnvironmentError('Fetch the emails first (Hydrogen.get_emails)')
 
-    def parse_
+    def parse_emails(self):
+        if self.raw_emails:
+            for i, message in enumerate(self.emails):
+                parsed_email = {
+                    'subject': message['Subject'],
+                    'time': message['Date'],
+                    'content': str(message.get_payload()[0]).split('\n\n', 1)[1].replace('\n', ' ')
+                }
+                self.emails[i] = parsed_email
+            self.parsed = True
+        else:
+            raise EnvironmentError('Read the emails first (Hydrogen.read_emails)')
 
 if __name__ == "__main__":
     import os
@@ -77,3 +88,4 @@ if __name__ == "__main__":
     Bot.checkout_inbox()
     Bot.get_emails()
     Bot.read_emails()
+    Bot.parse_emails()
