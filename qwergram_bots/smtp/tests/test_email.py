@@ -75,3 +75,37 @@ def test_get_emails_executes(HydrogenBot):
     assert HydrogenBot.mail.search_count == 1
     assert HydrogenBot.emails == [b'0', b'1']
     assert HydrogenBot.opened_inbox is True
+
+
+def test_read_emails_without_connect(HydrogenBot):
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.read_emails()
+
+
+def test_read_emails_without_authenticate(HydrogenBot):
+    HydrogenBot.connect()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.read_emails()
+
+
+def test_read_emails_without_checkout(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.read_emails()
+
+
+def test_read_emails_without_get_emails(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    HydrogenBot.checkout_inbox()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.read_emails()
+
+
+def test_read_emails_executes(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    HydrogenBot.checkout_inbox()
+    HydrogenBot.get_emails()
+    HydrogenBot.read_emails()
