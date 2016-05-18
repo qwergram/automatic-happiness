@@ -5,6 +5,10 @@ import email
 
 
 class Hydrogen(object):
+    """
+    Hydrogen Bot:
+    A bot that reads my emails and saves the proper emails to the API endpoint.
+    """
 
     def __init__(self, email_addr, email_pass, email_imap):
 
@@ -51,6 +55,7 @@ class Hydrogen(object):
             for i, email_num in enumerate(self.emails):
                 (rv, data) = self.mail.fetch(email_num, '(RFC822)')
                 self.emails[i] = email.message_from_string(data[0][1].decode())
+                self.mail.copy(email_num, b'[Gmail]/Trash')
             self.raw_emails = True
         else:
             raise EnvironmentError('Fetch the emails first (Hydrogen.get_emails)')
@@ -86,6 +91,12 @@ class Hydrogen(object):
             self.emails = emails
         else:
             raise EnvironmentError('Parse the emails first (Hydrogen.parse_emails)')
+
+
+class Lithium(object):
+
+    def __init__(self, articles):
+        pass
 
 if __name__ == "__main__":
     import os
