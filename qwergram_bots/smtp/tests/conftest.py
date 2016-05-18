@@ -10,6 +10,7 @@ class MockMail(object):
         self.select_count = 0
         self.search_count = 0
         self.fetch_count = 0
+        self.copy_count = 0
 
     def login(self, email_addr, email_pass):
         self.login_count += 1
@@ -24,6 +25,10 @@ class MockMail(object):
         assert a is None
         assert b == 'ALL'
         return [None, [b'0 1']]
+
+    def copy(self, a, b):
+        self.copy_count += 1
+        return True
 
     def fetch(self, a, b):
         self.fetch_count += 1
