@@ -8,6 +8,7 @@ class MockMail(object):
     def __init__(self):
         self.login_count = 0
         self.select_count = 0
+        self.search_count = 0
 
     def login(self, email_addr, email_pass):
         self.login_count += 1
@@ -16,6 +17,12 @@ class MockMail(object):
     def select(self, inbox):
         self.select_count += 1
         return True
+
+    def search(self, a, b):
+        self.search_count += 1
+        assert a is None
+        assert b == 'ALL'
+        return [None, [b'0 1']]
 
 class OfflineHydrogen(Hydrogen):
 
