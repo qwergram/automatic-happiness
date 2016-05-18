@@ -101,12 +101,12 @@ arial,sans-serif">short_description..Title says it all.;</div></div>
 --001a114464fef8fb100532fdc913--"""]])
 
 
-
 class OfflineHydrogen(Hydrogen):
 
     def connect(self):
         self.connected = True
         self.mail = MockMail()
+
 
 @pytest.fixture
 def HydrogenBot():

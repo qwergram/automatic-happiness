@@ -67,6 +67,25 @@ class Hydrogen(object):
         else:
             raise EnvironmentError('Read the emails first (Hydrogen.read_emails)')
 
+    def filter_emails(self):
+        if self.parsed:
+            emails = []
+            for message in self.emails:
+                if (
+                    message['subject'].endswith('.article.txt') or
+                    message['subject'].endswith('.draft.txt')
+                ):
+                    emails.append({
+                        "title": message['subject'].replace('.article.txt', '').replace('.draft.txt', ''),
+                        "content": message['content'].replace('\r', ''),
+                        "draft": message['subject'].endswith('draft.txt'),
+                        "original_idea": None,
+                    })
+            self.filtered = True
+            self.emails = emails
+        else:
+            raise EnvironmentError('Parse the emails first (Hydrogen.parse_emails)')
+
 if __name__ == "__main__":
     import os
 
@@ -89,3 +108,5 @@ if __name__ == "__main__":
     Bot.get_emails()
     Bot.read_emails()
     Bot.parse_emails()
+    Bot.filter_emails()
+    print(Bot.emails)

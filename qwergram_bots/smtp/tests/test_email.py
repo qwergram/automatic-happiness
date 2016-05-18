@@ -163,3 +163,17 @@ def test_parse_emails_executes(HydrogenBot):
     assert first_snapshot != second_snapshot
     assert second_snapshot[0]['subject'] == 'share.sjson'
     assert second_snapshot[0]['time'] == 'Mon, 16 May 2016 23:14:30 +0000'
+
+
+def test_filter_emails_executes(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    HydrogenBot.checkout_inbox()
+    HydrogenBot.get_emails()
+    HydrogenBot.read_emails()
+    HydrogenBot.parse_emails()
+    first_snapshot = HydrogenBot.emails[::]
+    HydrogenBot.filter_emails()
+    second_snapshot = HydrogenBot.emails[::]
+    assert first_snapshot != second_snapshot
+    assert HydrogenBot.filtered
