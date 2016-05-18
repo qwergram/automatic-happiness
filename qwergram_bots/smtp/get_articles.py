@@ -1,7 +1,7 @@
 """Read emails from $EMAIL_ADDR and post them to the api."""
 
 import imaplib
-
+import email
 
 class Hydrogen(object):
 
@@ -12,6 +12,8 @@ class Hydrogen(object):
         self.opened_inbox = False
         self.authenticated = False
         self.connected = False
+        self.raw_emails = False
+        self.parsed = False
 
         self.email_addr = email_addr
         self.email_pass = email_pass
@@ -41,14 +43,18 @@ class Hydrogen(object):
             self.emails = emails[0].split(b' ')
             self.opened_inbox = True
         else:
-            raise EnvironmentError('checkout the inbox first (Hydrogen.checkout_inbox)')
+            raise EnvironmentError('Checkout the inbox first (Hydrogen.checkout_inbox)')
 
     def read_emails(self):
         if self.opened_inbox:
-            (rv, data) = self.mail.fetch(email_num, '(RFC822)')
+            for i, email_num in enumerate(self.emails):
+                (rv, data) = self.mail.fetch(email_num, '(RFC822)')
+                self.emails[i] = email.message_from_string(data[0][1].decode())
+            self.raw_emails = True
         else:
             raise EnvironmentError('Fetch the emails first (Hydrogen.get_emails)')
 
+    def parse_
 
 if __name__ == "__main__":
     import os
@@ -66,6 +72,8 @@ if __name__ == "__main__":
         email_pass=EMAIL_PASS,
         email_imap=EMAIL_IMAP,
     )
+    Bot.connect()
+    Bot.authenticate()
     Bot.checkout_inbox()
-    # Bot.get_emails()
+    Bot.get_emails()
     Bot.read_emails()
