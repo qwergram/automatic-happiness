@@ -108,4 +108,9 @@ def test_read_emails_executes(HydrogenBot):
     HydrogenBot.authenticate()
     HydrogenBot.checkout_inbox()
     HydrogenBot.get_emails()
+    first_snap = [str(email) for email in HydrogenBot.emails]
     HydrogenBot.read_emails()
+    second_snap = [str(email) for email in HydrogenBot.emails]
+    assert first_snap != second_snap
+    assert HydrogenBot.raw_emails
+    assert HydrogenBot.mail.fetch_count == 2
