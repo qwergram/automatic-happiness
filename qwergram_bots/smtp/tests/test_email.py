@@ -55,5 +55,23 @@ def test_get_emails_without_connect(HydrogenBot):
 
 
 def test_get_emails_without_authenticate(HydrogenBot):
+    HydrogenBot.connect()
     with pytest.raises(EnvironmentError):
         HydrogenBot.get_emails()
+
+
+def test_get_emails_without_checkout(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.get_emails()
+
+
+def test_get_emails_executes(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    HydrogenBot.checkout_inbox()
+    HydrogenBot.get_emails()
+    assert HydrogenBot.mail.search_count == 1
+    assert HydrogenBot.emails == [b'0', b'1']
+    assert HydrogenBot.opened_inbox is True

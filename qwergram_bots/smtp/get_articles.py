@@ -39,6 +39,7 @@ class Hydrogen(object):
         if self.in_inbox:
             (status, emails) = self.mail.search(None, 'ALL')
             self.emails = emails[0].split(b' ')
+            self.opened_inbox = True
         else:
             raise EnvironmentError('checkout the inbox first (Hydrogen.checkout_inbox)')
 
