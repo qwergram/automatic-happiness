@@ -114,3 +114,47 @@ def test_read_emails_executes(HydrogenBot):
     assert first_snap != second_snap
     assert HydrogenBot.raw_emails
     assert HydrogenBot.mail.fetch_count == 2
+
+
+def test_parse_emails_without_connect(HydrogenBot):
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.parse_emails()
+
+
+def test_parse_emails_without_authenticate(HydrogenBot):
+    HydrogenBot.connect()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.parse_emails()
+
+
+def test_parse_emails_without_checkout(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.parse_emails()
+
+
+def test_parse_emails_without_get_emails(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    HydrogenBot.checkout_inbox()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.parse_emails()
+
+
+def test_parse_emails_without_read_emails(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    HydrogenBot.checkout_inbox()
+    HydrogenBot.get_emails()
+    with pytest.raises(EnvironmentError):
+        HydrogenBot.parse_emails()
+
+
+def test_parse_emails_executes(HydrogenBot):
+    HydrogenBot.connect()
+    HydrogenBot.authenticate()
+    HydrogenBot.checkout_inbox()
+    HydrogenBot.get_emails()
+    HydrogenBot.read_emails()
+    HydrogenBot.parse_emails()
