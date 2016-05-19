@@ -109,6 +109,11 @@ class Lithium(object):
         self.email_queue = []
         self.local_endpoint = LOCAL_ENDPOINT
         self.public_endpoint = PUBLIC_ENDPOINT
+        self.admin_name = ADMIN_USER.capitalize()
+        self.admin_email = EMAIL_ADMIN
+
+        self.wait_period = 24
+        self.review_period = 12
 
     def submit_articles(self):
         for article in self.articles:
@@ -122,14 +127,30 @@ class Lithium(object):
             )
             assert response.ok, response.json()
             if email_queue:
-                self.email_queue.append(response.json()['url'])
+                self.email_queue.append(response.json())
 
     def format_emails(self):
-        for email_ in self.email_queue:
-            # email_ = email_.replace(self.local_endpoint, self.public_endpoint)
-
-            print(email_)
-
+        from pprint import pprint
+        for article in self.email_queue:
+            email_contents = (
+            "Hey {admin},\n\n"
+            "About {wait_period} hours ago, you submitted an article ({title}). Due to company policy at "
+            "Qwergram Entertainment Industries, we ask writers to review their work {wait_period} hours after "
+            "submission. Below is what you wrote. Please review what you wrote, and if you still "
+            "feel good about it, great! You can ignore this email and we'll publish your article "
+            "in {review_period} hours. If you see anything you'd like to change, please reply to this email and "
+            "we'll delete this article and you can always submit again.\n\n"
+            "Here's the link where the article currently lives: {link}\n\n\n"
+            "Thanks!\nHydrogen Bot & Lithium Bot\n\n\nThe article you wrote:\n\n{content}"
+            ).format(
+                admin=self.admin_name,
+                wait_period=self.wait_period,
+                title=article['title'],
+                review_period=self.review_period,
+                link=article['url'].replace(self.local_endpoint, self.public_endpoint),
+                content=article['content'],
+            )
+            print(email_contents)
 
 
 if __name__ == "__main__":
