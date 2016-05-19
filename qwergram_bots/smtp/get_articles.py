@@ -112,7 +112,7 @@ class Helium(Hydrogen):
             for message in self.emails:
                 if (
                     self.admin_email in message['from'] and
-                    message['title'].lower().startswith('article #') and
+                    message['subject'].lower().startswith('article #') and
                     'delete' in message['content'].lower()
                 ):
                     emails.append(message['title'].split('#', 1)[-1])
