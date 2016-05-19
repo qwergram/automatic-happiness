@@ -100,35 +100,35 @@ class Hydrogen(object):
             raise EnvironmentError('Parse the emails first (Hydrogen.parse_emails)')
 
 
-class Helium(Hydrogen):
-    """
-    Helium Bot:
-    A bot that checks for replies to any emails that it's sent out.
-    """
-
-    def filter_emails(self):
-        if self.parsed:
-            emails = []
-            for message in self.emails:
-                if (
-                    self.admin_email in message['from'] and
-                    message['subject'].lower().startswith('article #') and
-                    'delete' in message['content'].lower()
-                ):
-                    emails.append(message['title'].split('#', 1)[-1])
-            self.emails = emails
-            self.filtered = True
-        else:
-            raise EnvironmentError('Parse the emails first (Helium.parse_emails)')
-
-    def run(self):
-        self.connect()
-        self.authenticate()
-        self.checkout_inbox()
-        self.get_emails()
-        self.read_emails()
-        self.parse_emails()
-        self.filter_emails()
+# class Helium(Hydrogen):
+#     """
+#     Helium Bot:
+#     A bot that checks for replies to any emails that it's sent out.
+#     """
+#
+#     def filter_emails(self):
+#         if self.parsed:
+#             emails = []
+#             for message in self.emails:
+#                 if (
+#                     self.admin_email in message['from'] and
+#                     message['subject'].lower().startswith('article #') and
+#                     'delete' in message['content'].lower()
+#                 ):
+#                     emails.append(message['title'].split('#', 1)[-1])
+#             self.emails = emails
+#             self.filtered = True
+#         else:
+#             raise EnvironmentError('Parse the emails first (Helium.parse_emails)')
+#
+#     def run(self):
+#         self.connect()
+#         self.authenticate()
+#         self.checkout_inbox()
+#         self.get_emails()
+#         self.read_emails()
+#         self.parse_emails()
+#         self.filter_emails()
 
 class Lithium(object):
     """
@@ -187,8 +187,7 @@ class Lithium(object):
             "Qwergram Entertainment Industries, we ask writers to review their work {wait_period} hours after "
             "submission. Below is what you wrote. Please review what you wrote, and if you still "
             "feel good about it, great! You can ignore this email and we'll publish your article "
-            "in {review_period} hours. If you see anything you'd like to change, please reply to this email and "
-            "we'll delete this article and you can always submit again.\n\n"
+            "in {review_period} hours. If you see anything you'd like to change, please do so at the following link.\n\n"
             "Here's the link where the article currently lives: {link}\n\n\n"
             "Thanks!\nHydrogen Bot & Lithium Bot\n\n\nThe article you wrote:\n\n{content}"
             ).format(
@@ -208,7 +207,7 @@ class Lithium(object):
         HBot = Helium(
             email_addr=self.email_addr,
             email_pass=self.email_pass,
-            email_imap=self.email_imap,
+            email_imap=EMAIL_IMAP,
         )
         HBot.run()
         print(HBot.emails)
@@ -243,15 +242,4 @@ if __name__ == "__main__":
     Bot2.submit_articles()
     Bot2.format_emails()
     Bot2.send_emails()
-    Bot3 = Helium(
-        email_addr=EMAIL_ADDR,
-        email_pass=EMAIL_PASS,
-        email_imap=EMAIL_IMAP,
-    )
-    Bot3.connect()
-    Bot3.authenticate()
-    Bot3.checkout_inbox()
-    Bot3.get_emails()
-    Bot3.read_emails()
-    Bot3.parse_emails()
-    Bot3.filter_emails()
+    Bot2.publish_articles()
