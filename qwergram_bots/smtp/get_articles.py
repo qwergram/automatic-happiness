@@ -121,7 +121,8 @@ class Lithium(object):
             )
             assert response.ok, response.json()
             if email_queue:
-                self.email_queue.append(response.json()['url'])
+                self.email_queue.append(response.json()['url'].replace(self.local_endpoint, '').split('/')[:2])
+
 
 
 
