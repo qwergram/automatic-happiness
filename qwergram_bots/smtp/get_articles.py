@@ -1,6 +1,7 @@
 """Read emails from $EMAIL_ADDR and post them to the api."""
 
 import imaplib
+import smtplib
 import email
 import requests
 from requests.auth import HTTPBasicAuth
@@ -110,8 +111,12 @@ class Lithium(object):
         self.local_endpoint = LOCAL_ENDPOINT
         self.public_endpoint = PUBLIC_ENDPOINT
         self.admin_name = ADMIN_USER.capitalize()
+
         self.admin_email = EMAIL_ADMIN
+        self.email_addr = EMAIL_ADDR
+        self.email_pass = EMAIL_PASS
         self.email_smtp = "{}:{}".format(EMAIL_HOST, EMAIL_PORT)
+
         self.wait_period = 24
         self.review_period = 12
 
@@ -130,7 +135,11 @@ class Lithium(object):
                 self.email_queue.append(response.json())
 
     def send_email(self, email_contents):
-
+        server = smtplib.SMTP(self.email_smtp)
+        server.ehlo()
+        server.starttls()
+        server.login(self.email_addr, self.email_pass)
+        server.sendmail(self.email_addr, self.admin_email, email_contents)
 
     def format_emails(self):
         for article in self.email_queue:
