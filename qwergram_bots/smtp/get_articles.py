@@ -111,7 +111,7 @@ class Lithium(object):
         self.public_endpoint = PUBLIC_ENDPOINT
         self.admin_name = ADMIN_USER.capitalize()
         self.admin_email = EMAIL_ADMIN
-
+        self.email_smtp = "{}:{}".format(EMAIL_HOST, EMAIL_PORT)
         self.wait_period = 24
         self.review_period = 12
 
@@ -129,8 +129,10 @@ class Lithium(object):
             if email_queue:
                 self.email_queue.append(response.json())
 
+    def send_email(self, email_contents):
+
+
     def format_emails(self):
-        from pprint import pprint
         for article in self.email_queue:
             email_contents = (
             "Hey {admin},\n\n"
@@ -150,7 +152,7 @@ class Lithium(object):
                 link=article['url'].replace(self.local_endpoint, self.public_endpoint),
                 content=article['content'],
             )
-            print(email_contents)
+            self.send_email(email_contents)
 
 
 if __name__ == "__main__":
@@ -159,6 +161,8 @@ if __name__ == "__main__":
     EMAIL_ADDR = os.environ['EMAIL_ADDR']
     EMAIL_PASS = os.environ['EMAIL_PASS']
     EMAIL_IMAP = os.environ['EMAIL_IMAP']
+    EMAIL_HOST = os.environ['EMAIL_HOST']
+    EMAIL_PORT = os.environ['EMAIL_PORT']
     EMAIL_ADMIN = os.environ['EMAIL_ADMIN']
     ADMIN_USER = os.environ['ADMIN_USER']
     ADMIN_PASS = os.environ['ADMIN_PASS']
