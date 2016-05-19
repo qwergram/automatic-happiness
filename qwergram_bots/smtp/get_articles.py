@@ -26,6 +26,7 @@ class Hydrogen(object):
         self.email_addr = email_addr
         self.email_pass = email_pass
         self.email_imap = email_imap
+        self.admin_email = EMAIL_ADMIN
 
     def connect(self):
         self.connected = True
@@ -69,6 +70,7 @@ class Hydrogen(object):
                 parsed_email = {
                     'subject': message['Subject'],
                     'time': message['Date'],
+                    'from': message['from'],
                     'content': str(message.get_payload()[0]).split('\n\n', 1)[1].replace('\n', ' ')
                 }
                 self.emails[i] = parsed_email
@@ -83,6 +85,8 @@ class Hydrogen(object):
                 if (
                     message['subject'].endswith('.article.txt') or
                     message['subject'].endswith('.draft.txt')
+                ) and (
+                    self.admin_email in message['from']
                 ):
                     emails.append({
                         "title": message['subject'].replace('.article.txt', '').replace('.draft.txt', ''),
@@ -97,6 +101,11 @@ class Hydrogen(object):
 
 
 class Helium(Hydrogen):
+    """
+    Helium Bot:
+    A bot that checks for replies to any emails that it's sent out.
+    """
+
 
     def filter_emails(self):
         if self.parsed:
