@@ -1,4 +1,4 @@
-email_contents = """
+EMAIL_CONTENTS = """
 From: {from_addr}\r\nTo: {to_addr}\r\nSubject: Article #{article_number}\r\n\r\n
 Hey {admin},
 

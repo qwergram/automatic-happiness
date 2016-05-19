@@ -6,6 +6,7 @@ import email
 import requests
 import datetime
 from requests.auth import HTTPBasicAuth
+from email_template import EMAIL_CONTENTS
 
 
 class Hydrogen(object):
@@ -179,19 +180,7 @@ class Lithium(object):
 
     def format_emails(self):
         for i, article in enumerate(self.email_queue):
-            email_contents = (
-            "From: {from_addr}\r\n"
-            "To: {to_addr}\r\n"
-            "Subject: Article #{article_number}\r\n\r\n"
-            "Hey {admin},\n\n"
-            "Within the last hour, you submitted the article ({title}). Due to company policy at "
-            "Qwergram Entertainment Industries, we ask writers to review their work {wait_period} hours after "
-            "submission. Below is what you wrote. Please review what you wrote, and if you still "
-            "feel good about it, great! You can ignore this email and we'll publish your article "
-            "in {review_period} hours. If you see anything you'd like to change, please do so at the following link.\n\n"
-            "Here's the link where the article currently lives: {link}\n\n\n"
-            "Thanks!\nHydrogen Bot & Lithium Bot\n\n\nThe article you wrote:\n\n{content}"
-            ).format(
+            email_contents = EMAIL_CONTENTS.format(
                 from_addr=self.email_addr,
                 to_addr=self.admin_email,
                 article_number=article['url'].split('/')[-2],
