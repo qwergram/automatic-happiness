@@ -206,8 +206,19 @@ class Lithium(object):
     def publish_articles(self):
         for email_ in self.email_queue:
             subject_line = email_.split('\r\n')[2]
-            subject = subject_line.split('#', 1)[-1].strip()
-            print(subject)
+            article_pk = subject_line.split('#', 1)[-1].strip()
+            target_endpoint = self.local_endpoint + 'articles/{}/'.format(article_pk)
+            response = requests.get(target_endpoint).json()
+            response = requests.put(
+                target_endpoint,
+                data={
+                    "draft": False,
+                    "content": response['content'],
+                    "title": response['title'],
+                },
+                auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
+            )
+            assert response.ok, response.json()
 
 if __name__ == "__main__":
     import os
