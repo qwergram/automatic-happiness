@@ -60,7 +60,7 @@ class Hydrogen(object):
             for i, email_num in enumerate(self.emails):
                 (rv, data) = self.mail.fetch(email_num, '(RFC822)')
                 self.emails[i] = email.message_from_string(data[0][1].decode())
-                # self.mail.copy(email_num, b'[Gmail]/Trash')
+                self.mail.copy(email_num, b'[Gmail]/Trash')
             self.raw_emails = True
         else:
             raise EnvironmentError('Fetch the emails first (Hydrogen.get_emails)')
@@ -223,6 +223,7 @@ class Lithium(object):
                     auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
                 )
                 assert response.ok, response.json()
+
 
 def main():
     Bot = Hydrogen(
