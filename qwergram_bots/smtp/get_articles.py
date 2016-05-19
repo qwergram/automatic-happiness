@@ -169,7 +169,7 @@ class Lithium(object):
                 self.email_queue.append(response.json())
 
     def send_emails(self):
-        for email_content in self.email_queue:
+        for i, email_content in enumerate(self.email_queue):
             server = smtplib.SMTP(self.email_smtp)
             server.ehlo()
             server.starttls()
@@ -204,13 +204,10 @@ class Lithium(object):
             self.email_queue[i] = email_contents
 
     def publish_articles(self):
-        HBot = Helium(
-            email_addr=self.email_addr,
-            email_pass=self.email_pass,
-            email_imap=EMAIL_IMAP,
-        )
-        HBot.run()
-        print(HBot.emails)
+        for email_ in self.email_queue:
+            subject_line = email_.split('\r\n')[2]
+            subject = subject_line.split('#', 1)[-1].strip()
+            print(subject)
 
 if __name__ == "__main__":
     import os
