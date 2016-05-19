@@ -134,15 +134,16 @@ class Lithium(object):
             if email_queue:
                 self.email_queue.append(response.json())
 
-    def send_email(self, email_contents):
-        server = smtplib.SMTP(self.email_smtp)
-        server.ehlo()
-        server.starttls()
-        server.login(self.email_addr, self.email_pass)
-        server.sendmail(self.email_addr, self.admin_email, email_contents)
+    def send_email(self):
+        for email_content in self.email_queue:
+            server = smtplib.SMTP(self.email_smtp)
+            server.ehlo()
+            server.starttls()
+            server.login(self.email_addr, self.email_pass)
+            server.sendmail(self.email_addr, self.admin_email, email_content)
 
     def format_emails(self):
-        for article in self.email_queue:
+        for i, article in enumerate(self.email_queue):
             email_contents = (
             "Hey {admin},\n\n"
             "About {wait_period} hours ago, you submitted an article ({title}). Due to company policy at "
@@ -161,7 +162,7 @@ class Lithium(object):
                 link=article['url'].replace(self.local_endpoint, self.public_endpoint),
                 content=article['content'],
             )
-            self.send_email(email_contents)
+            self.email_queue[i] = email_contents
 
 
 if __name__ == "__main__":
