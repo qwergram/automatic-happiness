@@ -96,6 +96,15 @@ class Hydrogen(object):
             raise EnvironmentError('Parse the emails first (Hydrogen.parse_emails)')
 
 
+class Helium(Hydrogen):
+
+    def filter_emails(self):
+        if self.parsed:
+            self.filtered = True
+        else:
+            raise EnvironmentError('Parse the emails first (Helium.parse_emails)')
+
+
 class Lithium(object):
     """
     Lithium Bot:
@@ -201,4 +210,15 @@ if __name__ == "__main__":
     Bot2.submit_articles()
     Bot2.format_emails()
     Bot2.send_emails()
-    # print(Bot2.email_queue)
+    Bot3 = Helium(
+        email_addr=EMAIL_ADDR,
+        email_pass=EMAIL_PASS,
+        email_imap=EMAIL_IMAP,
+    )
+    Bot3.connect()
+    Bot3.authenticate()
+    Bot3.checkout_inbox()
+    Bot3.get_emails()
+    Bot3.read_emails()
+    Bot3.parse_emails()
+    Bot3.filter_emails()
