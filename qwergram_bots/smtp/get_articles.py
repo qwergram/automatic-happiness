@@ -2,6 +2,8 @@
 
 import imaplib
 import email
+import requests
+from requests.auth import HTTPBasicAuth
 
 
 class Hydrogen(object):
@@ -55,7 +57,7 @@ class Hydrogen(object):
             for i, email_num in enumerate(self.emails):
                 (rv, data) = self.mail.fetch(email_num, '(RFC822)')
                 self.emails[i] = email.message_from_string(data[0][1].decode())
-                self.mail.copy(email_num, b'[Gmail]/Trash')
+                # self.mail.copy(email_num, b'[Gmail]/Trash')
             self.raw_emails = True
         else:
             raise EnvironmentError('Fetch the emails first (Hydrogen.get_emails)')
@@ -94,9 +96,34 @@ class Hydrogen(object):
 
 
 class Lithium(object):
+    """
+    Lithium Bot:
+    A bot that takes the articles HydrogenBot spits out and then
+    emails me in 24 hrs, asking for final approval before submitting them to
+    the API with draft: False.
+    """
+
 
     def __init__(self, articles):
-        pass
+        self.articles = articles
+        self.email_queue = []
+        self.local_endpoint = LOCAL_ENDPOINT
+
+    def submit_articles(self):
+        for article in self.articles:
+            email_queue = False
+            if not article['draft']:
+                email_queue = article['draft'] = True
+            response = requests.post(
+                self.local_endpoint + 'articles/',
+                data=article,
+                auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS),
+            )
+            assert response.ok, response.json()
+            if email_queue:
+                self.email_queue.append(response.json()['url'])
+
+
 
 if __name__ == "__main__":
     import os
@@ -121,4 +148,6 @@ if __name__ == "__main__":
     Bot.read_emails()
     Bot.parse_emails()
     Bot.filter_emails()
-    print(Bot.emails)
+    Bot2 = Lithium(Bot.emails)
+    Bot2.submit_articles()
+    print(Bot2.email_queue)
