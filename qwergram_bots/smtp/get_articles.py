@@ -134,7 +134,7 @@ class Lithium(object):
             if email_queue:
                 self.email_queue.append(response.json())
 
-    def send_email(self):
+    def send_emails(self):
         for email_content in self.email_queue:
             server = smtplib.SMTP(self.email_smtp)
             server.ehlo()
@@ -145,6 +145,8 @@ class Lithium(object):
     def format_emails(self):
         for i, article in enumerate(self.email_queue):
             email_contents = (
+            "From: {from_addr}\r\n"
+            "To: {to_addr}\r\n"
             "Subject: Article #{article_number}\r\n\r\n"
             "Hey {admin},\n\n"
             "About {wait_period} hours ago, you submitted an article ({title}). Due to company policy at "
@@ -156,6 +158,8 @@ class Lithium(object):
             "Here's the link where the article currently lives: {link}\n\n\n"
             "Thanks!\nHydrogen Bot & Lithium Bot\n\n\nThe article you wrote:\n\n{content}"
             ).format(
+                from_addr=self.email_addr,
+                to_addr=self.admin_email,
                 article_number=article['url'].split('/')[-2],
                 admin=self.admin_name,
                 wait_period=self.wait_period,
@@ -196,4 +200,5 @@ if __name__ == "__main__":
     Bot2 = Lithium(Bot.emails)
     Bot2.submit_articles()
     Bot2.format_emails()
+    Bot2.send_emails()
     # print(Bot2.email_queue)
