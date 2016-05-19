@@ -108,6 +108,7 @@ class Lithium(object):
         self.articles = articles
         self.email_queue = []
         self.local_endpoint = LOCAL_ENDPOINT
+        self.public_endpoint = PUBLIC_ENDPOINT
 
     def submit_articles(self):
         for article in self.articles:
@@ -121,8 +122,13 @@ class Lithium(object):
             )
             assert response.ok, response.json()
             if email_queue:
-                self.email_queue.append(response.json()['url'].replace(self.local_endpoint, '').split('/')[:2])
+                self.email_queue.append(response.json()['url'])
 
+    def format_emails(self):
+        for email_ in self.email_queue:
+            # email_ = email_.replace(self.local_endpoint, self.public_endpoint)
+
+            print(email_)
 
 
 
@@ -136,6 +142,7 @@ if __name__ == "__main__":
     ADMIN_USER = os.environ['ADMIN_USER']
     ADMIN_PASS = os.environ['ADMIN_PASS']
     LOCAL_ENDPOINT = "http://127.0.0.1:8000/api/v1/"
+    PUBLIC_ENDPOINT = "http://{}/api/v1/".format(os.environ['SERVER_LOCATION'])
 
     Bot = Hydrogen(
         email_addr=EMAIL_ADDR,
@@ -151,4 +158,5 @@ if __name__ == "__main__":
     Bot.filter_emails()
     Bot2 = Lithium(Bot.emails)
     Bot2.submit_articles()
-    print(Bot2.email_queue)
+    Bot2.format_emails()
+    # print(Bot2.email_queue)
