@@ -106,9 +106,17 @@ class Helium(Hydrogen):
     A bot that checks for replies to any emails that it's sent out.
     """
 
-
     def filter_emails(self):
         if self.parsed:
+            emails = []
+            for message in self.emails:
+                if (
+                    self.admin_email in message['from'] and
+                    message['title'].lower().startswith('article #') and
+                    'delete' in message['content'].lower()
+                ):
+                    emails.append(message['title'].split('#', 1)[-1])
+            self.emails = emails
             self.filtered = True
         else:
             raise EnvironmentError('Parse the emails first (Helium.parse_emails)')
