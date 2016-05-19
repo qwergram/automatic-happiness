@@ -145,6 +145,7 @@ class Lithium(object):
     def format_emails(self):
         for i, article in enumerate(self.email_queue):
             email_contents = (
+            "Subject: Article #{article_number}\r\n\r\n"
             "Hey {admin},\n\n"
             "About {wait_period} hours ago, you submitted an article ({title}). Due to company policy at "
             "Qwergram Entertainment Industries, we ask writers to review their work {wait_period} hours after "
@@ -155,6 +156,7 @@ class Lithium(object):
             "Here's the link where the article currently lives: {link}\n\n\n"
             "Thanks!\nHydrogen Bot & Lithium Bot\n\n\nThe article you wrote:\n\n{content}"
             ).format(
+                article_number=article['url'].split('/')[-2],
                 admin=self.admin_name,
                 wait_period=self.wait_period,
                 title=article['title'],
