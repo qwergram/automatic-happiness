@@ -121,6 +121,14 @@ class Helium(Hydrogen):
         else:
             raise EnvironmentError('Parse the emails first (Helium.parse_emails)')
 
+    def run(self):
+        self.connect()
+        self.authenticate()
+        self.checkout_inbox()
+        self.get_emails()
+        self.read_emails()
+        self.parse_emails()
+        self.filter_emails()
 
 class Lithium(object):
     """
@@ -196,6 +204,14 @@ class Lithium(object):
             )
             self.email_queue[i] = email_contents
 
+    def publish_articles(self):
+        HBot = Helium(
+            email_addr=self.email_addr,
+            email_pass=self.email_pass,
+            email_imap=self.email_imap,
+        )
+        HBot.run()
+        print(HBot.emails)
 
 if __name__ == "__main__":
     import os
