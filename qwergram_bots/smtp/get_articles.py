@@ -4,6 +4,7 @@ import imaplib
 import smtplib
 import email
 import requests
+import datetime
 from requests.auth import HTTPBasicAuth
 
 
@@ -183,7 +184,7 @@ class Lithium(object):
             "To: {to_addr}\r\n"
             "Subject: Article #{article_number}\r\n\r\n"
             "Hey {admin},\n\n"
-            "About {wait_period} hours ago, you submitted an article ({title}). Due to company policy at "
+            "Within the last hour, you submitted the article ({title}). Due to company policy at "
             "Qwergram Entertainment Industries, we ask writers to review their work {wait_period} hours after "
             "submission. Below is what you wrote. Please review what you wrote, and if you still "
             "feel good about it, great! You can ignore this email and we'll publish your article "
@@ -209,31 +210,21 @@ class Lithium(object):
             article_pk = subject_line.split('#', 1)[-1].strip()
             target_endpoint = self.local_endpoint + 'articles/{}/'.format(article_pk)
             response = requests.get(target_endpoint).json()
-            response = requests.put(
-                target_endpoint,
-                data={
-                    "draft": False,
-                    "content": response['content'],
-                    "title": response['title'],
-                },
-                auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
-            )
-            assert response.ok, response.json()
+            date_created = response['date_created'].split('.')[0] # Ignore the seconds decimal places
+            date_created = datetime.datetime.strptime(date_created, '%Y-%m-%dT%H:%M:%S')
+            if datetime.now() > date_created + datetime.timedelta(hours=23):
+                response = requests.put(
+                    target_endpoint,
+                    data={
+                        "draft": False,
+                        "content": response['content'],
+                        "title": response['title'],
+                    },
+                    auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
+                )
+                assert response.ok, response.json()
 
-if __name__ == "__main__":
-    import os
-
-    EMAIL_ADDR = os.environ['EMAIL_ADDR']
-    EMAIL_PASS = os.environ['EMAIL_PASS']
-    EMAIL_IMAP = os.environ['EMAIL_IMAP']
-    EMAIL_HOST = os.environ['EMAIL_HOST']
-    EMAIL_PORT = os.environ['EMAIL_PORT']
-    EMAIL_ADMIN = os.environ['EMAIL_ADMIN']
-    ADMIN_USER = os.environ['ADMIN_USER']
-    ADMIN_PASS = os.environ['ADMIN_PASS']
-    LOCAL_ENDPOINT = "http://127.0.0.1:8000/api/v1/"
-    PUBLIC_ENDPOINT = "http://{}/api/v1/".format(os.environ['SERVER_LOCATION'])
-
+def main():
     Bot = Hydrogen(
         email_addr=EMAIL_ADDR,
         email_pass=EMAIL_PASS,
@@ -250,4 +241,22 @@ if __name__ == "__main__":
     Bot2.submit_articles()
     Bot2.format_emails()
     Bot2.send_emails()
+    # Wait 23 hours
     Bot2.publish_articles()
+
+
+if __name__ == "__main__":
+    import os
+
+    EMAIL_ADDR = os.environ['EMAIL_ADDR']
+    EMAIL_PASS = os.environ['EMAIL_PASS']
+    EMAIL_IMAP = os.environ['EMAIL_IMAP']
+    EMAIL_HOST = os.environ['EMAIL_HOST']
+    EMAIL_PORT = os.environ['EMAIL_PORT']
+    EMAIL_ADMIN = os.environ['EMAIL_ADMIN']
+    ADMIN_USER = os.environ['ADMIN_USER']
+    ADMIN_PASS = os.environ['ADMIN_PASS']
+    LOCAL_ENDPOINT = "http://127.0.0.1:8000/api/v1/"
+    PUBLIC_ENDPOINT = "http://{}/api/v1/".format(os.environ['SERVER_LOCATION'])
+
+    main()
