@@ -5,6 +5,7 @@ REQUIRES = [
     'django',
     'djangorestframework',
     'django-cors-headers',
+    'requests',
 ]
 TEST = [
     'tox',
