@@ -30,12 +30,13 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   git clone $SERVER_REPO api
   echo "Updating code..."
   cd api/
-  git pull origin master
+  git pull origin sprint-1
   echo "Launching new server..."
   cd qwergram_api/
   gunicorn -w 4 qwergram_api.wsgi:application -D
   cd ../qwergram_bots/
-  bash launch_bots.sh
+  echo "Booting up Hydrogen and Lithium Bot..."
+  python3 -m smtp.get_articles
 EOF
 
 echo "EC2 INSTANCE DEPLOYED!"
