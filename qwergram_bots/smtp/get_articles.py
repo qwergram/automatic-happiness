@@ -234,6 +234,7 @@ def main():
             email_addr=EMAIL_ADDR,
             email_pass=EMAIL_PASS,
             email_imap=EMAIL_IMAP,
+            email_admin=EMAIL_ADMIN,
         )
         Bot.connect()
         Bot.authenticate()
@@ -242,7 +243,18 @@ def main():
         Bot.read_emails()
         Bot.parse_emails()
         Bot.filter_emails()
-        Bot2 = Lithium(Bot.emails)
+        Bot2 = Lithium(
+            articles=Bot.emails,
+            local_endpoint=LOCAL_ENDPOINT,
+            public_endpoint=PUBLIC_ENDPOINT,
+            admin_user=ADMIN_USER,
+            email_admin=EMAIL_ADMIN,
+            email_addr=EMAIL_ADDR,
+            email_pass=EMAIL_PASS,
+            email_host=EMAIL_HOST,
+            email_port=EMAIL_PORT,
+            admin_pass=ADMIN_PASS
+        )
         Bot2.submit_articles()
         Bot2.format_emails()
         Bot2.send_emails()
