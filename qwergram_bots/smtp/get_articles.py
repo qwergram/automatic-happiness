@@ -151,13 +151,16 @@ class Lithium(object):
 
     def __init__(
         self, articles, local_endpoint, public_endpoint, admin_user,
-        email_admin, email_addr, email_pass, email_host, email_port
+        email_admin, email_addr, email_pass, email_host, email_port,
+        admin_pass
     ):
         self.articles = articles
         self.email_queue = []
         self.local_endpoint = local_endpoint
         self.public_endpoint = public_endpoint
+        self.admin_user = admin_user
         self.admin_name = admin_user.capitalize()
+        self.admin_pass = admin_pass
 
         self.admin_email = email_admin
         self.email_addr = email_addr
@@ -175,7 +178,7 @@ class Lithium(object):
             response = requests.post(
                 self.local_endpoint + 'articles/',
                 data=article,
-                auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS),
+                auth=HTTPBasicAuth(self.admin_user, self.admin_pass),
             )
             assert response.ok, response.json()
             if email_queue:
@@ -220,7 +223,7 @@ class Lithium(object):
                         "content": response['content'],
                         "title": response['title'],
                     },
-                    auth=HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
+                    auth=HTTPBasicAuth(self.admin_user, self.admin_pass)
                 )
                 assert response.ok, response.json()
 
