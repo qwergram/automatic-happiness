@@ -7,6 +7,10 @@ import requests
 import datetime
 from requests.auth import HTTPBasicAuth
 from email_template import EMAIL_CONTENTS
+import time
+
+
+HOUR = 60 * 60 * 60
 
 
 class Hydrogen(object):
@@ -51,7 +55,10 @@ class Hydrogen(object):
     def get_emails(self):
         if self.in_inbox:
             (status, emails) = self.mail.search(None, 'ALL')
-            self.emails = emails[0].split(b' ')
+            if emails[0]:
+                self.emails = emails[0].split(b' ')
+            else:
+                import sys; sys.exit(0)
             self.opened_inbox = True
         else:
             raise EnvironmentError('Checkout the inbox first (Hydrogen.checkout_inbox)')
@@ -218,24 +225,26 @@ class Lithium(object):
 
 
 def main():
-    Bot = Hydrogen(
-        email_addr=EMAIL_ADDR,
-        email_pass=EMAIL_PASS,
-        email_imap=EMAIL_IMAP,
-    )
-    Bot.connect()
-    Bot.authenticate()
-    Bot.checkout_inbox()
-    Bot.get_emails()
-    Bot.read_emails()
-    Bot.parse_emails()
-    Bot.filter_emails()
-    Bot2 = Lithium(Bot.emails)
-    Bot2.submit_articles()
-    Bot2.format_emails()
-    Bot2.send_emails()
-    # Wait 23 hours
-    Bot2.publish_articles()
+    while True:
+        Bot = Hydrogen(
+            email_addr=EMAIL_ADDR,
+            email_pass=EMAIL_PASS,
+            email_imap=EMAIL_IMAP,
+        )
+        Bot.connect()
+        Bot.authenticate()
+        Bot.checkout_inbox()
+        Bot.get_emails()
+        Bot.read_emails()
+        Bot.parse_emails()
+        Bot.filter_emails()
+        Bot2 = Lithium(Bot.emails)
+        Bot2.submit_articles()
+        Bot2.format_emails()
+        Bot2.send_emails()
+        # Wait 23 hours
+        Bot2.publish_articles()
+        time.sleep(HOUR)
 
 
 if __name__ == "__main__":
