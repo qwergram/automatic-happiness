@@ -4,10 +4,11 @@ import imaplib
 import smtplib
 import email
 import datetime
+import time
 from smtp.email_template import EMAIL_CONTENTS
 
 
-HOUR = 60 * 60 * 60
+HOUR = 0
 
 
 def http_get(*args, **kwargs):
@@ -248,8 +249,8 @@ if __name__ == "__main__":
     import os
     import requests
     from requests.auth import HTTPBasicAuth
-    import time
 
+    HOUR = 60 * 60 * 60
     EMAIL_ADDR = os.environ['EMAIL_ADDR']
     EMAIL_PASS = os.environ['EMAIL_PASS']
     EMAIL_IMAP = os.environ['EMAIL_IMAP']
