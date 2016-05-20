@@ -1,6 +1,5 @@
 EMAIL_CONTENTS = """
-From: {from_addr}\r\nTo: {to_addr}\r\nSubject: Article #{article_number}\r\n\r\n
-Hey {admin},
+From: {from_addr}\r\nTo: {to_addr}\r\nSubject: Article #{article_number}\r\n\r\nHey {admin},
 
 Within the last hour, you submitted the article ({title}). Due to company policy at
 Qwergram Entertainment Industries, we ask all writers to think about what they wrote
