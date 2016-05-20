@@ -110,36 +110,6 @@ class Hydrogen(object):
             raise EnvironmentError('Parse the emails first (Hydrogen.parse_emails)')
 
 
-# class Helium(Hydrogen):
-#     """
-#     Helium Bot:
-#     A bot that checks for replies to any emails that it's sent out.
-#     """
-#
-#     def filter_emails(self):
-#         if self.parsed:
-#             emails = []
-#             for message in self.emails:
-#                 if (
-#                     self.admin_email in message['from'] and
-#                     message['subject'].lower().startswith('article #') and
-#                     'delete' in message['content'].lower()
-#                 ):
-#                     emails.append(message['title'].split('#', 1)[-1])
-#             self.emails = emails
-#             self.filtered = True
-#         else:
-#             raise EnvironmentError('Parse the emails first (Helium.parse_emails)')
-#
-#     def run(self):
-#         self.connect()
-#         self.authenticate()
-#         self.checkout_inbox()
-#         self.get_emails()
-#         self.read_emails()
-#         self.parse_emails()
-#         self.filter_emails()
-
 class Lithium(object):
     """
     Lithium Bot:
@@ -213,7 +183,7 @@ class Lithium(object):
             article_pk = subject_line.split('#', 1)[-1].strip()
             target_endpoint = self.local_endpoint + 'articles/{}/'.format(article_pk)
             response = requests.get(target_endpoint).json()
-            date_created = response['date_created'].split('.')[0] # Ignore the seconds decimal places
+            date_created = response['date_created'].split('.')[0]  # Ignore the seconds decimal places
             date_created = datetime.datetime.strptime(date_created, '%Y-%m-%dT%H:%M:%S')
             if datetime.datetime.now() > date_created + datetime.timedelta(hours=23):
                 response = requests.put(
