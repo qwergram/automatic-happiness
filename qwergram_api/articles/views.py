@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, views, response, status
 from django.contrib.auth.models import User, Group
 from articles import models
 from articles import serializers
@@ -42,8 +42,13 @@ class RepostViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly, )
 
 
-class GithubViewSet(viewsets.ModelViewSet):
+class GithubViewSet(views.APIView):
     """API endpoint that views Github models."""
-    query_set = []
-    serializer_class = serializers.GithubSerializer
     permission_classes = (IsAdminOrReadOnly, )
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        usernames = []
+        return response.Response(usernames, status=status.HTTP_200_OK)
