@@ -58,9 +58,12 @@ class Hydrogen(object):
 
     def read_emails(self):
         if self.opened_inbox:
+            to_delete = self.emails[:]
             for i, email_num in enumerate(self.emails):
                 (rv, data) = self.mail.fetch(email_num, '(RFC822)')
                 self.emails[i] = email.message_from_string(data[0][1].decode())
+            for email_num in to_delete:
+                self.checkout_inbox()
                 self.mail.copy(email_num, b'[Gmail]/Trash')
             self.raw_emails = True
         else:
@@ -201,7 +204,7 @@ class Lithium(object):
             response = requests.get(target_endpoint).json()
             date_created = response['date_created'].split('.')[0] # Ignore the seconds decimal places
             date_created = datetime.datetime.strptime(date_created, '%Y-%m-%dT%H:%M:%S')
-            if datetime.now() > date_created + datetime.timedelta(hours=23):
+            if datetime.datetime.now() > date_created + datetime.timedelta(hours=23):
                 response = requests.put(
                     target_endpoint,
                     data={
