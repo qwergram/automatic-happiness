@@ -34,6 +34,8 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   echo "Launching new server..."
   cd qwergram_api/
   gunicorn -w 4 qwergram_api.wsgi:application -D
+  cd ../qwergram_bots/
+  bash launch_bots.sh
 EOF
 
 echo "EC2 INSTANCE DEPLOYED!"
