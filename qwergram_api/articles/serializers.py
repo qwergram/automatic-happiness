@@ -40,6 +40,7 @@ class RepostSerializer(serializers.HyperlinkedModelSerializer):
 
 class GithubSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the Github Repos."""
+    id = serializers.IntegerField()
     clone_url = serializers.URLField()
     commits_url = serializers.URLField()
     created_at = serializers.DateTimeField()  # iso-8601 format

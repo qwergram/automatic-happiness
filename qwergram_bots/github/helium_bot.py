@@ -20,6 +20,7 @@ class Helium(object):
     def update_local_api(self):
         if self.raw_repos:
             display_content = {
+                "id": None,
                 "clone_url": None,
                 "commits_url": None,
                 "created_at": None,
