@@ -149,17 +149,20 @@ class Lithium(object):
     """
 
 
-    def __init__(self, articles):
+    def __init__(
+        self, articles, local_endpoint, public_endpoint, admin_user,
+        email_admin, email_addr, email_pass, email_host, email_port
+    ):
         self.articles = articles
         self.email_queue = []
-        self.local_endpoint = LOCAL_ENDPOINT
-        self.public_endpoint = PUBLIC_ENDPOINT
-        self.admin_name = ADMIN_USER.capitalize()
+        self.local_endpoint = local_endpoint
+        self.public_endpoint = public_endpoint
+        self.admin_name = admin_user.capitalize()
 
-        self.admin_email = EMAIL_ADMIN
-        self.email_addr = EMAIL_ADDR
-        self.email_pass = EMAIL_PASS
-        self.email_smtp = "{}:{}".format(EMAIL_HOST, EMAIL_PORT)
+        self.admin_email = email_admin
+        self.email_addr = email_addr
+        self.email_pass = email_pass
+        self.email_smtp = "{}:{}".format(email_host, email_port)
 
         self.wait_period = 24
         self.review_period = 12
