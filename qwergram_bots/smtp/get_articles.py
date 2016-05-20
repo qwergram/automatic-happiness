@@ -13,15 +13,15 @@ HOUR = 0
 
 
 def http_get(*args, **kwargs):
-    return requests.get(args, kwargs)
+    return requests.get(*args, **kwargs)
 
 
 def http_post(*args, **kwargs):
-    return requests.post(args, kwargs)
+    return requests.post(*args, **kwargs)
 
 
 def http_put(*args, **kwargs):
-    return requests.put(args, kwargs)
+    return requests.put(*args, **kwargs)
 
 
 class Hydrogen(object):
