@@ -5,10 +5,21 @@ import smtplib
 import email
 import datetime
 from smtp.email_template import EMAIL_CONTENTS
-import time
 
 
 HOUR = 60 * 60 * 60
+
+
+def http_get(*args, **kwargs):
+    return requests.get(args, kwargs)
+
+
+def http_post(*args, **kwargs):
+    return requests.post(args, kwargs)
+
+
+def http_put(*args, **kwargs):
+    return requests.put(args, kwargs)
 
 
 class Hydrogen(object):
@@ -145,7 +156,7 @@ class Lithium(object):
             email_queue = False
             if not article['draft']:
                 email_queue = article['draft'] = True
-            response = requests.post(
+            response = http_post(
                 self.local_endpoint + 'articles/',
                 data=article,
                 auth=HTTPBasicAuth(self.admin_user, self.admin_pass),
@@ -182,11 +193,11 @@ class Lithium(object):
             subject_line = email_.split('\r\n')[2]
             article_pk = subject_line.split('#', 1)[-1].strip()
             target_endpoint = self.local_endpoint + 'articles/{}/'.format(article_pk)
-            response = requests.get(target_endpoint).json()
+            response = http_get(target_endpoint).json()
             date_created = response['date_created'].split('.')[0]  # Ignore the seconds decimal places
             date_created = datetime.datetime.strptime(date_created, '%Y-%m-%dT%H:%M:%S')
-            if datetime.datetime.now() > date_created + datetime.timedelta(hours=23):
-                response = requests.put(
+            if datetime.datetime.now() > date_created + datetime.timedelta(hours=self.wait_period - 1):
+                response = http_put(
                     target_endpoint,
                     data={
                         "draft": False,
@@ -237,6 +248,7 @@ if __name__ == "__main__":
     import os
     import requests
     from requests.auth import HTTPBasicAuth
+    import time
 
     EMAIL_ADDR = os.environ['EMAIL_ADDR']
     EMAIL_PASS = os.environ['EMAIL_PASS']
