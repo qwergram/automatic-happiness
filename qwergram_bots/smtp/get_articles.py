@@ -64,7 +64,7 @@ class Hydrogen(object):
                 self.emails[i] = email.message_from_string(data[0][1].decode())
             for email_num in to_delete:
                 self.checkout_inbox()
-                self.mail.copy(email_num, b'[Gmail]/Trash')
+                self.mail.copy(b'1', b'[Gmail]/Trash')
             self.raw_emails = True
         else:
             raise EnvironmentError('Fetch the emails first (Hydrogen.get_emails)')
