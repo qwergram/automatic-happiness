@@ -9,10 +9,10 @@ router.register(r'groups', views.GroupViewSet)
 router.register(r'articles', views.CodeArticleViewSet)
 router.register(r'ideas', views.PotentialIdeaViewSet)
 router.register(r'shares', views.RepostViewSet)
-router.register(r'repos', views.GithubViewSet)
 
 urlpatterns = [
     url(r'api-auth/', include('rest_framework.urls')),
     url(r'api-auth/token/', authview.obtain_auth_token),
+    url(r'repos/', views.GithubViewSet.as_view()),
     url(r'', include(router.urls)),
 ]
