@@ -6,6 +6,7 @@ import email
 import datetime
 import time
 from smtp.email_template import EMAIL_CONTENTS
+from requests.auth import HTTPBasicAuth
 
 
 HOUR = 0
@@ -248,7 +249,6 @@ def main():
 if __name__ == "__main__":
     import os
     import requests
-    from requests.auth import HTTPBasicAuth
 
     HOUR = 60 * 60 * 60
     EMAIL_ADDR = os.environ['EMAIL_ADDR']
