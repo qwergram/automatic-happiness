@@ -40,3 +40,10 @@ class RepostViewSet(viewsets.ModelViewSet):
     queryset = models.RepostModel.objects.all().order_by('-date_posted')
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
+
+
+class GithubViewSet(viewsets.ModelViewSet):
+    """API endpoint that views Github models."""
+    query_set = []
+    serializer_class = serializers.GithubSerializer
+    permission_classes = (IsAdminOrReadOnly, )
