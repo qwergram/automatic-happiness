@@ -3,10 +3,8 @@
 import imaplib
 import smtplib
 import email
-import requests
 import datetime
-from requests.auth import HTTPBasicAuth
-from email_template import EMAIL_CONTENTS
+from smtp.email_template import EMAIL_CONTENTS
 import time
 
 
@@ -249,6 +247,8 @@ def main():
 
 if __name__ == "__main__":
     import os
+    import requests
+    from requests.auth import HTTPBasicAuth
 
     EMAIL_ADDR = os.environ['EMAIL_ADDR']
     EMAIL_PASS = os.environ['EMAIL_PASS']
