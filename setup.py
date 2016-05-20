@@ -5,11 +5,16 @@ REQUIRES = [
     'django',
     'djangorestframework',
     'django-cors-headers',
+    'requests',
 ]
 TEST = [
     'tox',
     'coverage',
-    'django-nose'
+    'django-nose',
+    'pytest',
+    'pytest-cov',
+    'flask',
+    'nose',
 ]
 DEV = [
     'ipython',

@@ -92,7 +92,7 @@ class UserAPIAccessTest(UserFactory):
 
     def test_users_access_unauth(self):
         response = self.client.get(self.user_endpoint)
-        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
     def test_users_create_admin(self):
@@ -106,7 +106,7 @@ class UserAPIAccessTest(UserFactory):
 
     def test_users_create_unauth(self):
         response = self.client.post(self.user_endpoint, self.post_example)
-        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
 
@@ -128,7 +128,7 @@ class GroupAPIAccessTest(UserFactory):
 
     def test_groups_access_unauth(self):
         response = self.client.get(self.group_endpoint)
-        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
     def test_groups_create_admin(self):
@@ -142,7 +142,7 @@ class GroupAPIAccessTest(UserFactory):
 
     def test_groups_create_unauth(self):
         response = self.client.post(self.group_endpoint, self.post_example)
-        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
 
@@ -178,7 +178,7 @@ class ArticlesAPIAccessTest(UserFactory):
 
     def test_articles_create_unauth(self):
         response = self.client.post(self.article_endpoint, self.post_example)
-        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
 
@@ -214,7 +214,7 @@ class IdeasAPIAccessTest(UserFactory):
 
     def test_ideas_create_unauth(self):
         response = self.client.post(self.idea_endpoint, self.post_example)
-        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
 
 
@@ -250,5 +250,5 @@ class SharesAPIAccessTest(UserFactory):
 
     def test_shares_create_unauth(self):
         response = self.client.post(self.share_endpoint, self.post_example)
-        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
