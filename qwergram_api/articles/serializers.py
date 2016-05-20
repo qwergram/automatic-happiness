@@ -36,3 +36,19 @@ class RepostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.RepostModel
         exclude = []
+
+
+class GithubSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the Github Repos."""
+    clone_url = serializers.URLField()
+    commits_url = serializers.URLField()
+    created_at = serializers.DateTimeField()  # iso-8601 format
+    description = serializers.CharField()
+    home_page = serializers.URLField()
+    html_url = serializers.URLField()
+    language = serializers.CharField()
+    open_issues = serializers.IntegerField()
+    pushed_at = serializers.DateTimeField()
+    size = serializers.IntegerField()
+    updated_at = serializers.DateTimeField()
+    watchers = serializers.IntegerField()
