@@ -13,6 +13,8 @@ TEST = [
     'django-nose',
     'pytest',
     'pytest-cov',
+    'flask',
+    'nose',
 ]
 DEV = [
     'ipython',
