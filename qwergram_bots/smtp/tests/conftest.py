@@ -1,6 +1,6 @@
 """Test Hydrogen mockers"""
 import pytest
-from smtp.get_articles import Hydrogen
+from smtp.get_articles import Hydrogen, Lithium
 
 
 class MockMail(object):
