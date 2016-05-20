@@ -17,7 +17,7 @@ class Hydrogen(object):
     A bot that reads my emails and saves the proper emails to the API endpoint.
     """
 
-    def __init__(self, email_addr, email_pass, email_imap):
+    def __init__(self, email_addr, email_pass, email_imap, email_admin):
 
         self.emails = []
         self.in_inbox = False
@@ -30,7 +30,7 @@ class Hydrogen(object):
         self.email_addr = email_addr
         self.email_pass = email_pass
         self.email_imap = email_imap
-        self.admin_email = EMAIL_ADMIN
+        self.admin_email = email_admin
 
     def connect(self):
         self.connected = True
