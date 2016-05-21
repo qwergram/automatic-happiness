@@ -8,7 +8,7 @@ import requests
 
 # Import helium bot here
 hbot_loc = __file__.split('qwergram')[0] + 'qwergram_bots/github/'
-assert hbot_loc.endswith('/blog/qwergram_bots/github/')
+assert hbot_loc.endswith('/blog/qwergram_bots/github/'), hbot_loc
 sys.path.append(hbot_loc)
 from helium_bot import GITHUB_ENDPOINT, Helium
 
