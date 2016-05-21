@@ -175,7 +175,7 @@ var RepoBox = React.createClass({
       'title': 'Getting latest repositories...',
       'link': 'http://qwergram.github.com/',
       'short_description': 'Hold on...',
-      'updated_at': 'T',
+      'updated_at': 'T'
     }]};
   },
   loadReposFromServer: function() {
@@ -200,22 +200,22 @@ var RepoBox = React.createClass({
   },
   render: function() {
     return (
-      <div className="repo">
+      <div>
         {
           this.state.data.map(function(idea) {
             return (
               <article className="post">
                 <header>
                   <div className="title">
-                    <h2><a href="#">{idea['full_name']}</a></h2>
+                    <h2><a href="#">{idea['full_name'].split('/')[1]}</a></h2>
                   </div>
                   <div className="meta">
                     <time className="published" datetime={idea['updated_at']}>
-                      {idea['updated_at'].split('T')[0]}
+
                     </time>
                     <a href="#me" className="author">
                       <span className="name">
-                        qwergram
+                        {idea['full_name'].split('/')[0]}
                       </span>
                       <img src="images/avatar.jpg" alt="" />
                     </a>
