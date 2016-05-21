@@ -1,5 +1,6 @@
 """Get a list of the most recent stuff I've been doing on github"""
 
+GITHUB_ENDPOINT = "https://api.github.com"
 
 class Helium(object):
 
@@ -46,7 +47,7 @@ class Helium(object):
 
 if __name__ == "__main__":
     import requests
-    GITHUB_ENDPOINT = "https://api.github.com"
+
     Bot = Helium(GITHUB_ENDPOINT)
     Bot.get_repos()
     Bot.simplify_data()
