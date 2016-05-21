@@ -47,8 +47,6 @@ class Helium(object):
 
 
 if __name__ == "__main__":
-    import requests
-
     Bot = Helium(GITHUB_ENDPOINT)
     Bot.get_repos()
     Bot.simplify_data()
