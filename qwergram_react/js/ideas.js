@@ -241,11 +241,12 @@ var UrlBox = React.createClass({
   },
   renderHome: function(event) {
     console.log('Render Home')
-    console.log(event)
+    render_ideas();
+    render_shares();
   },
   renderRepos: function(event) {
     console.log('Render Repos')
-    console.log(event)
+    render_repos();
   },
 });
 
