@@ -230,5 +230,23 @@ var render_repos = function() {
 };
 
 
+var UrlBox = React.createClass({
+  render: function() {
+    <ul>
+      <li><a href="#" onclick="render_ideas(); render_shares();">Home</a></li>
+      <li><a href="#repos" onclick="render_repos();">Repos</a></li>
+    </ul>
+  }
+})
+
+
+var render_urls = function() {
+  ReactDOM.render(
+    <UrlBox/>,
+    document.getElementById('links')
+  );
+}
+
 render_ideas();
 render_shares();
+render_urls();
