@@ -3,6 +3,10 @@ from django.contrib.auth.models import User, Group
 from articles import models
 from articles import serializers
 from articles.permissions import IsAdminOrReadOnly
+import sys
+
+# Import helium bot here
+sys.path.append(__file__.split('qwergram')[0] + 'qwergram_bots/github/')
 
 # Create your views here.
 
@@ -51,5 +55,8 @@ class GithubViewSet(views.APIView):
         """
         Return a list of all users.
         """
-        usernames = []
-        return response.Response(usernames, status=status.HTTP_200_OK)
+        from helium_bot import GITHUB_ENDPOINT, Helium
+        Bot = Helium(GITHUB_ENDPOINT)
+        Bot.get_repos()
+        Bot.simplify_data()
+        return response.Response(Bot.repos, status=status.HTTP_200_OK)
