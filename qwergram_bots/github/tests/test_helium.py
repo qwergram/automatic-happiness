@@ -26,3 +26,8 @@ def test_simplify_data(HeliumBot):
     snapshot_two = HeliumBot.repos[::]
     assert snapshot_one != snapshot_two
     assert HeliumBot.ready_for_local
+
+
+def test_online_bot(OnlineHeliumBot):
+    with pytest.raises(AttributeError):
+        OnlineHeliumBot._hit_endpoint("localhost", "something_else")
