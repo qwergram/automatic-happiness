@@ -28,3 +28,8 @@ class OfflineHelium(Helium):
 @pytest.fixture
 def HeliumBot():
     return OfflineHelium(GITHUB_ENDPOINT)
+
+
+@pytest.fixture
+def OnlineHeliumBot():
+    return Helium(GITHUB_ENDPOINT)
