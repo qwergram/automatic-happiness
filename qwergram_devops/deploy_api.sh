@@ -27,7 +27,7 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
 
   echo $DEBUG_MODE
   echo "Killing old server..."
-  pkill gunicorn
+  pkill python3
   echo "Deleting old code..."
   rm -rf api/
   echo "Cloning down new code..."

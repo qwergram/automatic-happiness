@@ -115,7 +115,7 @@ var SharesBox = React.createClass({
     return {data: [{
       'title': 'loading...',
       'link': 'http://qwergram.github.com/',
-      'short_description': 'Give me a sec...'
+      'short_description': 'Give me a sec...',
     }]};
   },
   loadSharesFromServer: function() {
@@ -174,16 +174,19 @@ var RepoBox = React.createClass({
     return {data: [{
       'title': 'Getting latest repositories...',
       'link': 'http://qwergram.github.com/',
-      'short_description': 'Hold on...'
+      'short_description': 'Hold on...',
+      'updated_at': 'T',
+      'full_name': '../..'
     }]};
   },
-  loadSharesFromServer: function() {
+  loadReposFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: "json",
       cache: false,
       success: function(data) {
-        this.setState({data: data['results']});
+        console.log(data);
+        this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
@@ -191,25 +194,43 @@ var RepoBox = React.createClass({
     });
   },
   componentDidMount: function() {
-    this.loadSharesFromServer();
+    this.loadReposFromServer();
     if (this.props.pollInterval) {
-      setInterval(this.loadSharesFromServer, this.props.pollInterval);
+      setInterval(this.loadReposFromServer, this.props.pollInterval);
     };
   },
   render: function() {
     return (
       <div>
         {
-          this.state.data.map(function(share) {
+          this.state.data.map(function(idea) {
             return (
-              <article className="mini-post">
+              <article className="post">
                 <header>
-                  <a href={share['link']}>
-                    <h3>{share['title']}</h3>
-                    <p>{share['short_description']}</p>
-                  </a>
-                </header>
+                  <div className="title">
+                    <h2><a href="#">{idea['full_name'].split('/')[1]}</a></h2>
+                  </div>
+                  <div className="meta">
+                    <time className="published" datetime={idea['updated_at']}>
 
+                    </time>
+                    <a href="#me" className="author">
+                      <span className="name">
+                        {idea['full_name'].split('/')[0]}
+                      </span>
+                      <img src="images/avatar.jpg" alt="" />
+                    </a>
+                  </div>
+                </header>
+                <p><strong>{idea['description']}</strong> - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <footer>
+                  <ul className="actions">
+                    <li><a href={idea['html_url']} className="button big">View the Repo</a></li>
+                  </ul>
+                  <ul className="stats">
+                    <li><a href="#">Repo</a></li>
+                  </ul>
+                </footer>
               </article>
             )
           })
@@ -220,14 +241,43 @@ var RepoBox = React.createClass({
 });
 
 
-var render_shares = function() {
-  var url = api_endpoints['shares'];
+var render_repos = function() {
+  var url = api_endpoints['repos'];
   ReactDOM.render(
-    <SharesBox url={url}/>,
-    document.getElementById('mini-posts')
+    <RepoBox url={url}/>,
+    document.getElementById('content')
   );
 };
 
 
+var UrlBox = React.createClass({
+  render: function() {
+    return (
+      <ul>
+        <li><a href="#" onClick={this.renderHome}>Ideas</a></li>
+        <li><a href="#repos" onClick={this.renderRepos}>Repos</a></li>
+      </ul>
+    );
+  },
+  renderHome: function(event) {
+    console.log('Render Home')
+    render_ideas();
+    render_shares();
+  },
+  renderRepos: function(event) {
+    console.log('Render Repos')
+    render_repos();
+  },
+});
+
+
+var render_urls = function() {
+  ReactDOM.render(
+    <UrlBox/>,
+    document.getElementById('links')
+  );
+}
+
 render_ideas();
 render_shares();
+render_urls();
