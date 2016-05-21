@@ -17,3 +17,12 @@ def test_get_repos(HeliumBot):
 def test_simplify_data_without_get(HeliumBot):
     with pytest.raises(EnvironmentError):
         HeliumBot.simplify_data()
+
+
+def test_simplify_data(HeliumBot):
+    HeliumBot.get_repos()
+    snapshot_one = HeliumBot.repos[::]
+    HeliumBot.simplify_data()
+    snapshot_two = HeliumBot.repos[::]
+    assert snapshot_one != snapshot_two
+    assert HeliumBot.ready_for_local
