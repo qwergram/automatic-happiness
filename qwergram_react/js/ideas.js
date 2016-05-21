@@ -174,15 +174,17 @@ var RepoBox = React.createClass({
     return {data: [{
       'title': 'Getting latest repositories...',
       'link': 'http://qwergram.github.com/',
-      'short_description': 'Hold on...'
+      'short_description': 'Hold on...',
+      'updated_at': 'T',
     }]};
   },
-  loadSharesFromServer: function() {
+  loadReposFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: "json",
       cache: false,
       success: function(data) {
+        console.log(data);
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -191,9 +193,9 @@ var RepoBox = React.createClass({
     });
   },
   componentDidMount: function() {
-    this.loadSharesFromServer();
+    this.loadReposFromServer();
     if (this.props.pollInterval) {
-      setInterval(this.loadSharesFromServer, this.props.pollInterval);
+      setInterval(this.loadReposFromServer, this.props.pollInterval);
     };
   },
   render: function() {
