@@ -2,6 +2,7 @@
 import requests
 
 GITHUB_ENDPOINT = "https://api.github.com"
+RAW_ENDPOINT = "https://raw.githubusercontent.com/{owner_repo_name}/master/README.md"
 
 class Helium(object):
 
@@ -40,6 +41,7 @@ class Helium(object):
                 }
                 for key in display_content:
                     display_content[key] = repo[key]
+                display_content['readme'] = RAW_ENDPOINT.format(owner_repo_name=display_content['full_name'])
                 self.repos[i] = display_content
             self.ready_for_local = True
         else:
