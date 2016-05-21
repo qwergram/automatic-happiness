@@ -115,7 +115,8 @@ var SharesBox = React.createClass({
     return {data: [{
       'title': 'loading...',
       'link': 'http://qwergram.github.com/',
-      'short_description': 'Give me a sec...'
+      'short_description': 'Give me a sec...',
+      'updated_at': 'T'
     }]};
   },
   loadSharesFromServer: function() {
@@ -124,7 +125,8 @@ var SharesBox = React.createClass({
       dataType: "json",
       cache: false,
       success: function(data) {
-        this.setState({data: data['results']});
+        console.log(data);
+        this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
