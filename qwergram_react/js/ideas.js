@@ -116,7 +116,6 @@ var SharesBox = React.createClass({
       'title': 'loading...',
       'link': 'http://qwergram.github.com/',
       'short_description': 'Give me a sec...',
-      'updated_at': 'T'
     }]};
   },
   loadSharesFromServer: function() {
@@ -125,8 +124,7 @@ var SharesBox = React.createClass({
       dataType: "json",
       cache: false,
       success: function(data) {
-        console.log(data);
-        this.setState({data: data});
+        this.setState({data: data['results']});
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
@@ -141,36 +139,18 @@ var SharesBox = React.createClass({
   },
   render: function() {
     return (
-      <div className="repo">
+      <div>
         {
-          this.state.data.map(function(idea) {
+          this.state.data.map(function(share) {
             return (
-              <article className="post">
+              <article className="mini-post">
                 <header>
-                  <div className="title">
-                    <h2><a href="#">{idea['full_name']}</a></h2>
-                  </div>
-                  <div className="meta">
-                    <time className="published" datetime={idea['updated_at']}>
-                      {idea['updated_at'].split('T')[0]}
-                    </time>
-                    <a href="#me" className="author">
-                      <span className="name">
-                        qwergram
-                      </span>
-                      <img src="images/avatar.jpg" alt="" />
-                    </a>
-                  </div>
+                  <a href={share['link']}>
+                    <h3>{share['title']}</h3>
+                    <p>{share['short_description']}</p>
+                  </a>
                 </header>
-                <p>{idea['description']}</p>
-                <footer>
-                  <ul className="actions">
-                    <li><a href={idea['html_url']} className="button big">View the Repo</a></li>
-                  </ul>
-                  <ul className="stats">
-                    <li><a href="#">General</a></li>
-                  </ul>
-                </footer>
+
               </article>
             )
           })
@@ -203,7 +183,6 @@ var RepoBox = React.createClass({
       dataType: "json",
       cache: false,
       success: function(data) {
-        console.log(data);
         this.setState({data: data['results']});
       }.bind(this),
       error: function(xhr, status, err) {
