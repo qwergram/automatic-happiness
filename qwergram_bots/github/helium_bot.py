@@ -37,10 +37,10 @@ class Helium(object):
                 "watchers": None,
                 "language": None,
             }
-            for repo in self.repos:
+            for i, repo in enumerate(self.repos):
                 for key in display_content:
                     display_content[key] = repo[key]
-            self.repos = display_content
+                self.repos[i] = display_content
             self.ready_for_local = True
         else:
             raise EnvironmentError("Get repos first (Helium.get_repos)")
