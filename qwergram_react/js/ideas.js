@@ -228,7 +228,7 @@ var RepoBox = React.createClass({
                     <li><a href={idea['html_url']} className="button big">View the Repo</a></li>
                   </ul>
                   <ul className="stats">
-                    <li><a href="#">General</a></li>
+                    <li><a href="#">Repo</a></li>
                   </ul>
                 </footer>
               </article>
@@ -254,7 +254,7 @@ var UrlBox = React.createClass({
   render: function() {
     return (
       <ul>
-        <li><a href="#" onClick={this.renderHome}>Home</a></li>
+        <li><a href="#" onClick={this.renderHome}>Ideas</a></li>
         <li><a href="#repos" onClick={this.renderRepos}>Repos</a></li>
       </ul>
     );
