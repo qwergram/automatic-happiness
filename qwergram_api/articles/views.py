@@ -49,7 +49,6 @@ class RepostViewSet(viewsets.ModelViewSet):
 class GithubViewSet(views.APIView):
     """API endpoint that views Github models."""
     permission_classes = (IsAdminOrReadOnly, )
-    serializer_class = serializers.GithubSerializer
 
     def get(self, request, format=None):
         """
