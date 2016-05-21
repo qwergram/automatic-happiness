@@ -175,7 +175,8 @@ var RepoBox = React.createClass({
       'title': 'Getting latest repositories...',
       'link': 'http://qwergram.github.com/',
       'short_description': 'Hold on...',
-      'updated_at': 'T'
+      'updated_at': 'T',
+      'full_name': '../..'
     }]};
   },
   loadReposFromServer: function() {
