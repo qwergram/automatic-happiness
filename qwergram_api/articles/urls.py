@@ -13,5 +13,6 @@ router.register(r'shares', views.RepostViewSet)
 urlpatterns = [
     url(r'api-auth/', include('rest_framework.urls')),
     url(r'api-auth/token/', authview.obtain_auth_token),
+    url(r'repos/', views.GithubViewSet.as_view()),
     url(r'', include(router.urls)),
 ]

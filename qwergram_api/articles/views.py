@@ -1,8 +1,15 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, views, response, status
 from django.contrib.auth.models import User, Group
 from articles import models
 from articles import serializers
 from articles.permissions import IsAdminOrReadOnly
+import sys
+import requests
+
+# Import helium bot here
+hbot_loc = __file__.split('qwergram_api')[0] + 'qwergram_bots/github/'
+sys.path.append(hbot_loc)
+from helium_bot import GITHUB_ENDPOINT, Helium
 
 # Create your views here.
 
@@ -40,3 +47,37 @@ class RepostViewSet(viewsets.ModelViewSet):
     queryset = models.RepostModel.objects.all().order_by('-date_posted')
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
+
+
+class GithubViewSet(views.APIView):
+    """API endpoint that views Github models."""
+    permission_classes = (IsAdminOrReadOnly, )
+    github_endpoint = GITHUB_ENDPOINT
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        Bot = Helium(self.github_endpoint)
+        try:
+            Bot.get_repos()
+        except requests.exceptions.ConnectionError:
+            Bot.ready_for_local = True
+            Bot.repos = [{
+                "id": None,
+                "clone_url": None,
+                "commits_url": None,
+                "created_at": None,
+                "description": None,
+                "full_name": None,
+                "homepage": None,
+                "html_url": None,
+                "open_issues": None,
+                "pushed_at": None,
+                "size": None,
+                "updated_at": None,
+                "watchers": None,
+                "language": None,
+            }]
+        Bot.simplify_data()
+        return response.Response(Bot.repos, status=status.HTTP_200_OK)

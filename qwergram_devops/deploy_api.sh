@@ -34,7 +34,7 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   git clone $SERVER_REPO api
   echo "Updating code..."
   cd api/
-  git pull origin sprint-1
+  git pull origin master
   echo "Downloading everything..."
   sudo pip3 install -r requirements.txt
   echo "Launching new server..."
