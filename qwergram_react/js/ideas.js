@@ -234,10 +234,13 @@ var UrlBox = React.createClass({
   render: function() {
     return (
       <ul>
-        <li><a href="#" onClick={render_ideas()}>Home</a></li>
-        <li><a href="#repos" onClick={render_repos()}>Repos</a></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#repos">Repos</a></li>
       </ul>
     );
+    handleClick: function(event) {
+      console.log(event)
+    },
   }
 });
 
