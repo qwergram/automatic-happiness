@@ -1,4 +1,5 @@
 """Get a list of the most recent stuff I've been doing on github"""
+import requests
 
 GITHUB_ENDPOINT = "https://api.github.com"
 
