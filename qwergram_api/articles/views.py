@@ -7,7 +7,9 @@ import sys
 import requests
 
 # Import helium bot here
-sys.path.append(__file__.split('qwergram')[0] + 'qwergram_bots/github/')
+hbot_loc = __file__.split('qwergram')[0] + 'qwergram_bots/github/'
+assert hbot_loc.endswith('/blog/qwergram_bots/github/')
+sys.path.append(hbot_loc)
 from helium_bot import GITHUB_ENDPOINT, Helium
 
 # Create your views here.
