@@ -1,10 +1,6 @@
 from github.helium_bot import Helium, GITHUB_ENDPOINT
 import pytest
 
-class MockRequests(object):
-
-    pass
-
 
 class OfflineHelium(Helium):
 
