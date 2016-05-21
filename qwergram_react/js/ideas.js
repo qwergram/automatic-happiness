@@ -183,7 +183,7 @@ var RepoBox = React.createClass({
       dataType: "json",
       cache: false,
       success: function(data) {
-        this.setState({data: data['results']});
+        this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
@@ -198,18 +198,36 @@ var RepoBox = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className="repo">
         {
-          this.state.data.map(function(share) {
+          this.state.data.map(function(idea) {
             return (
-              <article className="mini-post">
+              <article className="post">
                 <header>
-                  <a href={share['link']}>
-                    <h3>{share['title']}</h3>
-                    <p>{share['short_description']}</p>
-                  </a>
+                  <div className="title">
+                    <h2><a href="#">{idea['full_name']}</a></h2>
+                  </div>
+                  <div className="meta">
+                    <time className="published" datetime={idea['updated_at']}>
+                      {idea['updated_at'].split('T')[0]}
+                    </time>
+                    <a href="#me" className="author">
+                      <span className="name">
+                        qwergram
+                      </span>
+                      <img src="images/avatar.jpg" alt="" />
+                    </a>
+                  </div>
                 </header>
-
+                <p>{idea['description']}</p>
+                <footer>
+                  <ul className="actions">
+                    <li><a href={idea['html_url']} className="button big">View the Repo</a></li>
+                  </ul>
+                  <ul className="stats">
+                    <li><a href="#">General</a></li>
+                  </ul>
+                </footer>
               </article>
             )
           })
