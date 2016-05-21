@@ -17,7 +17,7 @@ class Helium(object):
         self.raw_repos = True
         self.repos = self._hit_endpoint(self.target)
 
-    def update_local_api(self):
+    def simplify_data(self):
         if self.raw_repos:
             display_content = {
                 "id": None,
@@ -49,4 +49,4 @@ if __name__ == "__main__":
     GITHUB_ENDPOINT = "https://api.github.com"
     Bot = Helium(GITHUB_ENDPOINT)
     Bot.get_repos()
-    Bot.update_local_api()
+    Bot.simplify_data()
