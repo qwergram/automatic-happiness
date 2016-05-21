@@ -4,6 +4,7 @@ var api_endpoints = {
   "ideas": "http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/ideas/?format=json",
   "articles": "http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/articles/?format=json",
   "shares": "http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/shares/?format=json",
+  "repos": "http://ec2-54-187-86-84.us-west-2.compute.amazonaws.com/api/v1/repos/?format=json",
 }
 
 var IdeasBox = React.createClass({
@@ -166,6 +167,67 @@ var render_shares = function() {
     document.getElementById('mini-posts')
   );
 };
+
+
+var RepoBox = React.createClass({
+  getInitialState: function() {
+    return {data: [{
+      'title': 'Getting latest repositories...',
+      'link': 'http://qwergram.github.com/',
+      'short_description': 'Hold on...'
+    }]};
+  },
+  loadSharesFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: "json",
+      cache: false,
+      success: function(data) {
+        this.setState({data: data['results']});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.log("oops!", xhr, status, err);
+      }.bind(this),
+    });
+  },
+  componentDidMount: function() {
+    this.loadSharesFromServer();
+    if (this.props.pollInterval) {
+      setInterval(this.loadSharesFromServer, this.props.pollInterval);
+    };
+  },
+  render: function() {
+    return (
+      <div>
+        {
+          this.state.data.map(function(share) {
+            return (
+              <article className="mini-post">
+                <header>
+                  <a href={share['link']}>
+                    <h3>{share['title']}</h3>
+                    <p>{share['short_description']}</p>
+                  </a>
+                </header>
+
+              </article>
+            )
+          })
+        }
+      </div>
+    );
+  }
+});
+
+
+var render_shares = function() {
+  var url = api_endpoints['shares'];
+  ReactDOM.render(
+    <SharesBox url={url}/>,
+    document.getElementById('mini-posts')
+  );
+};
+
 
 render_ideas();
 render_shares();
