@@ -252,3 +252,37 @@ class SharesAPIAccessTest(UserFactory):
         response = self.client.post(self.share_endpoint, self.post_example)
         self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
+
+class ReposAPIAccessTest(UserFactory):
+
+    repo_endpoint = "/api/v1/repos/"
+    post_example = {"bogus": "data"}
+
+    # These tests require Internet, I need to figure out depedency injection for this
+    
+    # def test_repos_access_admin(self):
+    #     response = self.admin_client.get(self.repo_endpoint)
+    #     self.assertEquals(response.status_code, 200)
+    #
+    # def test_repos_access_repo(self):
+    #     response = self.user_client.get(self.repo_endpoint)
+    #     self.assertEquals(response.status_code, 200)
+    #
+    # def test_repos_access_unauth(self):
+    #     response = self.client.get(self.repo_endpoint)
+    #     self.assertEquals(response.status_code, 200)
+
+    def test_shares_create_admin(self):
+        response = self.admin_client.post(self.repo_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 405)
+
+    def test_repos_create_user(self):
+        response = self.user_client.post(self.repo_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_repos_create_unauth(self):
+        response = self.client.post(self.repo_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 401)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
