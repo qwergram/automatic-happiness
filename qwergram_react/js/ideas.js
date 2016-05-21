@@ -179,6 +179,18 @@ var RepoBox = React.createClass({
       'full_name': '../..'
     }]};
   },
+  loadReadmeFromGithubServer: function(url) {
+    $.ajax({
+      url: url,
+      cache: false,
+      success: function(data) {
+        this. -> return something to be called in render function
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.log("oops!", xhr, status, err)
+      }.bind(this),
+    });
+  },
   loadReposFromServer: function() {
     $.ajax({
       url: this.props.url,
@@ -187,6 +199,7 @@ var RepoBox = React.createClass({
       success: function(data) {
         console.log(data);
         this.setState({data: data});
+        this.loadReadmeFromGithubServer();
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
@@ -222,7 +235,8 @@ var RepoBox = React.createClass({
                     </a>
                   </div>
                 </header>
-                <p><strong>{idea['description']}</strong> - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p><strong>{idea['description']}</strong> -
+                </p>
                 <footer>
                   <ul className="actions">
                     <li><a href={idea['html_url']} className="button big">View the Repo</a></li>
