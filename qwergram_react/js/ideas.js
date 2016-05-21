@@ -183,6 +183,7 @@ var RepoBox = React.createClass({
       dataType: "json",
       cache: false,
       success: function(data) {
+        console.log(data);
         this.setState({data: data['results']});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -220,11 +221,11 @@ var RepoBox = React.createClass({
 });
 
 
-var render_shares = function() {
-  var url = api_endpoints['shares'];
+var render_repos = function() {
+  var url = api_endpoints['repos'];
   ReactDOM.render(
-    <SharesBox url={url}/>,
-    document.getElementById('mini-posts')
+    <RepoBox url={url}/>,
+    document.getElementById('content')
   );
 };
 
