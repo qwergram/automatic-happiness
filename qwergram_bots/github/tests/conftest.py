@@ -19,7 +19,9 @@ class OfflineHelium(Helium):
             "watchers": 0,
             "created_at": "2016-05-12T01:39:52Z",
             "commits_url": "https://api.github.com/repos/qwergram/automatic-happiness/commits{/sha}",
-            "language": "Definitely not Assembly"
+            "language": "Definitely not Assembly",
+            "extra_garbage": "Cats have 3 hearts",
+            "fictional fact": "Waffles were sacraficed to the Queen in 1435",
         }]
 
 
