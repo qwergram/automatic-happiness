@@ -60,7 +60,7 @@ class GithubViewSet(views.APIView):
         Bot = Helium(self.github_endpoint)
         try:
             Bot.get_repos()
-        except requests.exceptions.MissingSchema:
+        except requests.exceptions.ConnectionError:
             Bot.ready_for_local = True
             Bot.repos = [{
                 "id": None,
