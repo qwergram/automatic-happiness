@@ -4,6 +4,7 @@ from articles import models
 from articles import serializers
 from articles.permissions import IsAdminOrReadOnly
 import sys
+import requests
 
 # Import helium bot here
 sys.path.append(__file__.split('qwergram')[0] + 'qwergram_bots/github/')
@@ -50,12 +51,32 @@ class RepostViewSet(viewsets.ModelViewSet):
 class GithubViewSet(views.APIView):
     """API endpoint that views Github models."""
     permission_classes = (IsAdminOrReadOnly, )
+    github_endpoint = GITHUB_ENDPOINT
 
     def get(self, request, format=None):
         """
         Return a list of all users.
         """
-        Bot = Helium(GITHUB_ENDPOINT)
-        Bot.get_repos()
+        Bot = Helium(self.github_endpoint)
+        try:
+            Bot.get_repos()
+        except requests.exceptions.MissingSchema:
+            Bot.ready_for_local = True
+            Bot.repos = [{
+                "id": None,
+                "clone_url": None,
+                "commits_url": None,
+                "created_at": None,
+                "description": None,
+                "full_name": None,
+                "homepage": None,
+                "html_url": None,
+                "open_issues": None,
+                "pushed_at": None,
+                "size": None,
+                "updated_at": None,
+                "watchers": None,
+                "language": None,
+            }]
         Bot.simplify_data()
         return response.Response(Bot.repos, status=status.HTTP_200_OK)
