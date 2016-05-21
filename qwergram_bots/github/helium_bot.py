@@ -21,23 +21,23 @@ class Helium(object):
 
     def simplify_data(self):
         if self.raw_repos:
-            display_content = {
-                "id": None,
-                "clone_url": None,
-                "commits_url": None,
-                "created_at": None,
-                "description": None,
-                "full_name": None,
-                "homepage": None,
-                "html_url": None,
-                "open_issues": None,
-                "pushed_at": None,
-                "size": None,
-                "updated_at": None,
-                "watchers": None,
-                "language": None,
-            }
             for i, repo in enumerate(self.repos):
+                display_content = {
+                    "id": None,
+                    "clone_url": None,
+                    "commits_url": None,
+                    "created_at": None,
+                    "description": None,
+                    "full_name": None,
+                    "homepage": None,
+                    "html_url": None,
+                    "open_issues": None,
+                    "pushed_at": None,
+                    "size": None,
+                    "updated_at": None,
+                    "watchers": None,
+                    "language": None,
+                }
                 for key in display_content:
                     display_content[key] = repo[key]
                 self.repos[i] = display_content
