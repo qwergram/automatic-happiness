@@ -232,10 +232,12 @@ var render_repos = function() {
 
 var UrlBox = React.createClass({
   render: function() {
-    <ul>
+    return (
+      <ul>
       <li><a href="#" onclick="render_ideas(); render_shares();">Home</a></li>
       <li><a href="#repos" onclick="render_repos();">Repos</a></li>
-    </ul>
+      </ul>
+    )
   }
 })
 

@@ -8,7 +8,6 @@ git pull origin master
 cp -a $original/. ~/tmp/coding/
 git add .
 git commit -m "Deployed automatically with qwergram.sh"
-git status
 git push origin master
 git status
 rm -rf ~/tmp/
