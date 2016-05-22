@@ -234,6 +234,7 @@ var RepoBox = React.createClass({
       <div>
         {
           this.state.data.map(function(idea) {
+            idea['readme'] = "https://github.com/" + idea['full_name'] + "/blob/master/README.md";
             return (
               <article className="post">
                 <header>
