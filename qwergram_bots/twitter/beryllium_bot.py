@@ -44,6 +44,7 @@ class Beryllium(object):
         encoded = urlencode({'status': tweet})
         response = self.post(TWEET_ENDPOINT + encoded, auth=auth)
         assert response.ok, response.json()
+        return response.json()
 
 
 if __name__ == "__main__":
@@ -57,5 +58,6 @@ if __name__ == "__main__":
     ACCESS_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
 
     Bot = Beryllium(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
+    Bot.verify_credentials()
     import pprint
-    pprint.pprint(Bot.verify_credentials())
+    pprint.pprint(Bot.tweet("This was tweeted using beryllium_bot (https://github.com/qwergram/automatic-happiness/issues/27)!"))
