@@ -12,10 +12,10 @@ class MockRequests(object):
             return {"some": "json", "json": True}
 
     def get(self, *args, **kwargs):
-        return MockRequests.MockResponse
+        return MockRequests.MockResponse()
 
     def post(self, *args, **kwargs):
-        return MockRequests.MockResponse
+        return MockRequests.MockResponse()
 
 
 class OfflineBeryllium(Beryllium):
