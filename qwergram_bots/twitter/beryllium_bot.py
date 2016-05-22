@@ -41,8 +41,8 @@ class Beryllium(object):
         return requests.post
 
     def tweet(self, tweet):
-        if len(tweet) > 140:
-            raise ValueError("Tweet is too long!")
+        # if len(tweet) > 140:
+        # raise ValueError("Tweet is too long!")
         encoded = urlencode({'status': tweet})
         response = self.post(TWEET_ENDPOINT + encoded, auth=self.auth)
         assert response.ok, response.json()
@@ -51,7 +51,6 @@ class Beryllium(object):
 
 if __name__ == "__main__":
     import os
-
 
     CONSUMER_KEY = os.environ["TWITTER_CONSUMER_KEY"]
     CONSUMER_SECRET = os.environ["TWITTER_CONSUMER_SECRET"]
