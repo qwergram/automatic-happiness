@@ -24,7 +24,8 @@ class MockRequests(object):
 
 class OfflineBeryllium(Beryllium):
 
-    __TEST_ONLY_mock_requests = MockRequests()
+    def __init__(self, *args, **kwargs):
+        self.__TEST_ONLY_mock_requests = MockRequests()
 
     @property
     def get(self, *args, **kwargs):
