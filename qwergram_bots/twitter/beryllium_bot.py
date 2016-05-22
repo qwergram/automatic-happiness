@@ -18,12 +18,12 @@ CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET", "consumer_sec")
 ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN", "access_tok")
 ACCESS_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET", "access_sec")
 
+
 class InvalidCredentials(Exception):
     pass
 
 
 class Beryllium(object):
-
     def __init__(self, consumer_key, consumer_secret, access_token, access_secret):
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
@@ -60,10 +60,6 @@ class Beryllium(object):
 
 
 if __name__ == "__main__":
-
-
-
-
     Bot = Beryllium(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
     Bot.verify_credentials()
     import pprint
