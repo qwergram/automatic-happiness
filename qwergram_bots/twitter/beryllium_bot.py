@@ -1,5 +1,13 @@
 """A bot that tweets everything I've posted."""
 
+import urllib.parse import urlencode
+
+VERIFY_CREDENTIALS = 'https://api.twitter.com/1.1/account/verify_credentials.json'
+TWEET_ENDPOINT = "https://api.twitter.com/1.1/statuses/update.json"
+
+class InvalidCredentials(Exception):
+    pass
+
 class Beryllium(object):
 
     def __init__(self, consumer_key, consumer_secret, access_token, access_secret):
@@ -7,6 +15,7 @@ class Beryllium(object):
         self.consumer_secret = consumer_secret
         self.access_token = access_token
         self.access_secret = access_secret
+        self.max_length = 140
 
     @property
     def auth(self):
@@ -16,6 +25,14 @@ class Beryllium(object):
             self.access_token,
             self.access_secret
         )
+
+    def verify_credentials(self):
+        response = requests.get(VERIFY_CREDENTIALS, auth=self.auth)
+        if not response.ok:
+            raise InvalidCredentials("Check .secrets.sh and https://apps.twitter.com/app/12398495/keys/ and make sure the values match.")
+
+    def tweet(self, tweet):
+
 
 
 if __name__ == "__main__":
