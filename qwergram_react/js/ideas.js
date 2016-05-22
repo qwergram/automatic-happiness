@@ -213,7 +213,7 @@ var RepoBox = React.createClass({
       cache: false,
       success: function(data) {
         // this.setState({data: data});
-        console.log(this.loadReadmeFromGithubServer(data[0]['readme']));
+        // console.log(this.loadReadmeFromGithubServer(data[0]['readme']));
         // console.log(this.state.markdown);
         // data[0]['readme'] = this.loadReadmeFromGithubServer(data[0]['readme']);
         this.setState({data: data});
@@ -252,14 +252,14 @@ var RepoBox = React.createClass({
                     </a>
                   </div>
                 </header>
-                <p>{idea['readme']}
-                </p>
+                <p></p>
                 <footer>
                   <ul className="actions">
                     <li><a href={idea['html_url']} className="button big">View the Repo</a></li>
+                    <li><a href={idea['readme']} className="button big">View the Read Me</a></li>
                   </ul>
                   <ul className="stats">
-                    <li><a href="#">Repo</a></li>
+                    <li>Repo</li>
                   </ul>
                 </footer>
               </article>
