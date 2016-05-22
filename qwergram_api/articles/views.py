@@ -4,6 +4,7 @@ from articles import models
 from articles import serializers
 from articles.permissions import IsAdminOrReadOnly
 import sys
+import os
 import requests
 
 # Import bots here
@@ -11,6 +12,7 @@ hbot_loc = __file__.split('qwergram_api')[0] + 'qwergram_bots/github/'
 bbot_loc = __file__.split('qwergram_api')[0] + 'qwergram_bots/twitter/'
 sys.path.append(hbot_loc)
 sys.path.append(bbot_loc)
+
 from helium_bot import GITHUB_ENDPOINT, Helium
 from beryllium_bot import Beryllium
 
@@ -51,12 +53,35 @@ class RepostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
-    def perform_create(self, request, *args, **kwargs):
+    consumer_key = os.environ['TWITTER_CONSUMER_KEY']
+    consumer_secret = os.environ['TWITTER_CONSUMER_SECRET']
+    access_token = os.environ['TWITTER_ACCESS_TOKEN']
+    access_secret = os.environ['TWITTER_ACCESS_TOKEN_SECRET']
+
+    def perform_create(self, serializer):
         """
         Override the CreateModelMixin.perform_create method and insert our own.
         We want to tweet the share. So let's do it here.
+
+        Theoretically, we could do this with signals. But I'm not sure what the
+        best practice, so I'm going with what makes the most sense/easiest.
         """
-        return super(RepostViewSet, self).perform_create(request, *args, **kwargs)
+        # This is cleaner than super()...
+        # Copied from rest_framework.mixins.CreateModelMixin.perform_create
+        serializer.save()
+
+        tweet_text = "".join([
+            serializer.data['short_description'],
+            " (", serializer.data['link'], ")"
+        ])
+        BerylliumBot = Beryllium(
+            self.consumer_key,
+            self.consumer_secret,
+            self.access_token,
+            self.access_secret
+        )
+        BerylliumBot.verify_credentials()
+        BerylliumBot.tweet(tweet_text)
 
 
 class GithubViewSet(views.APIView):
