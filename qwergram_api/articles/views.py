@@ -6,10 +6,13 @@ from articles.permissions import IsAdminOrReadOnly
 import sys
 import requests
 
-# Import helium bot here
+# Import bots here
 hbot_loc = __file__.split('qwergram_api')[0] + 'qwergram_bots/github/'
+bbot_loc = __file__.split('qwergram_api')[0] + 'qwergram_bots/twitter/'
 sys.path.append(hbot_loc)
+sys.path.append(bbot_loc)
 from helium_bot import GITHUB_ENDPOINT, Helium
+from beryllium_bot import Beryllium
 
 # Create your views here.
 
@@ -48,6 +51,13 @@ class RepostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
+    def perform_create(self, request, *args, **kwargs):
+        """
+        Override the CreateModelMixin.perform_create method and insert our own.
+        We want to tweet the share. So let's do it here.
+        """
+        return super(RepostViewSet, self).perform_create(request, *args, **kwargs)
+
 
 class GithubViewSet(views.APIView):
     """API endpoint that views Github models."""
@@ -59,6 +69,7 @@ class GithubViewSet(views.APIView):
         Return a list of all users.
         """
         Bot = Helium(self.github_endpoint)
+        # In case you run the commented out tests offline
         try:
             Bot.get_repos()
         except requests.exceptions.ConnectionError:
