@@ -41,9 +41,8 @@ class Beryllium(object):
         if len(tweet) > 140:
             raise ValueError("Tweet is too long!")
         encoded = urlencode({'status': tweet})
-        self.post(TWEET_ENDPOINT + encoded, auth=auth)
-
-
+        response = self.post(TWEET_ENDPOINT + encoded, auth=auth)
+        assert response.ok, response.json()
 
 
 if __name__ == "__main__":
