@@ -179,13 +179,43 @@ var RepoBox = React.createClass({
       'full_name': '../..'
     }]};
   },
+  loadReadmeFromGithubServer: function(url) {
+    var readme = $.ajax({
+      url: url,
+      cache: false,
+      success: function(data) {
+        console.log(data);
+        return (data)
+      }.done(function() {
+        return ("done returned this")
+      })
+      // error: function(xhr, status, err) {
+      //   console.log("oops!", xhr, status, err)
+      // }.bind(this),
+    });
+    return readme;
+    // $.ajax({
+    //   url: url,
+    //   cache: false,
+    //   success: function(data) {
+    //     console.log(data);
+    //     this.setState({markdown: data});
+    //   }.bind(this),
+    //   error: function(xhr, status, err) {
+    //     console.log("oops!", xhr, status, err)
+    //   }.bind(this),
+    // });
+  },
   loadReposFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: "json",
       cache: false,
       success: function(data) {
-        console.log(data);
+        // this.setState({data: data});
+        // console.log(this.loadReadmeFromGithubServer(data[0]['readme']));
+        // console.log(this.state.markdown);
+        // data[0]['readme'] = this.loadReadmeFromGithubServer(data[0]['readme']);
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -204,15 +234,16 @@ var RepoBox = React.createClass({
       <div>
         {
           this.state.data.map(function(idea) {
+            idea['readme'] = "https://github.com/" + idea['full_name'] + "/blob/master/README.md";
             return (
               <article className="post">
                 <header>
                   <div className="title">
                     <h2><a href="#">{idea['full_name'].split('/')[1]}</a></h2>
+                    <strong>{idea['description']}</strong>
                   </div>
                   <div className="meta">
                     <time className="published" datetime={idea['updated_at']}>
-
                     </time>
                     <a href="#me" className="author">
                       <span className="name">
@@ -222,13 +253,14 @@ var RepoBox = React.createClass({
                     </a>
                   </div>
                 </header>
-                <p><strong>{idea['description']}</strong> - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p></p>
                 <footer>
                   <ul className="actions">
                     <li><a href={idea['html_url']} className="button big">View the Repo</a></li>
+                    <li><a href={idea['readme']} className="button big">View the Read Me</a></li>
                   </ul>
                   <ul className="stats">
-                    <li><a href="#">Repo</a></li>
+                    <li>Repo</li>
                   </ul>
                 </footer>
               </article>
