@@ -6,12 +6,17 @@ except ImportError:
     # Python 2.7
     from urllib import urlencode
 
+import os
 import requests
 from requests_oauthlib import OAuth1
 
 VERIFY_CREDENTIALS = 'https://api.twitter.com/1.1/account/verify_credentials.json'
 TWEET_ENDPOINT = "https://api.twitter.com/1.1/statuses/update.json?"
 
+CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY", "consumer_key")
+CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET", "consumer_sec")
+ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN", "access_tok")
+ACCESS_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET", "access_sec")
 
 class InvalidCredentials(Exception):
     pass
@@ -55,12 +60,9 @@ class Beryllium(object):
 
 
 if __name__ == "__main__":
-    import os
 
-    CONSUMER_KEY = os.environ["TWITTER_CONSUMER_KEY"]
-    CONSUMER_SECRET = os.environ["TWITTER_CONSUMER_SECRET"]
-    ACCESS_TOKEN = os.environ["TWITTER_ACCESS_TOKEN"]
-    ACCESS_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
+
+
 
     Bot = Beryllium(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
     Bot.verify_credentials()
