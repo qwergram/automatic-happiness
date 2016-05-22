@@ -1,5 +1,5 @@
 import pytest
-from twitter.beryllium_bot import Beryllium
+from twitter.beryllium_bot import Beryllium, InvalidCredentials
 
 
 class MockRequests(object):
@@ -37,4 +37,9 @@ def BerylliumBot():
 @pytest.fixture
 def BadBerylliumBot():
     bot = OfflineBeryllium("consumer_key", "consumer_secret", "access_token", "access_secret")
-    bot.MockResponse.ok = False
+    bot.MockRequests.MockResponse.ok = False
+
+
+@pytest.fixture
+def BadCredentials():
+    return InvalidCredentials
