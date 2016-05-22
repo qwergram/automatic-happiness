@@ -1,6 +1,11 @@
 """A bot that tweets everything I've posted."""
 
-from urllib.parse import urlencode
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    # Python 2.7
+    from urllib import urlencode
+
 import requests
 from requests_oauthlib import OAuth1
 
