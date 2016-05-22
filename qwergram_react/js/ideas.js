@@ -227,7 +227,7 @@ var RepoBox = React.createClass({
                   </div>
                   <div className="meta">
                     <time className="published" datetime={idea['updated_at']}>
-
+                      <strong>{idea['description']}</strong>
                     </time>
                     <a href="#me" className="author">
                       <span className="name">
@@ -237,7 +237,7 @@ var RepoBox = React.createClass({
                     </a>
                   </div>
                 </header>
-                <p><strong>{idea['description']}</strong> -
+                <p>
                 </p>
                 <footer>
                   <ul className="actions">
