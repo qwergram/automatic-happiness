@@ -43,6 +43,9 @@ Created for the purpose so I can email the bots articles to be published in 24 h
 #### /qwergram_bots/github/
 Contains HeliumBot, which handles realtime github scraping. Targets repos specifically.
 
+#### /qwergram_bots/twitter/
+Contains BerilliumBot, which tweets anything that is shared or any idea that is posted.
+
 ### /qwergram_react/
 The entire front end that is deployed to [qwergram.github.io](http://qwergram.github.io).
 Utilizes Facebook's ReactJS and Jest for testing.
@@ -76,8 +79,10 @@ SERVER_USER
 SERVER_KEY
 SERVER_REPO
 CLIENT_REPO
-GITHUB_USER
-GITHUB_PASS
+TWITTER_CONSUMER_KEY
+TWITTER_CONSUMER_SECRET
+TWITTER_ACCESS_TOKEN
+TWITTER_ACCESS_TOKEN_SECRET
 ```
 
 In addition, you'll need to install the following:

@@ -6,6 +6,7 @@ REQUIRES = [
     'djangorestframework',
     'django-cors-headers',
     'requests',
+    'requests-oauthlib',
 ]
 TEST = [
     'tox',
@@ -34,7 +35,6 @@ setup(name='Qwergram API',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      test_suite='dronequest',
       install_requires=REQUIRES,
       extras_require={
           'test': TEST,
