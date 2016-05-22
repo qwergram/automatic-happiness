@@ -179,20 +179,22 @@ var RepoBox = React.createClass({
       'full_name': '../..'
     }]};
   },
+  setReadmeFromGithubServer: function(markdown) {
+    data = this.state.data
+    data[0]['readme'] = markdown
+    this.setState({data: data});
+  },
   loadReadmeFromGithubServer: function(url) {
-    readme = "Error getting data...";
     $.ajax({
       url: url,
       cache: false,
       success: function(data) {
-        readme = data;
+        this.setReadmeFromGithubServer(data);
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err)
       }.bind(this),
     });
-    console.log(readme)
-    return readme;
   },
   loadReposFromServer: function() {
     $.ajax({
@@ -200,8 +202,10 @@ var RepoBox = React.createClass({
       dataType: "json",
       cache: false,
       success: function(data) {
-        data[0]['readme'] = this.loadReadmeFromGithubServer(data[0]['readme']);
         this.setState({data: data});
+        this.loadReadmeFromGithubServer(data[0]['readme']);
+        // data[0]['readme'] = this.loadReadmeFromGithubServer(data[0]['readme']);
+        // this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
