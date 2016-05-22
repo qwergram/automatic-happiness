@@ -186,13 +186,13 @@ var RepoBox = React.createClass({
       cache: false,
       success: function(data) {
         readme = data;
-        console.log(data);
-        console.log(url);
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err)
       }.bind(this),
     });
+    console.log(data)
+    console.log(readme)
     return readme;
   },
   loadReposFromServer: function() {
@@ -201,7 +201,6 @@ var RepoBox = React.createClass({
       dataType: "json",
       cache: false,
       success: function(data) {
-        this.setState({data: data});
         data[0]['readme'] = this.loadReadmeFromGithubServer(data[0]['readme']);
         this.setState({data: data});
       }.bind(this),
