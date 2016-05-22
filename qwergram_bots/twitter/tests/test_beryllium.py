@@ -2,7 +2,7 @@
 import pytest
 
 
-def test_berrylium_init(BerylliumBot):
+def test_beryllium_init(BerylliumBot):
     assert BerylliumBot.consumer_key
     assert BerylliumBot.consumer_secret
     assert BerylliumBot.access_token
@@ -11,26 +11,29 @@ def test_berrylium_init(BerylliumBot):
     assert BerylliumBot.max_length
 
 
-def test_berrylium_auth(BerylliumBot):
+def test_beryllium_auth(BerylliumBot):
     from requests_oauthlib import OAuth1
     assert isinstance(BerylliumBot.auth, OAuth1)
 
 
-def test_berrylium_verify_credentials(BerylliumBot):
+def test_beryllium_verify_credentials(BerylliumBot):
     response = BerylliumBot.verify_credentials()
     assert response == {"some": "json", "json": True}
 
 
-def test_berrylium_verify_credentials_fail(BadBerylliumBot, BadCredentials):
+def test_beryllium_verify_credentials_fail(BadBerylliumBot, BadCredentials):
     with pytest.raises(BadCredentials):
         BadBerylliumBot.verify_credentials()
 
 
-def test_berrylium_online_post(OnlineBerylliumBot):
+def test_beryllium_online_post(OnlineBerylliumBot):
     import requests
     assert OnlineBerylliumBot.post is requests.post
 
 
-def test_berrylium_online_get(OnlineBerylliumBot):
+def test_beryllium_online_get(OnlineBerylliumBot):
     import requests
     assert OnlineBerylliumBot.get is requests.get
+
+
+def test_beryllium()
