@@ -43,3 +43,8 @@ def BadBerylliumBot():
 @pytest.fixture
 def BadCredentials():
     return InvalidCredentials
+
+
+@pytest.fixture
+def OnlineBerylliumBot():
+    return Beryllium("consumer_key", "consumer_secret", "access_token", "access_secret")
