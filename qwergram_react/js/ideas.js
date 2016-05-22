@@ -200,8 +200,8 @@ var RepoBox = React.createClass({
       cache: false,
       success: function(data) {
         console.log(data);
+        data[0]['readme'] = this.loadReadmeFromGithubServer(this.state.data[0]['readme']);
         this.setState({data: data});
-        this.state.data[0]['readme'] = this.loadReadmeFromGithubServer(this.state.data[0]['readme']);
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
