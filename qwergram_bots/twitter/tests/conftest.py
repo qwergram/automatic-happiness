@@ -32,3 +32,9 @@ class OfflineBeryllium(Beryllium):
 @pytest.fixture
 def BerylliumBot():
     return OfflineBeryllium("consumer_key", "consumer_secret", "access_token", "access_secret")
+
+
+@pytest.fixture
+def BadBerylliumBot():
+    bot = OfflineBeryllium("consumer_key", "consumer_secret", "access_token", "access_secret")
+    bot.MockResponse.ok = False
