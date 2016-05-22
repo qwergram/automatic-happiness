@@ -6,6 +6,7 @@ REQUIRES = [
     'djangorestframework',
     'django-cors-headers',
     'requests',
+    'requests-oauthlib',
 ]
 TEST = [
     'tox',
