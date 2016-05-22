@@ -41,10 +41,14 @@ class Beryllium(object):
         )
 
     def verify_credentials(self):
-        response = requests.get(VERIFY_CREDENTIALS, auth=self.auth)
+        response = self.get(VERIFY_CREDENTIALS, auth=self.auth)
         if not response.ok:
             raise InvalidCredentials("Check .secrets.sh and https://apps.twitter.com/app/12398495/keys/ and make sure the values match.")
         return response.json()
+
+    @property
+    def get(self):
+        return requests.get
 
     @property
     def post(self):
