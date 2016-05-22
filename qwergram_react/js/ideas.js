@@ -180,20 +180,19 @@ var RepoBox = React.createClass({
     }]};
   },
   loadReadmeFromGithubServer: function(url) {
-    var readme = "Error getting data...";
+    window.readme = "Error getting data...";
     $.ajax({
       url: url,
       cache: false,
       success: function(data) {
-        readme = data;
+        window.readme = data;
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err)
       }.bind(this),
     });
-    console.log(data)
-    console.log(readme)
-    return readme;
+    console.log(window.readme)
+    return window.readme;
   },
   loadReposFromServer: function() {
     $.ajax({
