@@ -14,8 +14,13 @@ sys.path.append(hbot_loc)
 sys.path.append(bbot_loc)
 
 from helium_bot import GITHUB_ENDPOINT, Helium
-from beryllium_bot import Beryllium
-
+from beryllium_bot import (
+    Beryllium,
+    CONSUMER_KEY,
+    CONSUMER_SECRET,
+    ACCESS_TOKEN,
+    ACCESS_SECRET,
+)
 # Create your views here.
 
 
@@ -53,11 +58,6 @@ class RepostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
-    consumer_key = os.environ['TWITTER_CONSUMER_KEY']
-    consumer_secret = os.environ['TWITTER_CONSUMER_SECRET']
-    access_token = os.environ['TWITTER_ACCESS_TOKEN']
-    access_secret = os.environ['TWITTER_ACCESS_TOKEN_SECRET']
-
     def perform_create(self, serializer):
         """
         Override the CreateModelMixin.perform_create method and insert our own.
@@ -75,10 +75,10 @@ class RepostViewSet(viewsets.ModelViewSet):
             " (", serializer.data['link'], ")"
         ])
         BerylliumBot = Beryllium(
-            self.consumer_key,
-            self.consumer_secret,
-            self.access_token,
-            self.access_secret
+            CONSUMER_KEY,
+            CONSUMER_SECRET,
+            ACCESS_TOKEN,
+            ACCESS_SECRET,
         )
         BerylliumBot.verify_credentials()
         BerylliumBot.tweet(tweet_text)
