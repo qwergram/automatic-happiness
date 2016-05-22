@@ -201,7 +201,7 @@ var RepoBox = React.createClass({
       success: function(data) {
         console.log(data);
         this.setState({data: data});
-        this.loadReadmeFromGithubServer(this.state.data[0]['readme']);
+        this.state.data[0]['readme'] = this.loadReadmeFromGithubServer(this.state.data[0]['readme']);
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err);
@@ -237,7 +237,7 @@ var RepoBox = React.createClass({
                     </a>
                   </div>
                 </header>
-                <p>
+                <p>{idea['readme']}
                 </p>
                 <footer>
                   <ul className="actions">
