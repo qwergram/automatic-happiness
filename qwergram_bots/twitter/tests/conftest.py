@@ -4,15 +4,21 @@ from twitter.beryllium_bot import Beryllium, InvalidCredentials
 
 class MockRequests(object):
 
+    def __init__(self):
+        self.post_called = 0
+        self.get_called = 0
+
     class MockResponse(object):
 
         def json(self):
             return {"some": "json", "json": True}
 
     def get(self, *args, **kwargs):
+        self.get_called += 1
         return MockRequests.MockResponse()
 
     def post(self, *args, **kwargs):
+        self.post_called += 1
         return MockRequests.MockResponse()
 
 
