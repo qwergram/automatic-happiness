@@ -180,8 +180,9 @@ var RepoBox = React.createClass({
     }]};
   },
   setReadmeFromGithubServer: function(markdown) {
-    data = this.state.data
-    data[0]['readme'] = markdown
+    data = this.state.data;
+    data[0]['readme'] = markdown;
+    console.log(data[0])
     this.setState({data: data});
   },
   loadReadmeFromGithubServer: function(url) {
