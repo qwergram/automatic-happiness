@@ -32,6 +32,7 @@ class Beryllium(object):
         response = requests.get(VERIFY_CREDENTIALS, auth=self.auth)
         if not response.ok:
             raise InvalidCredentials("Check .secrets.sh and https://apps.twitter.com/app/12398495/keys/ and make sure the values match.")
+        return response.json()
 
     @property
     def post(self):
@@ -56,4 +57,5 @@ if __name__ == "__main__":
     ACCESS_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
 
     Bot = Beryllium(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
-    Bot.verify_credentials()
+    import pprint
+    pprint.pprint(Bot.verify_credentials())
