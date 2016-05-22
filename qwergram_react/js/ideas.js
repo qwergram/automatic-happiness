@@ -186,11 +186,11 @@ var RepoBox = React.createClass({
       cache: false,
       success: function(data) {
         readme = data;
-        console.log(readme);
       }.bind(this),
       error: function(xhr, status, err) {
         console.log("oops!", xhr, status, err)
       }.bind(this),
+    return readme;
     });
   },
   loadReposFromServer: function() {
