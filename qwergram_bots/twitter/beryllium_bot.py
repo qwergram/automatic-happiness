@@ -3,10 +3,12 @@
 import urllib.parse import urlencode
 
 VERIFY_CREDENTIALS = 'https://api.twitter.com/1.1/account/verify_credentials.json'
-TWEET_ENDPOINT = "https://api.twitter.com/1.1/statuses/update.json"
+TWEET_ENDPOINT = "https://api.twitter.com/1.1/statuses/update.json?"
+
 
 class InvalidCredentials(Exception):
     pass
+
 
 class Beryllium(object):
 
@@ -31,7 +33,16 @@ class Beryllium(object):
         if not response.ok:
             raise InvalidCredentials("Check .secrets.sh and https://apps.twitter.com/app/12398495/keys/ and make sure the values match.")
 
+    @property
+    def post(self):
+        return requests.post
+
     def tweet(self, tweet):
+        if len(tweet) > 140:
+            raise ValueError("Tweet is too long!")
+        encoded = urlencode({'status': tweet})
+        self.post(TWEET_ENDPOINT + encoded, auth=auth)
+
 
 
 
