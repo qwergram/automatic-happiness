@@ -239,9 +239,11 @@ class SharesAPIAccessTest(UserFactory):
         response = self.client.get(self.share_endpoint)
         self.assertEquals(response.status_code, 200)
 
-    def test_shares_create_admin(self):
-        response = self.admin_client.post(self.share_endpoint, self.post_example)
-        self.assertEquals(response.status_code, 201)
+    # This test will publish things to twitter.
+    # Need to figure out dependency injection for this.
+    # def test_shares_create_admin(self):
+    #     response = self.admin_client.post(self.share_endpoint, self.post_example)
+    #     self.assertEquals(response.status_code, 201)
 
     def test_shares_create_user(self):
         response = self.user_client.post(self.share_endpoint, self.post_example)
@@ -260,7 +262,7 @@ class ReposAPIAccessTest(UserFactory):
     post_example = {"bogus": "data"}
 
     # These tests require Internet, I need to figure out depedency injection for this
-    
+
     # def test_repos_access_admin(self):
     #     response = self.admin_client.get(self.repo_endpoint)
     #     self.assertEquals(response.status_code, 200)

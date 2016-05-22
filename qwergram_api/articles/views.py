@@ -4,13 +4,23 @@ from articles import models
 from articles import serializers
 from articles.permissions import IsAdminOrReadOnly
 import sys
+import os
 import requests
 
-# Import helium bot here
+# Import bots here
 hbot_loc = __file__.split('qwergram_api')[0] + 'qwergram_bots/github/'
+bbot_loc = __file__.split('qwergram_api')[0] + 'qwergram_bots/twitter/'
 sys.path.append(hbot_loc)
-from helium_bot import GITHUB_ENDPOINT, Helium
+sys.path.append(bbot_loc)
 
+from helium_bot import GITHUB_ENDPOINT, Helium
+from beryllium_bot import (
+    Beryllium,
+    CONSUMER_KEY,
+    CONSUMER_SECRET,
+    ACCESS_TOKEN,
+    ACCESS_SECRET,
+)
 # Create your views here.
 
 
@@ -48,6 +58,31 @@ class RepostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
+    def perform_create(self, serializer):
+        """
+        Override the CreateModelMixin.perform_create method and insert our own.
+        We want to tweet the share. So let's do it here.
+
+        Theoretically, we could do this with signals. But I'm not sure what the
+        best practice, so I'm going with what makes the most sense/easiest.
+        """
+        # This is cleaner than super()...
+        # Copied from rest_framework.mixins.CreateModelMixin.perform_create
+        serializer.save()
+
+        tweet_text = "".join([
+            serializer.data['short_description'],
+            " (", serializer.data['link'], ")"
+        ])
+        BerylliumBot = Beryllium(
+            CONSUMER_KEY,
+            CONSUMER_SECRET,
+            ACCESS_TOKEN,
+            ACCESS_SECRET,
+        )
+        BerylliumBot.verify_credentials()
+        BerylliumBot.tweet(tweet_text)
+
 
 class GithubViewSet(views.APIView):
     """API endpoint that views Github models."""
@@ -59,6 +94,7 @@ class GithubViewSet(views.APIView):
         Return a list of all users.
         """
         Bot = Helium(self.github_endpoint)
+        # In case you run the commented out tests offline
         try:
             Bot.get_repos()
         except requests.exceptions.ConnectionError:
