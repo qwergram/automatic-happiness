@@ -24,3 +24,13 @@ def test_berrylium_verify_credentials(BerylliumBot):
 def test_berrylium_verify_credentials_fail(BadBerylliumBot, BadCredentials):
     with pytest.raises(BadCredentials):
         BadBerylliumBot.verify_credentials()
+
+
+def test_berrylium_online_post(OnlineBerylliumBot):
+    import requests
+    assert OnlineBerylliumBot.post is requests.post
+
+
+def test_berrylium_online_get(OnlineBerylliumBot):
+    import requests
+    assert OnlineBerylliumBot.get is requests.get
