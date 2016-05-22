@@ -224,10 +224,10 @@ var RepoBox = React.createClass({
                 <header>
                   <div className="title">
                     <h2><a href="#">{idea['full_name'].split('/')[1]}</a></h2>
+                    <strong>{idea['description']}</strong>
                   </div>
                   <div className="meta">
                     <time className="published" datetime={idea['updated_at']}>
-                      <strong>{idea['description']}</strong>
                     </time>
                     <a href="#me" className="author">
                       <span className="name">
