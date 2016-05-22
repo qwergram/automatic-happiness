@@ -42,7 +42,7 @@ class Beryllium(object):
         if len(tweet) > 140:
             raise ValueError("Tweet is too long!")
         encoded = urlencode({'status': tweet})
-        response = self.post(TWEET_ENDPOINT + encoded, auth=auth)
+        response = self.post(TWEET_ENDPOINT + encoded, auth=self.auth)
         assert response.ok, response.json()
         return response.json()
 
@@ -60,4 +60,4 @@ if __name__ == "__main__":
     Bot = Beryllium(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
     Bot.verify_credentials()
     import pprint
-    pprint.pprint(Bot.tweet("This was tweeted using beryllium_bot (https://github.com/qwergram/automatic-happiness/issues/27)!"))
+    pprint.pprint(Bot.tweet("This was tweeted using beryllium_bot (https://github.com/qwergram/automatic-happiness/blob/sprint-1/qwergram_bots/twitter/beryllium_bot.py)!"))
