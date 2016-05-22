@@ -1,6 +1,6 @@
 """A bot that tweets everything I've posted."""
 
-import urllib.parse import urlencode
+from urllib.parse import urlencode
 
 VERIFY_CREDENTIALS = 'https://api.twitter.com/1.1/account/verify_credentials.json'
 TWEET_ENDPOINT = "https://api.twitter.com/1.1/statuses/update.json?"
@@ -54,3 +54,6 @@ if __name__ == "__main__":
     CONSUMER_SECRET = os.environ["TWITTER_CONSUMER_SECRET"]
     ACCESS_TOKEN = os.environ["TWITTER_ACCESS_TOKEN"]
     ACCESS_SECRET = os.environ["TWITTER_ACCESS_TOKEN_SECRET"]
+
+    Bot = Beryllium(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_SECRET)
+    Bot.verify_credentials()
