@@ -43,7 +43,7 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   python3 -c "import requests; print(requests.get('http://127.0.0.1:8000/api/v1/articles').json())"
   cd ../qwergram_bots/
   echo "Booting up Hydrogen and Lithium Bot..."
-  python3 -m smtp.get_articles &
+  python3 -m smtp.get_articles &>/dev/null &!
 EOF
 
 echo "API & BOTS DEPLOYED!"
