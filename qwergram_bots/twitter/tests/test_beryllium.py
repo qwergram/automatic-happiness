@@ -40,3 +40,8 @@ def test_beryllium_tweet(BerylliumBot):
     response = BerylliumBot.tweet("Best tweet ever.")
     assert isinstance(response, dict)
     assert response == {"some": "json", "json": True}
+
+
+def test_beryllium_tweet_fail(BadBerylliumBot):
+    with pytest.raises(AssertionError):
+        BadBerylliumBot.tweet("Ooops!")
