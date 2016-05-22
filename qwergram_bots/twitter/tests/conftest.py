@@ -6,8 +6,6 @@ class MockRequests(object):
 
     class MockResponse(object):
 
-        ok = True
-
         def json(self):
             return {"some": "json", "json": True}
 
@@ -31,13 +29,15 @@ class OfflineBeryllium(Beryllium):
 
 @pytest.fixture
 def BerylliumBot():
+    MockRequests.MockResponse.ok = True
     return OfflineBeryllium("consumer_key", "consumer_secret", "access_token", "access_secret")
 
 
 @pytest.fixture
 def BadBerylliumBot():
     bot = OfflineBeryllium("consumer_key", "consumer_secret", "access_token", "access_secret")
-    bot.MockRequests.MockResponse.ok = False
+    MockRequests.MockResponse.ok = False
+    return bot
 
 
 @pytest.fixture
