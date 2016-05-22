@@ -24,13 +24,15 @@ class MockRequests(object):
 
 class OfflineBeryllium(Beryllium):
 
+    __TEST_ONLY_mock_requests = MockRequests()
+
     @property
     def get(self, *args, **kwargs):
-        return MockRequests().get
+        return self.__TEST_ONLY_mock_requests.get
 
     @property
     def post(self, *args, **kwargs):
-        return MockRequests().post
+        return self.__TEST_ONLY_mock_requests.post
 
 
 @pytest.fixture
