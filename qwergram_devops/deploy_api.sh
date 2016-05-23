@@ -43,8 +43,10 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   git pull origin master
   echo "Downloading everything..."
   sudo pip3 install -r requirements.txt
-  echo "Launching new server..."
   cd qwergram_api/
+  echo "Running migrations..."
+  python3 manage.py migrate
+  echo "Launching new server..."
   python3 /usr/local/lib/python3.4/dist-packages/gunicorn/app/wsgiapp.py -w 4 qwergram_api.wsgi:application -D
   python3 -c "import requests; print(requests.get('http://127.0.0.1:8000/api/v1/articles').json())"
   cd ../qwergram_bots/
