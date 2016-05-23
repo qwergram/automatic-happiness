@@ -2,6 +2,15 @@ from django.db import models
 
 # Create your models here.
 
+ARTICLE_TAGS = [(choice, choice) for choice in [
+    "Vent",
+    "Tutorial",
+    "Learning Journal",
+    "Observation",
+    "General",
+]]
+
+
 class PotentialIdeaModel(models.Model):
     """
     A potential idea that I don't have to build.
@@ -28,6 +37,7 @@ class CodeArticleModel(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     original_idea = models.ForeignKey(PotentialIdeaModel, null=True)
     hidden = models.BooleanField(default=False)
+    tag = models.CharField(choices=ARTICLE_TAGS, default="General", max_length=16)
 
     def __str__(self):
         return self.title
