@@ -10,6 +10,7 @@ class PotentialIdeaModel(models.Model):
     pitch = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
     priority = models.IntegerField()
+    hidden = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -26,6 +27,7 @@ class CodeArticleModel(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     original_idea = models.ForeignKey(PotentialIdeaModel, null=True)
+    hidden = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -39,6 +41,7 @@ class RepostModel(models.Model):
     short_description = models.CharField(max_length=500)
     date_posted = models.DateTimeField(auto_now_add=True)
     link = models.URLField()
+    hidden = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
