@@ -47,6 +47,8 @@ class CodeArticleViewSet(viewsets.ModelViewSet):
     # https://github.com/tomchristie/django-rest-framework/issues/933
     queryset = models.CodeArticleModel.objects.filter(pk=-1)
     def get_queryset(self):
+        if self.request.user.is_staff and self.request.user.is_superuser:
+            return models.CodeArticleModel.objects.all().order_by('-last_modified')
         return models.CodeArticleModel.objects.filter(hidden=False).order_by('-last_modified')
 
 
