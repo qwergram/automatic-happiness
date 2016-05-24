@@ -69,7 +69,6 @@ class PotentialIdeaViewSet(viewsets.ModelViewSet):
 
 class RepostViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views Repost models."""
-    queryset = models.RepostModel.objects.filter(hidden=False).order_by('-date_posted')
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
@@ -97,6 +96,15 @@ class RepostViewSet(viewsets.ModelViewSet):
         )
         BerylliumBot.verify_credentials()
         BerylliumBot.tweet(tweet_text)
+
+    # queryset is required to be defined due to a bug in django_rest_framework
+    # https://github.com/tomchristie/django-rest-framework/issues/933
+    queryset = models.RepostModel.objects.filter(pk=-1)
+    def get_queryset(self):
+        if self.request.user.is_staff and self.request.user.is_superuser:
+            return models.RepostModel.objects.all().order_by('-date_posted')
+        return models.RepostModel.objects.filter(hidden=False).order_by('-date_posted')
+
 
 
 class GithubViewSet(views.APIView):
