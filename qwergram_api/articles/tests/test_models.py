@@ -42,11 +42,11 @@ class HiddenIdeasAPIAccessTest(UserFactory):
 
     def test_idea_access_hidden_unauth(self):
         response = self.client.get(self.hidden_model_url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 404)
 
     def test_idea_access_hidden_user(self):
         response = self.user_client.get(self.hidden_model_url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 404)
 
     def test_idea_access_hidden_admin(self):
         response = self.user_client.get(self.hidden_model_url)
