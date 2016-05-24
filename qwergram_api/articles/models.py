@@ -1,4 +1,5 @@
 from django.db import models
+from jsonfield import JSONField
 
 # Create your models here.
 
@@ -55,3 +56,12 @@ class RepostModel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class StatModel(models.Model):
+    """
+    A model containing a piece of data.
+    E.g. The health of this project.
+    """
+    name = models.CharField(max_length=255, unique=True)
+    value = JSONField()
