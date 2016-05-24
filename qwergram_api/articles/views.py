@@ -40,9 +40,14 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class CodeArticleViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views CodeArticle models."""
-    queryset = models.CodeArticleModel.objects.filter(hidden=False).order_by('-last_modified')
     serializer_class = serializers.CodeArticleSerializer
     permission_classes = (IsAdminOrReadOnly, )
+
+    # queryset is required to be defined due to a bug in django_rest_framework
+    # https://github.com/tomchristie/django-rest-framework/issues/933
+    queryset = models.CodeArticleModel.objects.filter(pk=-1)
+    def get_queryset(self):
+        return models.CodeArticleModel.objects.filter(hidden=False).order_by('-last_modified')
 
 
 class PotentialIdeaViewSet(viewsets.ModelViewSet):
