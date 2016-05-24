@@ -40,21 +40,21 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class CodeArticleViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views CodeArticle models."""
-    queryset = models.CodeArticleModel.objects.all().order_by('-last_modified')
+    queryset = models.CodeArticleModel.objects.filter(hidden=False).order_by('-last_modified')
     serializer_class = serializers.CodeArticleSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
 
 class PotentialIdeaViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views PotentialIdea models."""
-    queryset = models.PotentialIdeaModel.objects.all().order_by('-date_created')
+    queryset = models.PotentialIdeaModel.objects.filter(hidden=False).order_by('-date_created')
     serializer_class = serializers.PotentialIdeaSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
 
 class RepostViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views Repost models."""
-    queryset = models.RepostModel.objects.all().order_by('-date_posted')
+    queryset = models.RepostModel.objects.filter(hidden=False).order_by('-date_posted')
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
