@@ -84,18 +84,19 @@ class RepostViewSet(viewsets.ModelViewSet):
         # Copied from rest_framework.mixins.CreateModelMixin.perform_create
         serializer.save()
 
-        tweet_text = "".join([
-            serializer.data['short_description'],
-            " (", serializer.data['link'], ")"
-        ])
-        BerylliumBot = Beryllium(
-            CONSUMER_KEY,
-            CONSUMER_SECRET,
-            ACCESS_TOKEN,
-            ACCESS_SECRET,
-        )
-        BerylliumBot.verify_credentials()
-        BerylliumBot.tweet(tweet_text)
+        if not serializer.data.hidden:
+            tweet_text = "".join([
+                serializer.data['short_description'],
+                " (", serializer.data['link'], ")"
+            ])
+            BerylliumBot = Beryllium(
+                CONSUMER_KEY,
+                CONSUMER_SECRET,
+                ACCESS_TOKEN,
+                ACCESS_SECRET,
+            )
+            BerylliumBot.verify_credentials()
+            BerylliumBot.tweet(tweet_text)
 
     # queryset is required to be defined due to a bug in django_rest_framework
     # https://github.com/tomchristie/django-rest-framework/issues/933
