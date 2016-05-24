@@ -35,10 +35,19 @@ class HiddenIdeasAPIAccessTest(UserFactory):
     def hidden_model_url(self):
         return self.idea_endpoint + str(self.hidden_model.id) + '/'
 
-    def test_idea_access_open_unauth(self):
-        response = self.client.get(self.open_model_url)
-        self.assertEqual(response.status_code, 200)
+    # Theoretically, these tests are covered articles.tests.test_permission
+    # def test_idea_access_open_unauth(self):
+    #     response = self.client.get(self.open_model_url)
+    #     self.assertEqual(response.status_code, 200)
 
     def test_idea_access_hidden_unauth(self):
         response = self.client.get(self.hidden_model_url)
         self.assertEqual(response.status_code, 403)
+
+    def test_idea_access_hidden_user(self):
+        response = self.user_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_idea_access_hidden_admin(self):
+        response = self.user_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 200)
