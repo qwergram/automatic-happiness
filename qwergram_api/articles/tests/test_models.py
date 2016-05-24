@@ -38,9 +38,26 @@ class HiddenModelFactory(UserFactory):
         self.open_article.save()
         self.hidden_article.save()
 
+    def create_shares(self):
+        self.open_share = models.RepostModel(
+            title="Amazing article!",
+            short_description="Very short description",
+            link="http://www.example.com",
+            hidden=False
+        )
+        self.hidden_share = models.RepostModel(
+            title="Embarassing link",
+            short_description="I need this for science",
+            link="http://www.anime_for_weabs.com/very_weab_shtuff",
+            hidden=True,
+        )
+        self.open_share.save()
+        self.hidden_share.save()
+
     def create_models(self):
         self.create_ideas()
         self.create_articles()
+        self.create_shares()
 
     def setUp(self):
         super(HiddenIdeasAPIAccessTest, self).setUp()
