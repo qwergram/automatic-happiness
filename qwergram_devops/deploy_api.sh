@@ -24,6 +24,12 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   export SERVER_KEY="$SERVER_KEY"
   export SERVER_REPO="$SERVER_REPO"
   export CLIENT_REPO="$CLIENT_REPO"
+  export TWITTER_CONSUMER_KEY="$TWITTER_CONSUMER_KEY"
+  export TWITTER_CONSUMER_SECRET="$TWITTER_CONSUMER_SECRET"
+  export TWITTER_ACCESS_TOKEN="$TWITTER_ACCESS_TOKEN"
+  export TWITTER_ACCESS_TOKEN_SECRET="$TWITTER_ACCESS_TOKEN_SECRET"
+  export LINKEDIN_CLIENT_ID="$LINKEDIN_CLIENT_ID"
+  export LINKEDIN_CLIENT_SECRET="$LINKEDIN_CLIENT_SECRET"
 
   echo $DEBUG_MODE
   echo "Killing old server..."
@@ -37,13 +43,15 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   git pull origin master
   echo "Downloading everything..."
   sudo pip3 install -r requirements.txt
-  echo "Launching new server..."
   cd qwergram_api/
+  echo "Running migrations..."
+  python3 manage.py migrate
+  echo "Launching new server..."
   python3 /usr/local/lib/python3.4/dist-packages/gunicorn/app/wsgiapp.py -w 4 qwergram_api.wsgi:application -D
   python3 -c "import requests; print(requests.get('http://127.0.0.1:8000/api/v1/articles').json())"
   cd ../qwergram_bots/
   echo "Booting up Hydrogen and Lithium Bot..."
-  python3 -m smtp.get_articles &
+  python3 -m smtp.get_articles &>/dev/null &!
 EOF
 
 echo "API & BOTS DEPLOYED!"

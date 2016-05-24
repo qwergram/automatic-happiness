@@ -40,21 +40,35 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class CodeArticleViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views CodeArticle models."""
-    queryset = models.CodeArticleModel.objects.all().order_by('-last_modified')
     serializer_class = serializers.CodeArticleSerializer
     permission_classes = (IsAdminOrReadOnly, )
+
+    # queryset is required to be defined due to a bug in django_rest_framework
+    # https://github.com/tomchristie/django-rest-framework/issues/933
+    queryset = models.CodeArticleModel.objects.filter(pk=-1)
+    def get_queryset(self):
+        if self.request.user.is_staff and self.request.user.is_superuser:
+            return models.CodeArticleModel.objects.all().order_by('-last_modified')
+        return models.CodeArticleModel.objects.filter(hidden=False).order_by('-last_modified')
 
 
 class PotentialIdeaViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views PotentialIdea models."""
-    queryset = models.PotentialIdeaModel.objects.all().order_by('-date_created')
     serializer_class = serializers.PotentialIdeaSerializer
     permission_classes = (IsAdminOrReadOnly, )
+
+    # queryset is required to be defined due to a bug in django_rest_framework
+    # https://github.com/tomchristie/django-rest-framework/issues/933
+    queryset = models.PotentialIdeaModel.objects.filter(pk=-1)
+    def get_queryset(self):
+        if self.request.user.is_staff and self.request.user.is_superuser:
+            return models.PotentialIdeaModel.objects.all().order_by('-date_created')
+        return models.PotentialIdeaModel.objects.filter(hidden=False).order_by('-date_created')
+
 
 
 class RepostViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views Repost models."""
-    queryset = models.RepostModel.objects.all().order_by('-date_posted')
     serializer_class = serializers.RepostSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
@@ -70,18 +84,28 @@ class RepostViewSet(viewsets.ModelViewSet):
         # Copied from rest_framework.mixins.CreateModelMixin.perform_create
         serializer.save()
 
-        tweet_text = "".join([
-            serializer.data['short_description'],
-            " (", serializer.data['link'], ")"
-        ])
-        BerylliumBot = Beryllium(
-            CONSUMER_KEY,
-            CONSUMER_SECRET,
-            ACCESS_TOKEN,
-            ACCESS_SECRET,
-        )
-        BerylliumBot.verify_credentials()
-        BerylliumBot.tweet(tweet_text)
+        if not serializer.data.hidden:
+            tweet_text = "".join([
+                serializer.data['short_description'],
+                " (", serializer.data['link'], ")"
+            ])
+            BerylliumBot = Beryllium(
+                CONSUMER_KEY,
+                CONSUMER_SECRET,
+                ACCESS_TOKEN,
+                ACCESS_SECRET,
+            )
+            BerylliumBot.verify_credentials()
+            BerylliumBot.tweet(tweet_text)
+
+    # queryset is required to be defined due to a bug in django_rest_framework
+    # https://github.com/tomchristie/django-rest-framework/issues/933
+    queryset = models.RepostModel.objects.filter(pk=-1)
+    def get_queryset(self):
+        if self.request.user.is_staff and self.request.user.is_superuser:
+            return models.RepostModel.objects.all().order_by('-date_posted')
+        return models.RepostModel.objects.filter(hidden=False).order_by('-date_posted')
+
 
 
 class GithubViewSet(views.APIView):
