@@ -70,11 +70,11 @@ class HiddenIdeasAPIAccessTest(HiddenModelFactory):
 
     @property
     def open_model_url(self):
-        return self.idea_endpoint + str(self.open_model.id) + '/'
+        return self.idea_endpoint + str(self.open_idea.id) + '/'
 
     @property
     def hidden_model_url(self):
-        return self.idea_endpoint + str(self.hidden_model.id) + '/'
+        return self.idea_endpoint + str(self.hidden_idea.id) + '/'
 
     # Theoretically, these tests are covered articles.tests.test_permission
     # def test_idea_access_open_unauth(self):
