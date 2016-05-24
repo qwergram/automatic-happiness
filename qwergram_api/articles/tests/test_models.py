@@ -22,8 +22,25 @@ class HiddenModelFactory(UserFactory):
         self.open_idea.save()
         self.hidden_idea.save()
 
+    def create_articles(self):
+        self.open_article = models.CodeArticleModel(
+            title="A really informative blog post",
+            content="Woah, amazing text! " * 100,
+            draft=True,
+            hidden=False,
+        )
+        self.hidden_article = models.CodeArticleModel(
+            title="A very personal blog post",
+            content="I @#%@ing hate %@#%!!! " * 100,
+            draft=True,
+            hidden=True,
+        )
+        self.open_article.save()
+        self.hidden_article.save()
+
     def create_models(self):
         self.create_ideas()
+        self.create_articles()
 
     def setUp(self):
         super(HiddenIdeasAPIAccessTest, self).setUp()
