@@ -36,3 +36,10 @@ class RepostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.RepostModel
         exclude = []
+
+
+class StatSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the Stats model."""
+    class Meta:
+        model = models.StateModel
+        exclude = []
