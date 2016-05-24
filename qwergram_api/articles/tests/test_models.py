@@ -3,29 +3,36 @@ from django.contrib.auth.models import User
 from articles.tests.test_permissions import UserFactory
 from articles import models
 
-class HiddenIdeasAPIAccessTest(UserFactory):
 
-    idea_endpoint = '/api/v1/ideas/'
+class HiddenModelFactory(UserFactory):
 
-    def create_models(self):
-        self.open_model = models.PotentialIdeaModel(
+    def create_ideas(self):
+        self.open_idea = models.PotentialIdeaModel(
             title="A crazy Idea",
             pitch="But with great potential",
             priority=1,
             hidden=False,
         )
-        self.hidden_model = models.PotentialIdeaModel(
+        self.hidden_idea = models.PotentialIdeaModel(
             title="A money making Idea",
             pitch="Details of the master plan",
             priority=100,
             hidden=True,
         )
-        self.open_model.save()
-        self.hidden_model.save()
+        self.open_idea.save()
+        self.hidden_idea.save()
+
+    def create_models(self):
+        self.create_ideas()
 
     def setUp(self):
         super(HiddenIdeasAPIAccessTest, self).setUp()
         self.create_models()
+
+
+class HiddenIdeasAPIAccessTest(HiddenModelFactory):
+
+    idea_endpoint = '/api/v1/ideas/'
 
     @property
     def open_model_url(self):
