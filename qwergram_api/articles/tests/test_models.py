@@ -117,3 +117,28 @@ class HiddenArticlesAPIAccessTest(HiddenModelFactory):
     def test_article_access_hidden_admin(self):
         response = self.admin_client.get(self.hidden_model_url)
         self.assertEqual(response.status_code, 200)
+
+
+class HiddenSharesAPIAccessTest(HiddenModelFactory):
+
+    share_endpoint = '/api/v1/shares/'
+
+    @property
+    def open_model_url(self):
+        return self.share_endpoint + str(self.open_share.id) + '/'
+
+    @property
+    def hidden_model_url(self):
+        return self.share_endpoint + str(self.hidden_share.id) + '/'
+
+    def test_share_access_hidden_unauth(self):
+        response = self.client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_share_access_hidden_user(self):
+        response = self.user_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_share_access_hidden_admin(self):
+        response = self.admin_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 200)
