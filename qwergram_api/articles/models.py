@@ -65,4 +65,6 @@ class StatModel(models.Model):
     """
     name = models.CharField(max_length=255, unique=True)
     value = JSONField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
     hidden = models.BooleanField(default=False)
