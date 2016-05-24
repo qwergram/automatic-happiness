@@ -49,5 +49,5 @@ class HiddenIdeasAPIAccessTest(UserFactory):
         self.assertEqual(response.status_code, 404)
 
     def test_idea_access_hidden_admin(self):
-        response = self.user_client.get(self.hidden_model_url)
+        response = self.admin_client.get(self.hidden_model_url)
         self.assertEqual(response.status_code, 200)
