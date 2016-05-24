@@ -54,9 +54,17 @@ class CodeArticleViewSet(viewsets.ModelViewSet):
 
 class PotentialIdeaViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views PotentialIdea models."""
-    queryset = models.PotentialIdeaModel.objects.filter(hidden=False).order_by('-date_created')
     serializer_class = serializers.PotentialIdeaSerializer
     permission_classes = (IsAdminOrReadOnly, )
+
+    # queryset is required to be defined due to a bug in django_rest_framework
+    # https://github.com/tomchristie/django-rest-framework/issues/933
+    queryset = models.PotentialIdeaModel.objects.filter(pk=-1)
+    def get_queryset(self):
+        if self.request.user.is_staff and self.request.user.is_superuser:
+            return models.PotentialIdeaModel.objects.all().order_by('-date_created')
+        return models.PotentialIdeaModel.objects.filter(hidden=False).order_by('-date_created')
+
 
 
 class RepostViewSet(viewsets.ModelViewSet):
