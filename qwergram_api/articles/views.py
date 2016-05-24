@@ -84,7 +84,7 @@ class RepostViewSet(viewsets.ModelViewSet):
         # Copied from rest_framework.mixins.CreateModelMixin.perform_create
         serializer.save()
 
-        if not serializer.data.hidden:
+        if not serializer.data['hidden']:
             tweet_text = "".join([
                 serializer.data['short_description'],
                 " (", serializer.data['link'], ")"
