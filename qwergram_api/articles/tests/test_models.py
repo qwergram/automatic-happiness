@@ -60,7 +60,7 @@ class HiddenModelFactory(UserFactory):
         self.create_shares()
 
     def setUp(self):
-        super(HiddenIdeasAPIAccessTest, self).setUp()
+        super(HiddenModelFactory, self).setUp()
         self.create_models()
 
 
