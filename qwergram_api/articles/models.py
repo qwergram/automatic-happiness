@@ -65,3 +65,4 @@ class StatModel(models.Model):
     """
     name = models.CharField(max_length=255, unique=True)
     value = JSONField()
+    hidden = models.BooleanField(default=False)
