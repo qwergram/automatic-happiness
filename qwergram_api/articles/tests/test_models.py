@@ -92,3 +92,28 @@ class HiddenIdeasAPIAccessTest(HiddenModelFactory):
     def test_idea_access_hidden_admin(self):
         response = self.admin_client.get(self.hidden_model_url)
         self.assertEqual(response.status_code, 200)
+
+
+class HiddenArticlesAPIAccessTest(HiddenModelFactory):
+
+    article_endpoint = '/api/v1/articles/'
+
+    @property
+    def open_model_url(self):
+        return self.article_endpoint + str(self.open_article.id) + '/'
+
+    @property
+    def hidden_model_url(self):
+        return self.article_endpoint + str(self.hidden_article.id) + '/'
+
+    def test_article_access_hidden_unauth(self):
+        response = self.client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_article_access_hidden_user(self):
+        response = self.user_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_article_access_hidden_admin(self):
+        response = self.admin_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 200)
