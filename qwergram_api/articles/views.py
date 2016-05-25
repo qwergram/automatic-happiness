@@ -31,6 +31,10 @@ class StatViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.StatSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
+    def jsonify_serializer(self, serializer):
+        import pdb; pdb.set_trace()
+
+
     def perform_update(self, serializer):
         """
         Override the CreateModelMixin.perform_create method and insert our own.
@@ -39,6 +43,7 @@ class StatViewSet(viewsets.ModelViewSet):
 
         # This is cleaner than super()...
         # Copied from rest_framework.mixins.CreateModelMixin.perform_update
+        serializer = self.jsonify_serializer(serializer)
         serializer.save()
 
     def perform_create(self, serializer):
@@ -49,6 +54,7 @@ class StatViewSet(viewsets.ModelViewSet):
 
         # This is cleaner than super()...
         # Copied from rest_framework.mixins.CreateModelMixin.perform_create
+        serializer = self.jsonify_serializer(serializer)
         serializer.save()
 
 
