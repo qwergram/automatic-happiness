@@ -30,34 +30,20 @@ class StatViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.StatSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
-    def change_quotes(self, serializer):
+    def change_quotes(self, request):
         """
         When JSON is being passed in, it should convert single quotes to double quotes.
         """
-        # Do some replacement stuff here...
-        return serializer
+        request.data['value'] = request.data['value'].replace("'", '"')
+        return request
 
     def create(self, request, *args, **kwargs):
-        from rest_framework.response import Response
-
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        request = self.change_quotes(request)
+        return super(StatViewSet, self).create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        from rest_framework.response import Response
-
-        import pdb; pdb.set_trace()
-
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
-
+        request = self.change_quotes(request)
+        return super(StatViewSet, self).update(request, *args, **kwargs)
 
 
 class UserViewSet(viewsets.ModelViewSet):
