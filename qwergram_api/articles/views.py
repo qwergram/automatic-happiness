@@ -21,7 +21,15 @@ from beryllium_bot import (
     ACCESS_TOKEN,
     ACCESS_SECRET,
 )
+
 # Create your views here.
+
+
+class StatViewSet(viewsets.ModelViewSet):
+    """API endpoint that edits/views Stats bots collect."""
+    queryset = models.StatModel.objects.all().order_by('-last_modified')
+    serializer_class = serializers.StatSerializer
+    permission_classes = (IsAdminOrReadOnly, )
 
 
 class UserViewSet(viewsets.ModelViewSet):
