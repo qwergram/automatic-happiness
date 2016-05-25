@@ -4,7 +4,6 @@ from articles import models
 from articles import serializers
 from articles.permissions import IsAdminOrReadOnly
 import sys
-import json
 import requests
 
 # Import bots here
@@ -31,25 +30,33 @@ class StatViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.StatSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
-    # def perform_update(self, serializer):
-    #     """
-    #     Override the CreateModelMixin.perform_create method and insert our own.
-    #     JSONField is being saved as a string, and not being saved as a JSON object.
-    #     """
-    #
-    #     # This is cleaner than super()...
-    #     # Copied from rest_framework.mixins.CreateModelMixin.perform_update
-    #     serializer.save()
-    #
-    # def perform_create(self, serializer):
-    #     """
-    #     Override the CreateModelMixin.perform_create method and insert our own.
-    #     JSONField is being saved as a string, and not being saved as a JSON object.
-    #     """
-    #
-    #     # This is cleaner than super()...
-    #     # Copied from rest_framework.mixins.CreateModelMixin.perform_create
-    #     serializer.save()
+    def change_quotes(self, serializer):
+        """
+        When JSON is being passed in, it should convert single quotes to double quotes.
+        """
+        # Do some replacement stuff here...
+        return serializer
+
+    def create(self, request, *args, **kwargs):
+        from rest_framework.response import Response
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def update(self, request, *args, **kwargs):
+        from rest_framework.response import Response
+
+        import pdb; pdb.set_trace()
+
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 
 
