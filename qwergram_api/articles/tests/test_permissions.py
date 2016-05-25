@@ -267,7 +267,7 @@ class ReposAPIAccessTest(UserFactory):
     #     response = self.admin_client.get(self.repo_endpoint)
     #     self.assertEquals(response.status_code, 200)
     #
-    # def test_repos_access_repo(self):
+    # def test_repos_access_user(self):
     #     response = self.user_client.get(self.repo_endpoint)
     #     self.assertEquals(response.status_code, 200)
     #
@@ -305,3 +305,8 @@ class StatsAPIAccessTest(UserFactory):
             "boolean": False,
         }
     }
+
+
+    def test_stats_access_admin(self):
+        response = self.admin_client.get(self.stat_endpoint)
+        self.assertEquals(response.status_code, 200)
