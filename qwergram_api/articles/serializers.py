@@ -43,3 +43,5 @@ class StatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.StatModel
         exclude = []
+
+    value = serializers.JSONField()

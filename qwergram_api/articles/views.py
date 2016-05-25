@@ -32,7 +32,7 @@ class StatViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly, )
 
     def jsonify_serializer(self, serializer):
-        import pdb; pdb.set_trace()
+        return serializer
 
 
     def perform_update(self, serializer):
