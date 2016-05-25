@@ -306,7 +306,14 @@ class StatsAPIAccessTest(UserFactory):
         }
     }
 
-
     def test_stats_access_admin(self):
         response = self.admin_client.get(self.stat_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_stats_access_user(self):
+        response = self.admin_client.get(self.stat_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_stats_access_unauth(self):
+        response = self.client.get(self.stat_endpoint)
         self.assertEquals(response.status_code, 200)
