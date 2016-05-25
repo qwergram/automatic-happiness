@@ -288,3 +288,20 @@ class ReposAPIAccessTest(UserFactory):
         response = self.client.post(self.repo_endpoint, self.post_example)
         self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
+
+class StatsAPIAccessTest(UserFactory):
+
+    stat_endpoint = "/api/v1/stats/"
+    post_example = {
+        "name": "Identity",
+        "value": {
+            "first_name": "Norton",
+            "last_name": "Pengra",
+            "age": 19,
+            "languagse": ["python", "javascript"],
+            "float": 0.3,
+            "dict": {"key": "value"},
+            "boolean": False,
+        }
+    }
