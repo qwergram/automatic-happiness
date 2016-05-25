@@ -31,6 +31,27 @@ class StatViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.StatSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
+    # def perform_update(self, serializer):
+    #     """
+    #     Override the CreateModelMixin.perform_create method and insert our own.
+    #     JSONField is being saved as a string, and not being saved as a JSON object.
+    #     """
+    #
+    #     # This is cleaner than super()...
+    #     # Copied from rest_framework.mixins.CreateModelMixin.perform_update
+    #     serializer.save()
+    #
+    # def perform_create(self, serializer):
+    #     """
+    #     Override the CreateModelMixin.perform_create method and insert our own.
+    #     JSONField is being saved as a string, and not being saved as a JSON object.
+    #     """
+    #
+    #     # This is cleaner than super()...
+    #     # Copied from rest_framework.mixins.CreateModelMixin.perform_create
+    #     serializer.save()
+
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views User models."""
