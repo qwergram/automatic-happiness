@@ -5,3 +5,4 @@ from articles import models
 admin.site.register(models.PotentialIdeaModel)
 admin.site.register(models.CodeArticleModel)
 admin.site.register(models.RepostModel)
+admin.site.register(models.StatModel)
