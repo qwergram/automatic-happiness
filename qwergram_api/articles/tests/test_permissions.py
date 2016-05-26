@@ -295,15 +295,14 @@ class StatsAPIAccessTest(UserFactory):
     stat_endpoint = "/api/v1/stats/"
     post_example = {
         "name": "Identity",
-        "value": {
+        "value": """
+        {
             "first_name": "Norton",
             "last_name": "Pengra",
             "age": 19,
-            "languagse": ["python", "javascript"],
-            "float": 0.3,
-            "dict": {"key": "value"},
-            "boolean": False,
+            "net_worth": 0.56
         }
+        """
     }
 
     def test_stats_access_admin(self):
