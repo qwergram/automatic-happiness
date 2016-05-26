@@ -63,7 +63,8 @@ class HiddenModelFactory(UserFactory):
                 "last_name": "Pengra",
                 "age": 19,
             }
-            """
+            """,
+            hidden=False
         )
         self.hidden_stat = models.StatModel(
             name="secret_identity",
@@ -72,7 +73,8 @@ class HiddenModelFactory(UserFactory):
                 "secret_identity": "Batman",
                 "car": "Bat mobile"
             }
-            """
+            """,
+            hidden=True
         )
         self.open_stat.save()
         self.hidden_stat.save()
