@@ -54,6 +54,29 @@ class HiddenModelFactory(UserFactory):
         self.open_share.save()
         self.hidden_share.save()
 
+    def create_stats(self):
+        self.open_stat = models.StatModel(
+            name="identity",
+            value="""
+            {
+                "first_name": "Norton",
+                "last_name": "Pengra",
+                "age": 19,
+            }
+            """
+        )
+        self.hidden_stat = models.StatModel(
+            name="secret_identity",
+            value="""
+            {
+                "secret_identity": "Batman",
+                "car": "Bat mobile"
+            }
+            """
+        )
+        self.open_stat.save()
+        self.hidden_stat.save()
+
     def create_models(self):
         self.create_ideas()
         self.create_articles()
@@ -142,3 +165,8 @@ class HiddenSharesAPIAccessTest(HiddenModelFactory):
     def test_share_access_hidden_admin(self):
         response = self.admin_client.get(self.hidden_model_url)
         self.assertEqual(response.status_code, 200)
+
+
+class HiddenStatsAPIAccessTest(HiddenModelFactory):
+
+    stat_endpoint = '/api/v1/stats/'
