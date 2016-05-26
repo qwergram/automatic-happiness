@@ -26,7 +26,6 @@ from beryllium_bot import (
 
 class StatViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views Stats bots collect."""
-    queryset = models.StatModel.objects.all().order_by('-last_modified')
     serializer_class = serializers.StatSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
