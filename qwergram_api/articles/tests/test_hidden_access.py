@@ -81,6 +81,7 @@ class HiddenModelFactory(UserFactory):
         self.create_ideas()
         self.create_articles()
         self.create_shares()
+        self.create_stats()
 
     def setUp(self):
         super(HiddenModelFactory, self).setUp()
