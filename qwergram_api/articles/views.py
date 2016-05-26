@@ -45,6 +45,13 @@ class StatViewSet(viewsets.ModelViewSet):
         request = self.change_quotes(request)
         return super(StatViewSet, self).update(request, *args, **kwargs)
 
+    queryset = models.StatModel.objects.filter(pk=-1)
+    def get_queryset(self):
+        if self.request.user.is_staff and self.request.user.is_superuser:
+            return models.StatModel.objects.all().order_by('-last_modified')
+        return models.StatModel.objects.filter(hidden=False).order_by('-last_modified')
+
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """API endpoint that edits/views User models."""
