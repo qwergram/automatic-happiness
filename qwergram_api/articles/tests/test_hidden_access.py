@@ -170,3 +170,19 @@ class HiddenSharesAPIAccessTest(HiddenModelFactory):
 class HiddenStatsAPIAccessTest(HiddenModelFactory):
 
     stat_endpoint = '/api/v1/stats/'
+
+    @property
+    def hidden_model_url(self):
+        return self.stat_endpoint + str(self.hidden_stat.id) + '/'
+
+    def test_stat_access_hidden_unauth(self):
+        response = self.client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_stat_access_hidden_user(self):
+        response = self.user_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_stat_access_hidden_user(self):
+        response = self.admin_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 200)
