@@ -1,6 +1,7 @@
 # Bot information for Qwergram Package Manager (QPM)
 __APIVERSION__ = "v1"
-__BOTNAME__ = ["Helium"]
+__BOTNAME__ = ["Helium", "Jelium"]
+__LANGS__ = ["Python", "Java"]
 __BOTVERSION__ = "v0.1"
 __DEPENDENCIES__ = []
 __DOCS__ = """
