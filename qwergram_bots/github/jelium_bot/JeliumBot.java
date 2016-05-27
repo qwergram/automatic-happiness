@@ -26,6 +26,10 @@ public class JeliumBot {
 class main {
   public static void main(String[] args) {
     JeliumBot jbot = new JeliumBot();
-    JeliumBot.main(new String[0]);
+    try {
+      JeliumBot.main(new String[0]);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
