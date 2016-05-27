@@ -10,6 +10,10 @@ import java.util.Scanner;
 
 public class JeliumBot {
 
+  public static String get_index() {
+    return JeliumBot.jelium_helper("https://api.github.com");
+  }
+
   private static String jelium_helper(String url) {
     String to_return = "";
     try {
@@ -45,7 +49,7 @@ public class JeliumBot {
   }
 
   public static void main(String[] args) throws Exception {
-    String json_blob = JeliumBot.jelium_helper("https://api.github.com");
+    String json_blob = JeliumBot.get_index();
     System.out.println(json_blob);
   }
 }
