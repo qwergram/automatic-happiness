@@ -11,6 +11,9 @@ import java.util.Scanner;
 public class JeliumBot {
 
   public static String use_helium() {
+
+    String to_return = "";
+
     try {
       String url = "https://api.github.com";
       Process p = Runtime.getRuntime().exec("python3 jelium_bot_helper.py " + url);
@@ -20,18 +23,19 @@ public class JeliumBot {
 
       String feed = stdInput.readLine();
       while (feed != null) {
-        System.out.println(feed);
+        // System.out.println(feed);
+        to_return = to_return + feed;
         feed = stdInput.readLine();
       }
 
     } catch (IOException e){
       e.printStackTrace();
-      System.exit(-1);
     }
-    return "null";
+    return to_return;
   }
 
   public static void main(String[] args) throws Exception {
-    JeliumBot.use_helium();
+    String json_blob = JeliumBot.use_helium();
+    System.out.println(json_blob);
   }
 }
