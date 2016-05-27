@@ -12,8 +12,8 @@ public class JeliumBot {
 
   public static String use_helium() {
     try {
-
-      Process p = Runtime.getRuntime().exec("cat compile_and_run.sh");
+      String url = "https://api.github.com";
+      Process p = Runtime.getRuntime().exec("python3 jelium_bot_helper.py " + url);
       BufferedReader stdInput = new BufferedReader(
       new InputStreamReader(p.getInputStream())
       );
