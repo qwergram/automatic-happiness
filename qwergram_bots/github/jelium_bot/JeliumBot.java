@@ -22,3 +22,10 @@ public class JeliumBot {
     github_in.close();
   }
 }
+
+class main {
+  public static void main(String[] args) {
+    JeliumBot jbot = new JeliumBot();
+    JeliumBot.main(new String[]);
+  }
+}
