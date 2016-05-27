@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class JeliumBot {
 
-  public static String jelium_helper(String url) {
+  private static String jelium_helper(String url) {
     String to_return = "";
     try {
 
