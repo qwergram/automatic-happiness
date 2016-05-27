@@ -12,11 +12,14 @@ class JeliumBot {
   }
 }
 
+class FreshJuiceTest {
 
-public class FreshJuiceTest {
   public static void main(String[] args) {
     JeliumBot jbot = new JeliumBot();
     jbot.mode = JeliumBot.Mode.WAIT;
+    jbot.main(new String[0]);
+    // Interesting, This is very different than python
     System.out.println("Mode: " + jbot.mode);
   }
+
 }
