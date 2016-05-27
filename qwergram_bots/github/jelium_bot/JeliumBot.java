@@ -11,7 +11,7 @@ public class JeliumBot {
   public static void main(String[] args) throws Exception {
     URL github = new URL("http://www.github.com");
     URLConnection github_connection = github.openConnection();
-    BufferedReader github_in = new BuffereredReader(
+    BufferedReader github_in = new BufferedReader(
       new InputStreamReader(
         github_connection.getInputStream()
       )
@@ -26,6 +26,6 @@ public class JeliumBot {
 class main {
   public static void main(String[] args) {
     JeliumBot jbot = new JeliumBot();
-    JeliumBot.main(new String[]);
+    JeliumBot.main(new String[0]);
   }
 }
