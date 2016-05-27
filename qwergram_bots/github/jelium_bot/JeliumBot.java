@@ -6,30 +6,32 @@
 
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
 
 public class JeliumBot {
-  public static void main(String[] args) throws Exception {
-    URL github = new URL("http://www.github.com");
-    URLConnection github_connection = github.openConnection();
-    BufferedReader github_in = new BufferedReader(
-      new InputStreamReader(
-        github_connection.getInputStream()
-      )
-    );
-    String inputLine;
-    while ((inputLine = github_in.readLine()) != null)
-      System.out.println(inputLine);
-    github_in.close();
-  }
-}
 
-class main {
-  public static void main(String[] args) {
-    JeliumBot jbot = new JeliumBot();
+  public static String use_helium() {
     try {
-      JeliumBot.main(new String[0]);
-    } catch (Exception e) {
+
+      Process p = Runtime.getRuntime().exec("cat compile_and_run.sh");
+      BufferedReader stdInput = new BufferedReader(
+      new InputStreamReader(p.getInputStream())
+      );
+
+      String feed = stdInput.readLine();
+      while (feed != null) {
+        System.out.println(feed);
+        feed = stdInput.readLine();
+      }
+
+    } catch (IOException e){
       e.printStackTrace();
+      System.exit(-1);
     }
+    return "null";
+  }
+
+  public static void main(String[] args) throws Exception {
+    JeliumBot.use_helium();
   }
 }
