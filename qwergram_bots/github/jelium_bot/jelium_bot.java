@@ -7,3 +7,9 @@ class HelloWorldApp {
     System.out.println("Hello World!"); // Print out a string
   }
 }
+
+class SecondWorldApp {
+  public static void main(String[] args) {
+    System.out.println("Hello Mars!");
+  }
+}
