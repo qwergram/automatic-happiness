@@ -2,8 +2,12 @@
 # via "java $classname"
 
 clean() {
-  current_dir="`ls | grep .class`"
-  echo $current_dir
+  # remove existing .class files
+  current_classes="`ls | grep .class`"
+  for class in $(echo $current_classes | tr "" " ")
+  do
+    rm $class
+  done
 }
 
 compile_and_execute() {
@@ -22,4 +26,5 @@ compile_and_execute() {
   fi
 }
 
-clean()
+clean
+compile_and_execute
