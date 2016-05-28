@@ -11,8 +11,8 @@ import java.util.Scanner;
 public class JeliumBot {
 
   // This is how optional arguments happen in Java...
-  public static String get_events() { return JeliumBot.get_events(-1); }
-  public static String get_events(int event_number) {
+  public static String get_issues() { return JeliumBot.get_issues(-1); }
+  public static String get_issues(int event_number) {
     String endpoint_target = "https://api.github.com/repos/qwergram/automatic-happiness/issues/events";
     if (event_number > 0) {
       endpoint_target = endpoint_target + '/' + String.valueOf(event_number);
@@ -62,7 +62,7 @@ public class JeliumBot {
   public static void main(String[] args) throws Exception {
     // String json_blob = JeliumBot.get_index();
     // System.out.println(json_blob);
-    String json_blob = JeliumBot.get_events();
+    String json_blob = JeliumBot.get_issues();
     System.out.println(json_blob);
   }
 }
