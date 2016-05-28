@@ -14,11 +14,10 @@ public class JeliumBot {
   public static String get_events() { return JeliumBot.get_events(-1); }
   public static String get_events(int event_number) {
     String endpoint_target = "https://api.github.com/repos/qwergram/automatic-happiness/issues/events";
-    String json_blob = "";
     if (event_number > 0) {
       endpoint_target = endpoint_target + '/' + String.valueOf(event_number);
     }
-    json_blob = JeliumBot.jelium_helper(endpoint_target);
+    String json_blob = JeliumBot.jelium_helper(endpoint_target);
     return json_blob;
   }
 
