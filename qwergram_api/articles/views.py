@@ -4,7 +4,6 @@ from articles import models
 from articles import serializers
 from articles.permissions import IsAdminOrReadOnly
 import sys
-import os
 import requests
 
 # Import bots here
@@ -21,7 +20,36 @@ from beryllium_bot import (
     ACCESS_TOKEN,
     ACCESS_SECRET,
 )
+
 # Create your views here.
+
+
+class StatViewSet(viewsets.ModelViewSet):
+    """API endpoint that edits/views Stats bots collect."""
+    serializer_class = serializers.StatSerializer
+    permission_classes = (IsAdminOrReadOnly, )
+
+    def change_quotes(self, request):
+        """
+        When JSON is being passed in, it should convert single quotes to double quotes.
+        """
+        request.data['value'] = request.data['value'].replace("'", '"')
+        return request
+
+    def create(self, request, *args, **kwargs):
+        request = self.change_quotes(request)
+        return super(StatViewSet, self).create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        request = self.change_quotes(request)
+        return super(StatViewSet, self).update(request, *args, **kwargs)
+
+    queryset = models.StatModel.objects.filter(pk=-1)
+    def get_queryset(self):
+        if self.request.user.is_staff and self.request.user.is_superuser:
+            return models.StatModel.objects.all().order_by('-last_modified')
+        return models.StatModel.objects.filter(hidden=False).order_by('-last_modified')
+
 
 
 class UserViewSet(viewsets.ModelViewSet):

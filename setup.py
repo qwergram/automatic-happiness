@@ -7,6 +7,7 @@ REQUIRES = [
     'django-cors-headers',
     'requests',
     'requests-oauthlib',
+    'jsonfield',
 ]
 TEST = [
     'tox',
