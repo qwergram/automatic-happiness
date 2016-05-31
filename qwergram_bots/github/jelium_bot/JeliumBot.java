@@ -10,19 +10,23 @@ import java.util.Scanner;
 
 public class JeliumBot {
 
+  private static String api_endpoint = "https://api.github.com";
+  private static String issues_endpoint = api_endpoint + "/repos/qwergram/automatic-happiness/issues/events";
+
   // This is how optional arguments happen in Java...
   public static String get_issues() { return JeliumBot.get_issues(-1); }
   public static String get_issues(int event_number) {
-    String endpoint_target = "https://api.github.com/repos/qwergram/automatic-happiness/issues/events";
+    String endpoint_target = JeliumBot.issues_endpoint;
+    System.out.println(JeliumBot.issues_endpoint);
     if (event_number > 0) {
-      endpoint_target = endpoint_target + '/' + String.valueOf(event_number);
+      endpoint_target = JeliumBot.issues_endpoint + '/' + String.valueOf(event_number);
     }
     String json_blob = JeliumBot.jelium_helper(endpoint_target);
     return json_blob;
   }
 
   public static String get_index() {
-    return JeliumBot.jelium_helper("https://api.github.com");
+    return JeliumBot.jelium_helper(JeliumBot.api_endpoint);
   }
 
   private static String jelium_helper(String url) {
@@ -61,7 +65,6 @@ public class JeliumBot {
 
   public static void main(String[] args) throws Exception {
     // String json_blob = JeliumBot.get_index();
-    // System.out.println(json_blob);
     String json_blob = JeliumBot.get_issues();
     // String json_blob = JeliumBot.get_issues(674983368);
     System.out.println(json_blob);
