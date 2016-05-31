@@ -12,6 +12,13 @@ def get_git_ignore(target):
         return []
 
 
+def copy_directory(temporary_directory="~/tmp/carbon_bot/"):
+    if not os.exists('~/tmp/'):
+        os.makedirs('~/tmp/')
+    if not os.exists('~/tmp/carbon_bot/'):
+        os.makedirs('~/tmp/carbon_bot/')
+
+
 def ls(target):
     return os.listdir(target)
 
