@@ -33,8 +33,19 @@ class StatViewSet(viewsets.ModelViewSet):
         """
         When JSON is being passed in, it should convert single quotes to double quotes.
         """
-        request.data['value'] = request.data['value'].replace("'", '"')
-        return request
+        try:
+            """
+            When using the HTML Form view, this is required to submit raw python
+            dictionaries, which makes editing them a hell of a lot easier. However,
+            if you run this code with an API call using FlourineBot, it'll 500
+            out claiming that <AttributeError: This QueryDict instance is immutable>.
+            There must be something going on under the hood that I don't want to deal
+            with right now.
+            """
+            value = request.data['value']
+            request.data['value'] = value.replace("'", '"')
+        finally:
+            return request
 
     def create(self, request, *args, **kwargs):
         request = self.change_quotes(request)
