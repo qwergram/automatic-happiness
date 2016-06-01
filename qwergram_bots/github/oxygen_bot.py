@@ -54,6 +54,6 @@ class Oxygen(object):
 
 if __name__ == "__main__":
     OBot = Oxygen(BASE_ENDPOINT)
-    # print(OBot.get_languages())
-    # print(OBot.get_latest_commits())
+    print(OBot.get_languages())
+    print(OBot.get_latest_commits())
     print(OBot.get_milestones())

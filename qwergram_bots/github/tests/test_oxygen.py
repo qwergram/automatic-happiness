@@ -32,3 +32,7 @@ def test_get_commits(OxygenBot):
 
 def test_get_milestones(OxygenBot):
     assert OxygenBot.get_milestones() == OxygenBot._hit_endpoint('some_endpoint')
+
+
+def test_get_latest_commits(OxygenBotLatestCommitsTest):
+    assert OxygenBotLatestCommitsTest.get_latest_commits()

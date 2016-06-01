@@ -61,6 +61,9 @@ class OfflineOxygenList(Oxygen):
             "stats": ["stats"],
         }]
 
+    def get_commit_by_sha(self, sha):
+        return {'stats': 'something'}
+
 
 @pytest.fixture
 def HeliumBot():
