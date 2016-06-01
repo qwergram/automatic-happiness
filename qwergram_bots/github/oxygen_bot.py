@@ -1,5 +1,6 @@
 """OxygenBot is in charge of checking on the health of this repo."""
 from github.helium_bot import GITHUB_ENDPOINT
+from github.flourine_bot import Flourine
 import requests
 
 BASE_ENDPOINT = "{}/repos/qwergram/automatic-happiness".format(GITHUB_ENDPOINT)
