@@ -28,10 +28,8 @@ class OfflineHelium(Helium):
 
 class OfflineOxygen(Oxygen):
 
-    __TEST_ONLY_WRAP=False
-
     def _hit_endpoint(self, target, verb="get"):
-        to_return = {
+        return {
             "size": 1032,
             "open_issues": 12,
             "homepage": "qwergram.github.io",
@@ -44,8 +42,24 @@ class OfflineOxygen(Oxygen):
             },
             "stats": ["stats"],
         }
-        return [to_return] if self.__TEST_ONLY_WRAP else to_return
 
+
+class OfflineOxygenList(Oxygen)
+
+    def _hit_endpoint(self, target, verb="get"):
+        return [{
+            "size": 1032,
+            "open_issues": 12,
+            "homepage": "qwergram.github.io",
+            "updated_at": "yesterday",
+
+            "sha": "some number",
+            "commit": {
+                "author": "Norton Pengra",
+                "message": "This is a commit message (#420)",
+            },
+            "stats": ["stats"],
+        }]
 
 @pytest.fixture
 def HeliumBot():
