@@ -1,4 +1,5 @@
 from github.helium_bot import Helium, GITHUB_ENDPOINT
+from github.oxygen_bot import Oxygen, BASE_ENDPOINT
 import pytest
 
 
@@ -25,6 +26,14 @@ class OfflineHelium(Helium):
         }]
 
 
+class OfflineOxygen(Oxygen):
+
+    def _hit_endpoint(self, target, verb="get"):
+        return {
+            "some": "json",
+        }
+
+
 @pytest.fixture
 def HeliumBot():
     return OfflineHelium(GITHUB_ENDPOINT)
@@ -33,3 +42,13 @@ def HeliumBot():
 @pytest.fixture
 def OnlineHeliumBot():
     return Helium(GITHUB_ENDPOINT)
+
+
+@pytest.fixture
+def OxygenBot():
+    return OfflineOxygen(BASE_ENDPOINT)
+
+
+@pytest.fixture
+def OnlineOxygenBot():
+    return Oxygen(BASE_ENDPOINT)
