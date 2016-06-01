@@ -74,6 +74,14 @@ class OfflineFlourineBot(Flourine):
         }
 
 
+class OfflineFlourineBot_Fail(OfflineFlourineBot):
+
+    def _hit_endpoint(self, *args, **kwargs):
+        if 'verb' in kwargs and kwargs['verb'].lower() == 'post':
+            raise AssertionError
+        return super(OfflineFlourineBot_Fail, self)._hit_endpoint(args, kwargs)
+
+
 @pytest.fixture
 def HeliumBot():
     return OfflineHelium(GITHUB_ENDPOINT)
@@ -107,3 +115,8 @@ def FlourineBot():
 @pytest.fixture
 def OnlineFlourineBot():
     return Flourine("admin", "admin_pass", LOCAL_ENDPOINT)
+
+
+@pytest.fixture
+def BadFlourineBot():
+    return OfflineFlourineBot_Fail("admin", "admin_pass", LOCAL_ENDPOINT)
