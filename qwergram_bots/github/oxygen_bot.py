@@ -1,7 +1,6 @@
 """OxygenBot is in charge of checking on the health of this repo."""
-from github.helium_bot import GITHUB_ENDPOINT, Helium
+from github.helium_bot import GITHUB_ENDPOINT
 import requests
-import json
 
 BASE_ENDPOINT = "{}/repos/qwergram/automatic-happiness".format(GITHUB_ENDPOINT)
 
