@@ -12,6 +12,7 @@ class Oxygen(object):
         self.issues_target = "{}/issues/events".format(base_endpoint)
         self.language_target = "{}/languages".format(base_endpoint)
         self.commits_target = "{}/commits".format(base_endpoint)
+        self.milestone_target = "{}/milestones".format(base_endpoint)
 
     def _hit_endpoint(self, target, verb="get"):
         return getattr(requests, verb)(target).json()
@@ -38,8 +39,12 @@ class Oxygen(object):
 
         return response
 
+    def get_milestones(self):
+        return self._hit_endpoint(self.milestone_target)
+
 
 if __name__ == "__main__":
     OBot = Oxygen(BASE_ENDPOINT)
-    print(OBot.get_languages())
-    print(OBot.get_latest_commits())
+    # print(OBot.get_languages())
+    # print(OBot.get_latest_commits())
+    print(OBot.get_milestones())
