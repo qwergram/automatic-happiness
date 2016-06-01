@@ -11,3 +11,11 @@ def test_oxygen_builds_correctly(OxygenBot):
 def test_online_bot(OnlineOxygenBot):
     with pytest.raises(AttributeError):
         OnlineOxygenBot._hit_endpoint("localhost", "something_else")
+
+
+def test_get_basic_data(OxygenBot):
+    response = OxygenBot.get_basic_data()
+    assert "size" in response.keys()
+    assert "open_issues" in response.keys()
+    assert "homepage" in response.keys()
+    assert "updated_at" in response.keys()
