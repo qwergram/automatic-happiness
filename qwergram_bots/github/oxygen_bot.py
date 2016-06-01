@@ -59,6 +59,6 @@ if __name__ == "__main__":
     admin_pass = os.environ['ADMIN_PASS']
     OBot = Oxygen(BASE_ENDPOINT)
     FBot = Flourine(LOCAL_ENDPOINT, admin, admin_pass)
-    print(OBot.get_languages())
-    print(OBot.get_latest_commits())
-    print(OBot.get_milestones())
+    FBot.upload_data("languages", OBot.get_languages())
+    FBot.upload_data("latest_commits", OBot.get_latest_commits())
+    FBot.upload_data("milestones", OBot.get_milestones())
