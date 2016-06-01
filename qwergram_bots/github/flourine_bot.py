@@ -18,15 +18,24 @@ class Flourine(object):
         assert response.ok, response.reason
         return response.json()
 
+    def get_url_from_name(self, name):
+        results = self._hit_endpoint(self.local_endpoint)['results']
+        for result in results:
+            if result['name'] == name:
+                return result['url']
+
+
     def upload_data(self, name, value):
         data = {"name": name, "value": json.dumps(value)}
-        response = self._hit_endpoint(self.local_endpoint, verb="post", data=data, auth=(self.admin, self.admin_pass))
-        # import pdb; pdb.set_trace()
-        assert response.ok, response.reason
-
+        try:
+            response = self._hit_endpoint(self.local_endpoint, verb="post", data=data, auth=(self.admin, self.admin_pass))
+        except AssertionError:
+            url = self.get_url_from_name(name)
+            response = self._hit_endpoint(url, verb="put", data=data, auth=(self.admin, self.admin_pass))
+        return response
 
 if __name__ == "__main__":
-    # admin = os.environ['ADMIN_USER']
-    # admin_pass = os.environ['ADMIN_PASS']
+    admin = os.environ['ADMIN_USER']
+    admin_pass = os.environ['ADMIN_PASS']
     FBot = Flourine(LOCAL_ENDPOINT, admin, admin_pass)
-    FBot.upload_data("test", {"foo": "bar"})
+    print(FBot.upload_data("test2", {"fizz": "bar"}))
