@@ -1,7 +1,8 @@
 """OxygenBot is in charge of checking on the health of this repo."""
 from github.helium_bot import GITHUB_ENDPOINT
-from github.flourine_bot import Flourine
+from github.flourine_bot import Flourine, LOCAL_ENDPOINT
 import requests
+import os
 
 BASE_ENDPOINT = "{}/repos/qwergram/automatic-happiness".format(GITHUB_ENDPOINT)
 
@@ -54,7 +55,10 @@ class Oxygen(object):
 
 
 if __name__ == "__main__":
+    admin = os.environ['ADMIN_USER']
+    admin_pass = os.environ['ADMIN_PASS']
     OBot = Oxygen(BASE_ENDPOINT)
+    FBot = Flourine(LOCAL_ENDPOINT, admin, admin_pass)
     print(OBot.get_languages())
     print(OBot.get_latest_commits())
     print(OBot.get_milestones())
