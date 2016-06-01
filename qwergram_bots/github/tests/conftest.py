@@ -1,5 +1,6 @@
 from github.helium_bot import Helium, GITHUB_ENDPOINT
 from github.oxygen_bot import Oxygen, BASE_ENDPOINT
+from github.flourine_bot import Flourine, LOCAL_ENDPOINT
 import pytest
 
 
@@ -65,6 +66,14 @@ class OfflineOxygenList(Oxygen):
         return {'stats': 'something'}
 
 
+class OfflineFlourineBot(Flourine):
+
+    def _hit_endpoint(self, *args, **kwargs):
+        return {
+            "results": [{"name": "random_name", "url": "http://a-url.com"}]
+        }
+
+
 @pytest.fixture
 def HeliumBot():
     return OfflineHelium(GITHUB_ENDPOINT)
@@ -88,3 +97,13 @@ def OnlineOxygenBot():
 @pytest.fixture
 def OxygenBotLatestCommitsTest():
     return OfflineOxygenList(BASE_ENDPOINT)
+
+
+@pytest.fixture
+def FlourineBot():
+    return OfflineFlourineBot("admin", "admin_pass", LOCAL_ENDPOINT)
+
+
+@pytest.fixture
+def OnlineFlourineBot():
+    return Flourine("admin", "admin_pass", LOCAL_ENDPOINT)
