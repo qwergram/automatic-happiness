@@ -30,7 +30,10 @@ class OfflineOxygen(Oxygen):
 
     def _hit_endpoint(self, target, verb="get"):
         return {
-            "some": "json",
+            "size": 1032,
+            "open_issues": 12,
+            "homepage": "qwergram.github.io",
+            "updated_at": "yesterday",
         }
 
 
