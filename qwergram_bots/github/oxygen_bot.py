@@ -62,3 +62,4 @@ if __name__ == "__main__":
     FBot.upload_data("languages", OBot.get_languages())
     FBot.upload_data("latest_commits", OBot.get_latest_commits())
     FBot.upload_data("milestones", OBot.get_milestones())
+    FBot.upload_data("travis", "https://travis-ci.org/qwergram/automatic-happiness.svg?branch=master")
