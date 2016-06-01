@@ -9,10 +9,10 @@ class Oxygen(object):
 
     def __init__(self, base_endpoint):
         self.base_endpoint = base_endpoint
-        self.issues_target = "{}/issues/events".format(base_endpoint)
-        self.language_target = "{}/languages".format(base_endpoint)
-        self.commits_target = "{}/commits".format(base_endpoint)
-        self.milestone_target = "{}/milestones".format(base_endpoint)
+        self.issues_target = "{}/issues/events".format(self.base_endpoint)
+        self.language_target = "{}/languages".format(self.base_endpoint)
+        self.commits_target = "{}/commits".format(self.base_endpoint)
+        self.milestone_target = "{}/milestones".format(self.base_endpoint)
 
     def _hit_endpoint(self, target, verb="get"):
         return getattr(requests, verb)(target).json()
