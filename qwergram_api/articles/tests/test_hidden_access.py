@@ -54,10 +54,36 @@ class HiddenModelFactory(UserFactory):
         self.open_share.save()
         self.hidden_share.save()
 
+    def create_stats(self):
+        self.open_stat = models.StatModel(
+            name="identity",
+            value="""
+            {
+                "first_name": "Norton",
+                "last_name": "Pengra",
+                "age": 19,
+            }
+            """,
+            hidden=False
+        )
+        self.hidden_stat = models.StatModel(
+            name="secret_identity",
+            value="""
+            {
+                "secret_identity": "Batman",
+                "car": "Bat mobile"
+            }
+            """,
+            hidden=True
+        )
+        self.open_stat.save()
+        self.hidden_stat.save()
+
     def create_models(self):
         self.create_ideas()
         self.create_articles()
         self.create_shares()
+        self.create_stats()
 
     def setUp(self):
         super(HiddenModelFactory, self).setUp()
@@ -140,5 +166,26 @@ class HiddenSharesAPIAccessTest(HiddenModelFactory):
         self.assertEqual(response.status_code, 404)
 
     def test_share_access_hidden_admin(self):
+        response = self.admin_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 200)
+
+
+class HiddenStatsAPIAccessTest(HiddenModelFactory):
+
+    stat_endpoint = '/api/v1/stats/'
+
+    @property
+    def hidden_model_url(self):
+        return self.stat_endpoint + str(self.hidden_stat.id) + '/'
+
+    def test_stat_access_hidden_unauth(self):
+        response = self.client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_stat_access_hidden_user(self):
+        response = self.user_client.get(self.hidden_model_url)
+        self.assertEqual(response.status_code, 404)
+
+    def test_stat_access_hidden_admin(self):
         response = self.admin_client.get(self.hidden_model_url)
         self.assertEqual(response.status_code, 200)

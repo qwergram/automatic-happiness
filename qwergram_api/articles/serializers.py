@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from articles import models
+from articles.fields import JSONField
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -36,3 +37,12 @@ class RepostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.RepostModel
         exclude = []
+
+
+class StatSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the Stats model."""
+    class Meta:
+        model = models.StatModel
+        exclude = ['value']
+
+    value = JSONField()

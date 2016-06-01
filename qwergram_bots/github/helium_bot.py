@@ -4,6 +4,7 @@ import requests
 GITHUB_ENDPOINT = "https://api.github.com"
 RAW_ENDPOINT = "https://raw.githubusercontent.com/{owner_repo_name}/master/README.md"
 
+
 class Helium(object):
 
     def __init__(self, github_endpoint):

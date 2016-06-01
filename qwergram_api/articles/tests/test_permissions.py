@@ -267,7 +267,7 @@ class ReposAPIAccessTest(UserFactory):
     #     response = self.admin_client.get(self.repo_endpoint)
     #     self.assertEquals(response.status_code, 200)
     #
-    # def test_repos_access_repo(self):
+    # def test_repos_access_user(self):
     #     response = self.user_client.get(self.repo_endpoint)
     #     self.assertEquals(response.status_code, 200)
     #
@@ -286,5 +286,47 @@ class ReposAPIAccessTest(UserFactory):
 
     def test_repos_create_unauth(self):
         response = self.client.post(self.repo_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 401)
+        self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
+
+
+class StatsAPIAccessTest(UserFactory):
+
+    stat_endpoint = "/api/v1/stats/"
+    post_example = {
+        "name": "Identity",
+        "value": """
+        {
+            "first_name": "Norton",
+            "last_name": "Pengra",
+            "age": 19,
+            "net_worth": 0.56
+        }
+        """
+    }
+
+    def test_stats_access_admin(self):
+        response = self.admin_client.get(self.stat_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_stats_access_user(self):
+        response = self.user_client.get(self.stat_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_stats_access_unauth(self):
+        response = self.client.get(self.stat_endpoint)
+        self.assertEquals(response.status_code, 200)
+
+    def test_stats_create_admin(self):
+        response = self.admin_client.post(self.stat_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 201)
+
+    def test_stats_create_user(self):
+        response = self.user_client.post(self.stat_endpoint, self.post_example)
+        self.assertEquals(response.status_code, 403)
+        self.assertEquals(response.json()['detail'], 'You do not have permission to perform this action.')
+
+    def test_stats_create_unauth(self):
+        response = self.client.post(self.stat_endpoint, self.post_example)
         self.assertEquals(response.status_code, 401)
         self.assertEquals(response.json()['detail'], 'Authentication credentials were not provided.')
