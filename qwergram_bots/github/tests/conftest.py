@@ -44,7 +44,7 @@ class OfflineOxygen(Oxygen):
         }
 
 
-class OfflineOxygenList(Oxygen)
+class OfflineOxygenList(Oxygen):
 
     def _hit_endpoint(self, target, verb="get"):
         return [{
@@ -60,6 +60,7 @@ class OfflineOxygenList(Oxygen)
             },
             "stats": ["stats"],
         }]
+
 
 @pytest.fixture
 def HeliumBot():
@@ -79,3 +80,8 @@ def OxygenBot():
 @pytest.fixture
 def OnlineOxygenBot():
     return Oxygen(BASE_ENDPOINT)
+
+
+@pytest.fixture
+def OxygenBotLatestCommitsTest():
+    return OfflineOxygenList(BASE_ENDPOINT)
