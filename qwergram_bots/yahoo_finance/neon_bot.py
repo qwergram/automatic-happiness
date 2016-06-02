@@ -14,20 +14,23 @@ class Neon(object):
 
     def _hit_endpoint(self, target, verb="get", **kwargs):
         response = getattr(requests, verb)(target, **kwargs)
-        assert response.ok, response.reason
-        return response.json()
+        assert response.ok, (response.reason, target)
+        return response.text
 
     def update_local_database(self):
         for stock in self.stocks:
             target = self.yahoo_endpoint.format(SYMB=stock)
-            response = self._hit_endpoint(target)
-            assert response.ok, response.reason
-            for line in response.split('\n'):
-                line = line.split(',')
-                print(line)
+            try:
+                response = self._hit_endpoint(target)
+                for line in response.split('\n'):
+                    line = line.split(',')
+            except AssertionError:
+                print("Error returning Stock:", stock)
 
 
 if __name__ == "__main__":
-    stocks = "SPX NDX DJIA VOO VB CORP VNQ VWO SHY".split()
+    # SP500 is ^GSPC for some reason. I'm not financially savy enough
+    # to know why or if that's even true to begin with...
+    stocks = "^GSPC NDX DJIA VOO VB CORP VNQ VWO SHY".split()
     NBot = Neon(stocks, YAHOO_CSV_TARGET, LOCAL_ENDPOINT)
     NBot.update_local_database()
