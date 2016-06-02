@@ -16,3 +16,18 @@ class Neon(object):
         response = getattr(requests, verb)(target, **kwargs)
         assert response.ok, response.reason
         return response.json()
+
+    def update_local_database(self):
+        for stock in self.stocks:
+            target = self.yahoo_endpoint.format(SYMB=stock)
+            response = self._hit_endpoint(target)
+            assert response.ok, response.reason
+            for line in response.split('\n'):
+                line = line.split(',')
+                print(line)
+
+
+if __name__ == "__main__":
+    stocks = "SPX NDX DJIA VOO VB CORP VNQ VWO SHY".split()
+    NBot = Neon(stocks, YAHOO_CSV_TARGET, LOCAL_ENDPOINT)
+    NBot.update_local_database()
