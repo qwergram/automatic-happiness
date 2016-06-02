@@ -10,6 +10,7 @@ router.register(r'articles', views.CodeArticleViewSet)
 router.register(r'ideas', views.PotentialIdeaViewSet)
 router.register(r'shares', views.RepostViewSet)
 router.register(r'stats', views.StatViewSet)
+router.register(r'stocks', views.HistoricalStockViewSet)
 
 urlpatterns = [
     url(r'api-auth/', include('rest_framework.urls')),
