@@ -25,7 +25,7 @@ class Neon(object):
             target = self.yahoo_endpoint.format(SYMB=stock)
             try:
                 response = self._hit_endpoint(target)
-                for line in response.split('\n')[1:]:
+                for line in response.split('\n')[1:-1]:
                     self.push_data_to_server(stock, *line.split(','))
             except AssertionError:
                 print("Error returning Stock:", stock)
