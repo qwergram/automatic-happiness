@@ -45,9 +45,7 @@ class Neon(object):
 
 
 if __name__ == "__main__":
-    # SP500 is ^GSPC for some reason. I'm not financially savy enough
-    # to know why or if that's even true to begin with...
-    stocks = "^GSPC NDX DJIA VOO VB CORP VNQ VWO SHY".split()
+    stocks = "VOO VB CORP VNQ VWO SHY".split()
     admin = os.environ['ADMIN_USER']
     admin_pass = os.environ['ADMIN_PASS']
     NBot = Neon(stocks, YAHOO_CSV_TARGET, LOCAL_ENDPOINT, admin, admin_pass)
