@@ -8,10 +8,12 @@ YAHOO_CSV_TARGET = "http://real-chart.finance.yahoo.com/table.csv?s={SYMB}"
 
 class Neon(object):
 
-    def __init__(self, stocks, yahoo_endpoint, local_endpoint):
+    def __init__(self, stocks, yahoo_endpoint, local_endpoint, admin, admin_pass):
         self.stocks = stocks
         self.yahoo_endpoint = yahoo_endpoint
         self.local_endpoint = local_endpoint
+        self.admin = admin
+        self.admin_pass = admin_pass
 
     def _hit_endpoint(self, target, verb="get", **kwargs):
         response = getattr(requests, verb)(target, **kwargs)
@@ -25,6 +27,8 @@ class Neon(object):
                 response = self._hit_endpoint(target)
                 for line in response.split('\n'):
                     line = line.split(',')
+                    print(line)
+                    break
             except AssertionError:
                 print("Error returning Stock:", stock)
 
@@ -40,6 +44,7 @@ class Neon(object):
             "adj_close": adj_close,
         }
         self._hit_endpoint(self.local_endpoint, verb="post", data=data, auth=(self.admin, self.admin_pass))
+
 
 if __name__ == "__main__":
     # SP500 is ^GSPC for some reason. I'm not financially savy enough
