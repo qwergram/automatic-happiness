@@ -46,3 +46,10 @@ class StatSerializer(serializers.HyperlinkedModelSerializer):
         exclude = ['value']
 
     value = JSONField()
+
+
+class StockSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the Stocks model."""
+    class Meta:
+        model = models.HistoricalStockModel
+        exclude = []

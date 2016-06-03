@@ -180,3 +180,10 @@ class GithubViewSet(views.APIView):
             }]
         Bot.simplify_data()
         return response.Response(Bot.repos, status=status.HTTP_200_OK)
+
+
+class HistoricalStockViewSet(viewsets.ModelViewSet):
+    """API endpoint that edits/views Group models."""
+    queryset = models.HistoricalStockModel.objects.all()
+    serializer_class = serializers.StockSerializer
+    permission_classes = (IsAdminOrReadOnly, )

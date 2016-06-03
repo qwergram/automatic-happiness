@@ -68,3 +68,21 @@ class StatModel(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     hidden = models.BooleanField(default=False)
+
+
+class HistoricalStockModel(models.Model):
+    """
+    A model containing a day and a stock.
+    """
+    class Meta:
+        unique_together = ("symbol", "date")
+
+    symbol = models.CharField(max_length=255)
+    date = models.DateField()
+    high = models.FloatField()
+    low = models.FloatField()
+    open = models.FloatField()
+    close = models.FloatField()
+    volume = models.IntegerField()
+    adj_close = models.FloatField()
+    last_updated = models.DateTimeField(auto_now=True)

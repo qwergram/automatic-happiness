@@ -52,6 +52,7 @@ ssh -i $SERVER_KEY $SERVER_USER@$SERVER_LOCATION << EOF
   cd ../qwergram_bots/
   echo "Booting up Hydrogen and Lithium Bot..."
   python3 -m smtp.get_articles &>/dev/null &!
+  python3 -m github.oxygen_bot &>/dev/null &!
 EOF
 
 echo "API & BOTS DEPLOYED!"
